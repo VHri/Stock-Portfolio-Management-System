@@ -21,10 +21,10 @@ public class Stock {
     public void setPrice(double price) {
         this.price = price;
     }
-    public int getCnt() {
+    public int getCoutnt() {
         return count;
     }
-    public void setCnt(int cnt) {
+    public void setCount(int cnt) {
         this.count = cnt;
     }
     public double getTotalValue() {
