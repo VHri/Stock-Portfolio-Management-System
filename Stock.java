@@ -2,7 +2,7 @@ public class Stock {
     private final String name;
     private final String tickerSymbol;
     private double price;
-    private int cnt;
+    private int count;
     private double totalValue;
 
     public Stock(String name, String tickerSymbol){
@@ -22,10 +22,10 @@ public class Stock {
         this.price = price;
     }
     public int getCnt() {
-        return cnt;
+        return count;
     }
     public void setCnt(int cnt) {
-        this.cnt = cnt;
+        this.count = cnt;
     }
     public double getTotalValue() {
         return totalValue;
