@@ -9,6 +9,13 @@ public class Stock {
         this.name = name;
         this.tickerSymbol = tickerSymbol;
     }
+    public Stock(String name, String tickerSymbol, double price, int count){
+        this.name = name;
+        this.tickerSymbol = tickerSymbol;
+        this.price = price;
+        this.count = count;
+        this.totalValue = this.price * (double)this.count;
+    }
     public String getName() {
         return name;
     }
