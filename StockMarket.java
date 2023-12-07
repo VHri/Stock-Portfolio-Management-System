@@ -14,4 +14,19 @@ public class StockMarket{
     public ArrayList<Stock> getStocks(){
         return this.stocks;
     }
+
+    public double getPriceOf(Stock stock){
+        for (Stock s: stocks){
+            if(s.equals(stock)){
+                return s.getPrice();
+            }
+        }
+        System.err.println("Market: Stock not found");
+        return 0.0;
+
+    }
+
+    public void addStock(Stock stock){
+        this.stocks.add(stock);
+    }
 }
