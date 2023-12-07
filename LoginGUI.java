@@ -33,22 +33,22 @@ public class LoginGUI extends JFrame  {
         panel.add(loginButton);
 
         //User label
-         userLabel = new JLabel("Username");
+        userLabel = new JLabel("Username");
         userLabel.setBounds(10,20,80,25); //x,y,width,height
         panel.add(userLabel);
         
         //User text field
-         userText = new JTextField(20);
+        userText = new JTextField(20);
         userText.setBounds(100,20,165,25);
         panel.add(userText);
 
         //password label
-         passwordLabel = new JLabel("Password");
+        passwordLabel = new JLabel("Password");
         passwordLabel.setBounds(10,50,80,25);
         panel.add(passwordLabel);
 
         //Password text field
-         passwordText = new JPasswordField();
+        passwordText = new JPasswordField();
         passwordText.setBounds(100,50,165,25);
         panel.add(passwordText);
 
@@ -76,6 +76,7 @@ public class LoginGUI extends JFrame  {
             String username = userText.getText();
             String password = passwordText.getText();
 
+            System.out.println(username + " " + password);
             if (isPendingUser(username)) {
                 message.setText("Pending user, wait for manager approval.");
             } else if (isExistingUser(username)) {
