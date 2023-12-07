@@ -7,13 +7,11 @@ import java.util.ArrayList;
 public class Customer extends Account{
     private ArrayList<Stock> stocks;
     private double balance;
-    private StockMarket market;
 
 
     public Customer(String userName, String password, StockMarket market){
-        super(userName, password);
+        super(userName, password, market);
         this.stocks = new ArrayList<Stock>();
-        this.market = market;
     }
 
     /**
@@ -35,7 +33,7 @@ public class Customer extends Account{
     public double computeUnrealizedProfit(){
         double totalProfit = 0.0;
         for (Stock s: stocks){
-            totalProfit += s.getTotalValue() - (double)s.getCount()*market.getPriceOf(s);
+            totalProfit += s.getTotalValue() - (double)s.getCount()*getMarket().getPriceOf(s);
         }
         return totalProfit;
     }
@@ -120,14 +118,6 @@ public class Customer extends Account{
 
     public double getBalance(){
         return this.balance;
-    }
-
-    public StockMarket getMarket() {
-        return market;
-    }
-
-    public void setMarket(StockMarket market) {
-        this.market = market;
     }
 
 }

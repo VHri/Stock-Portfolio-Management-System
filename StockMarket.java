@@ -26,7 +26,39 @@ public class StockMarket{
 
     }
 
+    /**
+     * update the price of a stock
+     * @param stock
+     * @param price
+     * @return boolean success or fail
+     */
+    public boolean setPriceOf(Stock stock, double price){
+        for (Stock s: stocks){
+            if(s.equals(stock)){
+                s.setPrice(price);
+                return true;
+            }
+        }
+        System.err.println("Market: Stock not found");
+        return false;
+
+    }
+
+    /**
+     * add a stock to the market. If the stock already exist, update the price and count
+     * @param stock
+     */
     public void addStock(Stock stock){
+        for (Stock s: stocks){
+            if(s.equals(stock)){
+                s.setPrice(stock.getPrice());
+                s.setCount(s.getCount() + stock.getCount());
+                return;
+            }
+        }
+
         this.stocks.add(stock);
     }
+
+    
 }
