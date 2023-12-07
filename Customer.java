@@ -18,7 +18,7 @@ public class Customer extends Account{
 
     /**
      * compute the total value of all stocks
-     * @return
+     * @return total value of stocks
      */
     public double computeTotalValue(){
         double totalValue = 0.0;
@@ -30,7 +30,7 @@ public class Customer extends Account{
 
     /**
      * compute the total unrealized profit of this account
-     * @return
+     * @return unrealized profit
      */
     public double computeUnrealizedProfit(){
         double totalProfit = 0.0;
@@ -69,7 +69,7 @@ public class Customer extends Account{
      * sell an existing stock if exist
      * @param stock
      * @param count
-     * @return
+     * @return boolean success or failed
      */
     public boolean sellStock(Stock stock, int count){
         // check existing stocks
