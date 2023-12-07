@@ -5,16 +5,12 @@ public class Manager extends Account {
     private ArrayList<Customer> customers;
 
 
-    public Manager (String userName, String password, StockMarket market){
-        super(userName, password, market);
+    public Manager (String userName, String password){
+        super(userName, password);
     }
 
-    public boolean editStockPrice(Stock s, double price){
-        return getMarket().setPriceOf(s, price);
-    }
-
-    public void addStock(Stock s){
-        getMarket().addStock(s);
+    public boolean editStockPrice(StockMarket market, Stock s, double price){
+        return market.setPriceOf(s, price);
     }    
 
     public boolean approveCustomer(Customer c){

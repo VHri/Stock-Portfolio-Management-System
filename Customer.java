@@ -9,8 +9,8 @@ public class Customer extends Account{
     private double balance;
 
 
-    public Customer(String userName, String password, StockMarket market){
-        super(userName, password, market);
+    public Customer(String userName, String password){
+        super(userName, password);
         this.stocks = new ArrayList<Stock>();
     }
 
@@ -30,10 +30,11 @@ public class Customer extends Account{
      * compute the total unrealized profit of this account
      * @return unrealized profit
      */
-    public double computeUnrealizedProfit(){
+    public double computeUnrealizedProfit(StockMarket stockMarket){
         double totalProfit = 0.0;
         for (Stock s: stocks){
-            totalProfit += s.getTotalValue() - (double)s.getCount()*getMarket().getPriceOf(s);
+            totalProfit += 
+            (double)s.getCount()*stockMarket.getPriceOf(s) -s.getTotalValue();
         }
         return totalProfit;
     }
