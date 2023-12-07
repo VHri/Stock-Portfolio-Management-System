@@ -11,6 +11,13 @@ public class Customer extends Account{
 
     public Customer(String userName, String password){
         super(userName, password);
+        balance = 0.0;
+        this.stocks = new ArrayList<Stock>();
+    }
+
+    public Customer(String userName, String password, double balance){
+        super(userName, password);
+        this.balance = balance;
         this.stocks = new ArrayList<Stock>();
     }
 
