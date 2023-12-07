@@ -6,11 +6,11 @@ public class Tester {
         double price = 25.5;
         double balance = 9999999.0;
 
-
+        
         StockMarket stmkt = new StockMarket();
         Stock s = new Stock("Test", "TT", price, totalCount);
         stmkt.addStock(s);
-        Customer c = new Customer("TestUsr", "password", stmkt);
+        Customer c = new Customer("TestUsr", "password");
         c.setBalance(balance);
         assert c.getBalance() == balance;
         System.out.println("User balance is " + c.getBalance());

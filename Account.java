@@ -1,6 +1,7 @@
 public abstract class Account {
     private String userName;
     private String password;
+    
     public Account(String userName, String password) {
         this.userName = userName;
         this.password = password;
@@ -17,6 +18,5 @@ public abstract class Account {
     public void setPassword(String password) {
         this.password = password;
     }
-
     
 }
