@@ -16,6 +16,12 @@ public class PortfolioManageSystem {
 
     }
 
+    public int verifyUser(String username, String password ){
+        // check the database
+        
+        return Constant.APPROVED_USER;
+    }
+
     public void addStock(Stock s){
         market.addStock(s);
     }
