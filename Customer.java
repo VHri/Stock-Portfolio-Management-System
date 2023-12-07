@@ -1,9 +1,14 @@
+/*
+ * withdrawCash() --> reduces balance
+ * make the sellStock method add to the balance of the customer
+ */
 import java.util.ArrayList;
 
 public class Customer extends Account{
     private ArrayList<Stock> stocks;
     private double balance;
     private StockMarket market;
+
 
     public Customer(String userName, String password, StockMarket market){
         super(userName, password);
@@ -98,6 +103,19 @@ public class Customer extends Account{
 
     public void setBalance(double balance){
         this.balance = balance;
+    }
+
+    public void addCash(double cash) {
+        setBalance(this.balance + cash);
+    }
+
+    public void withdrawCash(double cash) { 
+        if(cash <= this.balance) {
+            setBalance(this.balance - cash);
+        } else {
+            System.out.println("Exceeds withdraw limit - negative balance illegal.");
+        }
+        
     }
 
     public double getBalance(){
