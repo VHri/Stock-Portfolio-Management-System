@@ -5,8 +5,8 @@ public class Database {
 
     }
 
-    public static Account getUser(String username){
-        return new Customer(username, "password", 9999999999.0);
+    public static Account getUser(String username, PortfolioManageSystem system){
+        return new Customer(username, "password", 9999999999.0, system);
     }
 
     public static ArrayList<Stock> getMarketStocks(){

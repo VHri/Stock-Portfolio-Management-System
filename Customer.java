@@ -5,20 +5,27 @@
 import java.util.ArrayList;
 
 public class Customer extends Account{
+
+    private PortfolioManageSystem system;
     private ArrayList<Stock> stocks;
     private double balance;
+    private double netGain;
 
 
-    public Customer(String userName, String password){
+    public Customer(String userName, String password, PortfolioManageSystem system){
         super(userName, password);
         balance = 0.0;
+        netGain= 0.0;
         this.stocks = new ArrayList<Stock>();
+        this.system = system;
     }
 
-    public Customer(String userName, String password, double balance){
+    public Customer(String userName, String password, double balance, PortfolioManageSystem system){
         super(userName, password);
         this.balance = balance;
+        this.netGain = 0;
         this.stocks = new ArrayList<Stock>();
+        this.system = system;
     }
 
     /**
@@ -69,6 +76,8 @@ public class Customer extends Account{
         Stock newStock = new Stock(stock, count);
         stocks.add(newStock);
 
+        system.checkCustomerGain(this);
+
     }
 
     /**
@@ -77,7 +86,7 @@ public class Customer extends Account{
      * @param count
      * @return boolean success or failed
      */
-    public boolean sellStock(Stock stock, int count){
+    public boolean sellStock(Stock stock, int count, StockMarket market){
         // check existing stocks
         for(Stock s: stocks){
             if (s.equals(stock)){
@@ -85,10 +94,13 @@ public class Customer extends Account{
                     System.err.printf("Customer: stock count not enough");
                     return false;
                 } else {
-                    // manage balance
-                    balance += stock.getPrice() * (double)count;
+                    // manage balance and net gain
+                    double currentPrice = market.getPriceOf(stock);
+                    balance += currentPrice * (double)count;
+                    netGain += (currentPrice - stock.getPrice())* (double)count;
                     s.setCount(s.getCount()-stock.getCount());
                     s.setTotalValue(s.getTotalValue() - (double)count*stock.getPrice());
+                    system.checkCustomerGain(this);
                     return true;
                 }
             }
@@ -96,6 +108,20 @@ public class Customer extends Account{
 
         System.err.printf("Customer: stock not found");
         return false;
+    }
+
+
+    public void deposit(double value) {
+        setBalance(this.balance + value);
+    }
+
+    public void withdraw(double value) { 
+        if(value <= this.balance) {
+            setBalance(this.balance - value);
+        } else {
+            System.out.println("Customer: Exceeds withdraw limit - negative balance illegal.");
+        }
+        
     }
 
     // getters and setters
@@ -107,25 +133,16 @@ public class Customer extends Account{
         return this.stocks;
     }
 
-    public void setBalance(double balance){
+    private void setBalance(double balance){
         this.balance = balance;
-    }
-
-    public void addCash(double cash) {
-        setBalance(this.balance + cash);
-    }
-
-    public void withdrawCash(double cash) { 
-        if(cash <= this.balance) {
-            setBalance(this.balance - cash);
-        } else {
-            System.out.println("Exceeds withdraw limit - negative balance illegal.");
-        }
-        
     }
 
     public double getBalance(){
         return this.balance;
+    }
+
+    public double getNetGain(){
+        return this.netGain;
     }
 
 }
