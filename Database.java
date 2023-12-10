@@ -90,6 +90,15 @@ public class Database {
             e.printStackTrace();
         }
     }
+    
+    public static Account getManagerUser(){
+        // fetch manager user details from database
+        return new Customer("Manager", "password", 9999999999.0);
+    }
+
+    public static Account getUser(String username){
+        return new Customer(username, "password", 9999999999.0);
+    }
 
     public static void addStock(String symbol, String company, int shares, double price) {
         try (Connection connection = DriverManager.getConnection(URL)) {
