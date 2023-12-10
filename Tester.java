@@ -1,3 +1,6 @@
+import java.sql.Connection;
+import java.sql.SQLException;
+
 public class Tester {
     public static void testCustomerBasic(){
         
@@ -24,5 +27,20 @@ public class Tester {
         System.out.println("User purchased stock ");
         System.out.println("User balance is " + c.getBalance());
         System.out.println("Total value is " + c.computeTotalValue());
+    }
+
+    public static void checkDBConnection() {
+        try {
+            // Get a connection to the database
+            Connection connection = DatabaseConnection.getConnection();
+
+            // Do something with the connection (e.g., query or update data)
+            System.out.println("Connection successful!");
+
+            // Close the connection when done
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
