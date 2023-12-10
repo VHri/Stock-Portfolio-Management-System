@@ -8,7 +8,7 @@ public class StockFactory {
 
     // return an arraylist of stocks to be added to the Stock Market fetched from the database
     public ArrayList<Stock> generateStocks(){
-        return Database.getMarketStocks();
+        return Database.getStocks();
     }
 
 }

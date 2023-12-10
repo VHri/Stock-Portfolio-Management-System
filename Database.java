@@ -4,13 +4,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Database {
     private static final String URL = "jdbc:sqlite:data/cs611.db";
 
-    public static List<Stock> getStocks() {
-        List<Stock> stocks = new ArrayList<>();
+    public static ArrayList<Stock> getStocks() {
+        ArrayList<Stock> stocks = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(URL)) {
             String sql = "SELECT * FROM Stocks";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -20,7 +19,6 @@ public class Database {
                         String company = resultSet.getString("company");
                         int shares = resultSet.getInt("shares");
                         double price = resultSet.getDouble("price");
-
                         stocks.add(new Stock(company, symbol, price, shares));
                     }
                 }
