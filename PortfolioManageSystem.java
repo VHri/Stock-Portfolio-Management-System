@@ -65,6 +65,10 @@ public class PortfolioManageSystem {
         return false;
     }
 
+    public boolean isSuperCustomer(Customer c){
+        return superCustomers.contains(c);
+    }
+
     public static void writePersist(){
         // TODO: save customer, and market stock
     }
