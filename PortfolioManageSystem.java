@@ -4,7 +4,6 @@ public class PortfolioManageSystem {
     ArrayList<Customer> customers;
     Manager manager;
     StockMarket market;
-    ArrayList<Customer> unapprovedCustomers;
     ArrayList<Customer> superCustomers;
 
     private static final double SUPER_CUSTOMER_THRESHOLD = 10000.0;
@@ -47,21 +46,14 @@ public class PortfolioManageSystem {
     }
 
     public boolean addUnApprovedCustomer(Customer c){
-        if (!customers.contains(c) && !unapprovedCustomers.contains(c)){
-            unapprovedCustomers.add(c);
-            return true;
-        }
-        System.err.printf("System: user already exist");
+        // TODO
+        System.err.printf("System: To be implemented");
         return false;
     }
 
     public boolean approvedCustomer(Customer c){
-        if (!customers.contains(c) && unapprovedCustomers.contains(c)){
-            customers.add(c);
-            unapprovedCustomers.remove(c);
-            return true;
-        }
-        System.err.printf("System: user already approved or does not exist");
+        // TODO
+        System.err.printf("System: To be implemented");
         return false;
     }
 
