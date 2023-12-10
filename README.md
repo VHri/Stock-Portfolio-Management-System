@@ -3,7 +3,7 @@ CS611 Final project
 
 To run:
 
-    javac -cp .:lib/sqlite-jdbc-3.44.1.0.jar:lib/slf4j-api-2.0.9.jar:lib/slf4j-simple-2.0.9.jar Main.java DatabaseConnection.java
+    javac -cp .:lib/sqlite-jdbc-3.44.1.0.jar:lib/slf4j-api-2.0.9.jar:lib/slf4j-simple-2.0.9.jar *.java
     java -cp .:lib/sqlite-jdbc-3.44.1.0.jar:lib/slf4j-api-2.0.9.jar:lib/slf4j-simple-2.0.9.jar Main
 
 VS code configurations
