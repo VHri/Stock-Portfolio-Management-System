@@ -21,8 +21,14 @@ public class CustomerTransactionGUI extends JFrame {
     private StockListener stockListener;
     private JLabel message;
 
+    private Account account;
 
-    public CustomerTransactionGUI() {
+    public CustomerTransactionGUI(Account account) {
+        this.account = account;
+        //
+        // JFrame frame = new CustomerTransactionGUI(account);
+
+        // frame.setTitle( "Entry for Stock and Balance Info" );
 
         //Create Buttons
         balanceButton = new JButton("View Balance");
@@ -84,24 +90,24 @@ public class CustomerTransactionGUI extends JFrame {
 
         public void actionPerformed( ActionEvent e ) {
             //System.out.println( "Stock info will pop up" );
-            JFrame newFrame = new CustomerTransactionGUI();
+            JFrame newFrame = new CustomerTransactionGUI(account);
             newFrame.setVisible(true);
             //frame.dispose();
         }
     }
 
-   public static void main(String[] args) {
+//    public static void main(String[] args) {
         
-        //Create a new frame
-        JFrame frame = new CustomerTransactionGUI();
+//         //Create a new frame
+//         JFrame frame = new CustomerTransactionGUI(account);
 
-        frame.setTitle( "Entry for Stock and Balance Info" );
-        frame.setSize(350,200);
-        frame.setLocation( 200, 100 );
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//         frame.setTitle( "Entry for Stock and Balance Info" );
+//         frame.setSize(350,200);
+//         frame.setLocation( 200, 100 );
+//         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        frame.setVisible(true);
+//         frame.setVisible(true);
 
         
-    }
+//     }
 }
