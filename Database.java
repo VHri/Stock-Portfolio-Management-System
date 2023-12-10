@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
+    private static final String URL = "jdbc:sqlite:data/cs611.db";
 
     public static List<Stock> getStocks() {
         List<Stock> stocks = new ArrayList<>();
