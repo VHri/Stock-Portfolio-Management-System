@@ -34,12 +34,12 @@ public class LoginGUI extends JFrame  {
         panel.add(loginButton);
 
         //User label
-         userLabel = new JLabel("Username");
+        userLabel = new JLabel("Username");
         userLabel.setBounds(10,20,80,25); //x,y,width,height
         panel.add(userLabel);
         
         //User text field
-         userText = new JTextField(20);
+        userText = new JTextField(20);
         userText.setBounds(100,20,165,25);
         panel.add(userText);
 
