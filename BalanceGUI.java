@@ -106,7 +106,7 @@ public class BalanceGUI extends JFrame {
     }
 
    public static void main(String[] args) {
-        Account account = Database.getUser("exampleUser"); //OBTAIN ACCOUNT
+        Account account = Database.getCustomer("exampleUser"); //OBTAIN ACCOUNT
         //Create a new frame
         JFrame frame = new BalanceGUI(account);
 

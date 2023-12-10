@@ -94,7 +94,7 @@ public class LoginGUI extends JFrame  {
                     if (isPendingUser(username)) {
                         message.setText("Pending user, wait for manager approval.");
                     } else if (isExistingUser(username)) {
-                        Account account = Database.getUser(username); //OBTAIN ACCOUNT
+                        Account account = Database.getCustomer(username); //OBTAIN ACCOUNT
                         if (isUsernamePasswordMatch(username, password, account )){
                             message.setText("Customer Login Successful.");
                             
@@ -117,7 +117,7 @@ public class LoginGUI extends JFrame  {
 
 
     public boolean isManager(String username) {
-        return Database.getManagerUser().getUserName().equals(username);
+        return Database.getManager().getUserName().equals(username);
     }
 
     public boolean isPendingUser(String username) {
