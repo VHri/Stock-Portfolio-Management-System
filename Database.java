@@ -31,6 +31,34 @@ public class Database {
         return stocks;
     }
 
+    public static void changeStockPrice(String company, double newPrice) {
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String sql = "UPDATE Stocks SET price = ? WHERE company = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setDouble(1, newPrice);
+                preparedStatement.setString(2, company);
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void changeBalance(String username, double newBalance) {
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String sql = "UPDATE Accounts SET account_balance = ? WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setDouble(1, newBalance);
+                preparedStatement.setString(2, username);
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void addTransaction(String username, String stockCompany, int numberOfStocks, double boughtAt, String timestamp) {
         try (Connection connection = DriverManager.getConnection(URL)) {
             String sql = "INSERT INTO Transactions (stock_company, account_username, timestamp, number_of_shares, bought_at) VALUES (?, ?, ?, ?, ?)";
