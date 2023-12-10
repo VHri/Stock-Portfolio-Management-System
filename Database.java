@@ -91,12 +91,13 @@ public class Database {
         }
     }
     
-    public static Account getManagerUser(){
-        // fetch manager user details from database
+    public static Account getManager(){
+        // TODO fetch manager user details from database
         return new Customer("Manager", "password", 9999999999.0);
     }
 
-    public static Account getUser(String username){
+    public static Account getCustomer(String username){
+        // TODO fetch user details from database
         return new Customer(username, "password", 9999999999.0);
     }
 
