@@ -5,6 +5,11 @@ public class Database {
 
     }
 
+    public static Account getManagerUser(){
+        // fetch manager user details from database
+        return new Customer("Manager", "password", 9999999999.0);
+    }
+
     public static Account getUser(String username){
         return new Customer(username, "password", 9999999999.0);
     }
