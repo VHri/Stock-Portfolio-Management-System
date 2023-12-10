@@ -21,6 +21,7 @@ public class LoginGUI extends JFrame  {
     private JPasswordField passwordText;
     private LoginListener loginLabel;
     private JLabel message;
+    private JFrame frame;
 
 
     public LoginGUI() {
@@ -56,7 +57,7 @@ public class LoginGUI extends JFrame  {
         add(panel);
 
         //Associate events to button action
-        loginLabel = new LoginListener();
+        loginLabel = new LoginListener(frame);
         loginButton.addActionListener(loginLabel);
         loginButton.setBounds(10,80,80,25);
        
@@ -71,6 +72,11 @@ public class LoginGUI extends JFrame  {
 
 //HGandle Event
     class LoginListener implements ActionListener {
+        private JFrame frame;
+        
+        public LoginListener(JFrame frame) {
+            this.frame = frame;
+        }
         public void actionPerformed( ActionEvent e ) {
             System.out.println( "Login button clicked." );
             String username = userText.getText();
@@ -83,6 +89,11 @@ public class LoginGUI extends JFrame  {
 
                 }
                 message.setText("Login Successful.");
+                
+                JFrame newFrame = new CustomerTransactionGUI();
+                newFrame.setVisible(true);
+                frame.dispose();
+                
                 
             } else {
                 message.setText("User does not exist, please try again.");
@@ -97,17 +108,18 @@ public class LoginGUI extends JFrame  {
     }
 
     public boolean isExistingUser(String username) {
-        return false;   //PLACEHOLDER
+        return true;   //PLACEHOLDER
     }
 
     public boolean isUsernamePasswordMatch(String username, String password) {
-        return false;   //PLACEHOLDER
+        return true;   //PLACEHOLDER
     }
 
    public static void main(String[] args) {
         
         //Create a new frame
         JFrame frame = new LoginGUI();
+        //frame = new LoginGUI();
 
         frame.setTitle( "Customer Login" );
         frame.setSize(350,200);
