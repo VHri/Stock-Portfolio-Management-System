@@ -72,37 +72,54 @@ public class LoginGUI extends JFrame  {
 
 //HGandle Event
     class LoginListener implements ActionListener {
-        private JFrame frame;
-        
-        public LoginListener(JFrame frame) {
-            this.frame = frame;
-        }
-        public void actionPerformed( ActionEvent e ) {
-            System.out.println( "Login button clicked." );
-            String username = userText.getText();
-            String password = passwordText.getText();
+            private JFrame frame;
+            
+            public LoginListener(JFrame frame) {
+                this.frame = frame;
+            }
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "Login button clicked." );
+                String username = userText.getText();
+                String password = passwordText.getText();
 
-            if (isPendingUser(username)) {
-                message.setText("Pending user, wait for manager approval.");
-            } else if (isExistingUser(username)) {
-                if (isUsernamePasswordMatch(username, password)){
+                if (isManager(username)) {
+                    message.setText("Manager Login Successful.");
+                        
+                        // JFrame newFrame = new ManagerGUI();
+                        // newFrame.setVisible(true);
+                        // frame.dispose();
 
+                } else {
+
+                    if (isPendingUser(username)) {
+                        message.setText("Pending user, wait for manager approval.");
+                    } else if (isExistingUser(username)) {
+                        Account account = Database.getUser(username); //OBTAIN ACCOUNT
+                        if (isUsernamePasswordMatch(username, password, account )){
+                            message.setText("Customer Login Successful.");
+                            
+                            JFrame newFrame = new CustomerTransactionGUI(account);
+                            newFrame.setVisible(true);
+                            //frame.dispose();
+                        } else {
+                            message.setText("Incorrect password.");
+                        }
+                        
+                        
+                    } else {
+                        message.setText("User does not exist, please try again.");
+                    }
                 }
-                message.setText("Login Successful.");
-                
-                JFrame newFrame = new CustomerTransactionGUI();
-                newFrame.setVisible(true);
-                frame.dispose();
-                
-                
-            } else {
-                message.setText("User does not exist, please try again.");
             }
         } 
+    
+
+
+
+    public boolean isManager(String username) {
+        return false;
     }
 
-
-  
     public boolean isPendingUser(String username) {
         return false;   //PLACEHOLDER
     }
@@ -111,9 +128,13 @@ public class LoginGUI extends JFrame  {
         return true;   //PLACEHOLDER
     }
 
-    public boolean isUsernamePasswordMatch(String username, String password) {
-        return true;   //PLACEHOLDER
+    public boolean isUsernamePasswordMatch(String username, String password, Account account) {
+        if (account.getPassword().equals(password)){
+            return true;   //PLACEHOLDER
+        }
+        return false;
     }
+
 
    public static void main(String[] args) {
         
