@@ -7,50 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    private static final String URL = "jdbc:sqlite:data/cs611.db";
-
-    // public static Account getUser(String username) {
-    //     try (Connection connection = DriverManager.getConnection(URL)) {
-    //         String sql = "SELECT * FROM Accounts WHERE username = ?";
-    //         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-    //             preparedStatement.setString(1, username);
-
-    //             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-    //                 if (resultSet.next()) {
-    //                     // Retrieve user information from the result set
-    //                     String name = resultSet.getString("name");
-    //                     String password = resultSet.getString("password");
-    //                     boolean isCustomerAccount = resultSet.getBoolean("customer_account");
-    //                     double accountBalance = resultSet.getDouble("account_balance");
-
-    //                     // Create and return a User object
-    //                     return new Account(username, name, password, isCustomerAccount, accountBalance);
-    //                 }
-    //             }
-    //         }
-    //     } catch (SQLException e) {
-    //         e.printStackTrace();
-    //     }
-    //     return null;
-    // }
-
-    public static String getPassword(String username) {
-        try (Connection connection = DriverManager.getConnection(URL)) {
-            String sql = "SELECT password FROM Accounts WHERE username = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, username);
-
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        return resultSet.getString("password");
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public static List<Stock> getStocks() {
         List<Stock> stocks = new ArrayList<>();
