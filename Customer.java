@@ -35,6 +35,13 @@ public class Customer extends Account{
         this.stocks = new ArrayList<Stock>();
     }
 
+    public Customer(String userName, String password, double balance, double netGain){
+        super(userName, password);
+        this.balance = balance;
+        this.netGain = netGain;
+        this.stocks = new ArrayList<Stock>();
+    }
+
     /**
      * compute the total value of all stocks
      * @return total value of stocks
