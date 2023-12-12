@@ -39,7 +39,7 @@ public class Customer extends Account{
         super(userName, password);
         this.balance = balance;
         this.netGain = netGain;
-        this.stocks = new ArrayList<Stock>();
+        this.stocks = Database.getCustomerStocks(userName);
     }
 
     /**
