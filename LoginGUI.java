@@ -117,7 +117,7 @@ public class LoginGUI extends JFrame  {
 
 
     public boolean isManager(String username) {
-        return Database.getManager().getUserName().equals(username);
+        return Database.getManager(username).getUserName().equals(username);
     }
 
     public boolean isPendingUser(String username) {
