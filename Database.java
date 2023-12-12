@@ -3,7 +3,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Database {
     private static final String URL = "jdbc:sqlite:data/cs611.db";
@@ -74,6 +77,70 @@ public class Database {
         }
     }
 
+    private static int getNumberOfShares(String username, String company, String timestamp) {
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            // Query to retrieve number of shares from CustomerStocks
+            String numberOfSharesSql = "SELECT number_of_shares FROM CustomerStocks WHERE username = ? AND symbol = ? AND timestamp = ?";
+            try (PreparedStatement numberOfSharesStatement = connection.prepareStatement(numberOfSharesSql)) {
+                numberOfSharesStatement.setString(1, username);
+                numberOfSharesStatement.setString(2, company);
+                numberOfSharesStatement.setString(3, timestamp);
+
+                try (ResultSet numberOfSharesResultSet = numberOfSharesStatement.executeQuery()) {
+                    if (numberOfSharesResultSet.next()) {
+                        return numberOfSharesResultSet.getInt("number_of_shares");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0; // Return 0 if there is an issue retrieving the number of shares
+    }
+ 
+    public static void buyStock(Customer customer, String company, int numOfShares) {
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            // Get customer username
+            String username = customer.getUserName();
+
+            // Get stock symbol and price from Stocks table
+            String stockSymbol;
+            double boughtAt;
+            String stockInfoSql = "SELECT symbol, price FROM Stocks WHERE company = ?";
+            try (PreparedStatement stockInfoStatement = connection.prepareStatement(stockInfoSql)) {
+                stockInfoStatement.setString(1, company);
+
+                try (ResultSet stockInfoResultSet = stockInfoStatement.executeQuery()) {
+                    if (stockInfoResultSet.next()) {
+                        stockSymbol = stockInfoResultSet.getString("symbol");
+                        boughtAt = stockInfoResultSet.getDouble("price");
+                    } else {
+                        throw new SQLException("Stock not found: " + company);
+                    }
+                }
+            }
+
+            // Format timestamp as a string with date and time
+            String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+            // Add occurrence to CustomerStocks
+            String customerStocksSql = "INSERT INTO CustomerStocks (username, symbol, timestamp) VALUES (?, ?, ?)";
+            try (PreparedStatement customerStocksStatement = connection.prepareStatement(customerStocksSql)) {
+                customerStocksStatement.setString(1, username);
+                customerStocksStatement.setString(2, stockSymbol);
+                customerStocksStatement.setString(3, timestamp);
+
+                customerStocksStatement.executeUpdate();
+            }
+            // Add transaction
+            addTransaction(username, company, numOfShares, boughtAt, timestamp);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void addUser(String username, String name, String password, boolean isCustomerAccount, double accountBalance) {
         try (Connection connection = DriverManager.getConnection(URL)) {
             String sql = "INSERT INTO Accounts (username, name, password, customer_account, account_balance) VALUES (?, ?, ?, ?, ?)";
@@ -91,14 +158,52 @@ public class Database {
         }
     }
     
-    public static Account getManager(){
-        // TODO fetch manager user details from database
-        return new Customer("Manager", "password", 9999999999.0);
+    public static Account getManager(String username){
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String sql = "SELECT * FROM Accounts WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, username);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String password = resultSet.getString("password");
+                        boolean isCustomer = resultSet.getBoolean("customer_account");
+
+                        if (!isCustomer) {
+                            return new Manager(username, password);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static Account getCustomer(String username){
-        // TODO fetch user details from database
-        return new Customer(username, "password", 9999999999.0);
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String sql = "SELECT * FROM Accounts WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, username);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String name = resultSet.getString("name");
+                        String password = resultSet.getString("password");
+                        boolean isCustomer = resultSet.getBoolean("customer_account");
+                        double balance = resultSet.getDouble("account_balance");
+
+                        if (isCustomer) {
+                            return new Customer(username, password, balance);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static void addStock(String symbol, String company, int shares, double price) {
@@ -118,25 +223,3 @@ public class Database {
     }
 }
 
-// import java.util.ArrayList;
-
-// public class Database {
-//     public Database(){
-
-//     }
-
-//     public static Account getUser(String username){
-//         return new Customer(username, "password", 9999999999.0);
-//     }
-
-//     public static ArrayList<Stock> getMarketStocks(){
-//         ArrayList<Stock> stocks = new ArrayList<Stock>();
-
-//         stocks.add(new Stock("Stock1", "S1", 13.5, 100));
-//         stocks.add(new Stock("Stock2", "S2", 15.7, 200));
-//         stocks.add(new Stock("Stock3", "S3", 135.9, 300));
-//         stocks.add(new Stock("Stock4", "S4", 0.1, 400));
-//         return stocks;
-//     }
-
-// }
