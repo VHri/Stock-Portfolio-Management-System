@@ -50,13 +50,13 @@ public class Database {
         }
         return stocks;
     }
-
-    public static void changeStockPrice(String company, double newPrice) {
+    
+    public static void changeStockPrice(String symbol, double newPrice) {
         try (Connection connection = DatabaseConnection.getConnection()) {
-            String sql = "UPDATE Stocks SET price = ? WHERE company = ?";
+            String sql = "UPDATE Stocks SET price = ? WHERE symbol = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setDouble(1, newPrice);
-                preparedStatement.setString(2, company);
+                preparedStatement.setString(2, symbol);
 
                 preparedStatement.executeUpdate();
             }

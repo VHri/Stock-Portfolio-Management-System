@@ -107,12 +107,12 @@ public class ManagerGUI extends JFrame {
     public static void main(String[] args) {
         String[] columnNames = {"Symbol", "Company", "Shares", "Price"};
 
-        ArrayList<Stock> stocks = new ArrayList<>();
-        stocks.add(new Stock("Stock1", "S1", 13.5, 100));
-        stocks.add(new Stock("Stock2", "S2", 15.7, 200));
-        stocks.add(new Stock("Stock3", "S3", 135.9, 300));
-        stocks.add(new Stock("Stock4", "S4", 0.1, 400));
-
+        // ArrayList<Stock> stocks = new ArrayList<>();
+        // stocks.add(new Stock("Stock1", "S1", 13.5, 100));
+        // stocks.add(new Stock("Stock2", "S2", 15.7, 200));
+        // stocks.add(new Stock("Stock3", "S3", 135.9, 300));
+        // stocks.add(new Stock("Stock4", "S4", 0.1, 400));
+        ArrayList<Stock> stocks = Database.getStocks();
         // Run the GUI code on the Event Dispatch Thread (EDT)
         SwingUtilities.invokeLater(() -> new ManagerGUI(stocks, columnNames));
 
