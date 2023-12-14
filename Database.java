@@ -258,11 +258,13 @@ public class Database {
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        String name = resultSet.getString("name");
+                       //String name = resultSet.getString("name");
+                        //String name = resultSet.getString("");
                         String password = resultSet.getString("password");
                         String status = resultSet.getString("status");
                         double balance = resultSet.getDouble("account_balance");
-                        double netGain = resultSet.getDouble("realized_profit");
+                       // double netGain = resultSet.getDouble("realized_profit");
+                        double netGain = resultSet.getDouble("net_gain");
 
                         if (status.equals("Customer") || status.equals("Super Customer")) {
                             return new Customer(username, password, balance, netGain);
