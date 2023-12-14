@@ -1,5 +1,7 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.crypto.Data;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -153,53 +155,15 @@ public class ManagerGUI extends JFrame {
     public static void run(ArrayList<Stock> stockList){
         String[] stockColumnNames = {"Symbol", "Company", "Shares", "Price"};
 
-        ArrayList<Stock> stocks = new ArrayList<Stock>();
-        stocks.add(new Stock("Stock1", "S1", 13.5, 100));
-        stocks.add(new Stock("Stock2", "S2", 15.7, 200));
-        stocks.add(new Stock("Stock3", "S3", 135.9, 300));
-        stocks.add(new Stock("Stock4", "S4", 0.1, 400));
-
-        // stocks = Database.getStocks(); // fetch all stocks from database
-        // customers = //fetch all customers from database
+        ArrayList<Stock> stocks = Database.getStocks();
 
         String[] customerColumnNames = {"Username", "Password", "Balance", "NetGain", "# Stocks"};
 
-        ArrayList<Customer> customers = new ArrayList<Customer>();
-
-        customers.add(new Customer("Cust1", "p1", 312.3));
-        customers.add(new Customer("Cust2", "p2", 32.3));
-        customers.add(new Customer("Cust3", "p3", 12.3));
-        customers.add(new Customer("Cust4", "p4", 31.3));
+        ArrayList<Customer> customers = Database.getCustomers();
 
         // Run the GUI code on the Event Dispatch Thread (EDT)
         // SwingUtilities.invokeLater(() -> new ManagerGUI(stocks, columnNames));
         new ManagerGUI(stocks, stockColumnNames, customers, customerColumnNames);
 
-    }
-
-    public static void main(String[] args) {
-        String[] stockColumnNames = {"Symbol", "Company", "Shares", "Price"};
-
-        ArrayList<Stock> stocks = new ArrayList<Stock>();
-        stocks.add(new Stock("Stock1", "S1", 13.5, 100));
-        stocks.add(new Stock("Stock2", "S2", 15.7, 200));
-        stocks.add(new Stock("Stock3", "S3", 135.9, 300));
-        stocks.add(new Stock("Stock4", "S4", 0.1, 400));
-
-        // stocks = Database.getStocks(); // fetch all stocks from database
-        // customers = //fetch all customers from database
-
-        String[] customerColumnNames = {"Username", "Password", "Balance", "NetGain", "# Stocks"};
-
-        ArrayList<Customer> customers = new ArrayList<Customer>();
-
-        customers.add(new Customer("Cust1", "p1", 312.3));
-        customers.add(new Customer("Cust2", "p2", 32.3));
-        customers.add(new Customer("Cust3", "p3", 12.3));
-        customers.add(new Customer("Cust4", "p4", 31.3));
-
-        // Run the GUI code on the Event Dispatch Thread (EDT)
-        // SwingUtilities.invokeLater(() -> new ManagerGUI(stocks, columnNames));
-        new ManagerGUI(stocks, stockColumnNames, customers, customerColumnNames);
     }
 }
