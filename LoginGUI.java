@@ -32,14 +32,9 @@ public class LoginGUI extends JFrame  {
 
         this.system = system;
 
-        //Create Buttons
-        loginButton = new JButton("Login");
-        signinButton = new JButton("Sign in");
-
         //Create panel to place buttons on
         panel = new JPanel(null);
-        panel.add(loginButton);
-         panel.add(signinButton);
+
 
         //User label
         userLabel = new JLabel("Username");
@@ -59,22 +54,25 @@ public class LoginGUI extends JFrame  {
         //Password text field
         passwordText = new JPasswordField();
         passwordText.setBounds(100,50,165,25);
-        panel.add(passwordText);
+        panel.add(passwordText);        
+        
+        //Associate events to button action
+        loginButton = new JButton("Login");
+        loginLabel = new LoginListener(this);
+        loginButton.addActionListener(loginLabel);
+        loginButton.setBounds(10,80,80,25);
+        panel.add(loginButton);
+
+        //Associate events to button action
+        signinButton = new JButton("Sign in");
+        signinLabel = new SigninListener(this);
+        signinButton.addActionListener(signinLabel);
+        signinButton.setBounds(100,80,80,25);
+        panel.add(signinButton);
 
         // Add panel to the frame
         add(panel);
 
-        //Associate events to button action
-        loginLabel = new LoginListener(this);
-        loginButton.addActionListener(loginLabel);
-        loginButton.setBounds(10,80,80,25);
-
-
-        //Associate events to button action
-        signinLabel = new SigninListener(this);
-        signinButton.addActionListener(loginLabel);
-        signinButton.setBounds(10,80,80,25);
-       
         //Success/Failiure message
         message = new JLabel("");
         message.setBounds(10,110,300,25);
