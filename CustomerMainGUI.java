@@ -25,8 +25,8 @@ public class CustomerMainGUI  extends JFrame {
     public CustomerMainGUI(String username) {
         
         // System.out.println(customerStockList.get(0));
-        this.account = Database.getCustomer(username);
-        this.customer = Database.getCustomerInfo(username);
+        this.customer = Database.getCustomer(username);
+        //this.customer = Database.getCustomerInfo(username);
         this.customerStockList = Database.getCustomerStocks(username);
  
         

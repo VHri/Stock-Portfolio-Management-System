@@ -105,7 +105,7 @@ public class LoginGUI extends JFrame  {
                     case Constant.APPROVED_USER:
                         message.setText("Customer Login Successful.");
                         Customer c = system.getCustomer(username);
-                        JFrame newFrame = new CustomerTransactionGUI(c);
+                        JFrame newFrame = new CustomerMainGUI(username);
                         newFrame.setVisible(true);
                         frame.dispose();
                         break;
