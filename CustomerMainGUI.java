@@ -37,11 +37,11 @@ public class CustomerMainGUI  extends JFrame {
         setSize(400, 400);
     
         //Create Buttons
-        balanceButton = new JButton("View Balance");
-        balanceButton.addActionListener(this::handleBalanceButtonClick);
+        balanceButton = new JButton("View Stocks");
+        balanceButton.addActionListener(this::handleStocksButtonClick);
         
         stocksButton = new JButton("Adjust Balance");
-        stocksButton.addActionListener(this::handleStocksButtonClick);
+        stocksButton.addActionListener(this::handleBalanceButtonClick);
 
         add(stocksButton, BorderLayout.NORTH);
         add(balanceButton, BorderLayout.SOUTH);
@@ -70,38 +70,43 @@ public class CustomerMainGUI  extends JFrame {
     }
 
     private void handleBalanceButtonClick(ActionEvent e) {
-        this.clearJFrame(); // clear the frame
+       
+        JFrame newFrame = new CustomerBalanceGUI(customer);
+        newFrame.setVisible(true);
+       // frame.dispose();
+
+        // this.clearJFrame(); // clear the frame
         
-        // Set up JFrame
-        setTitle("Adjust Balance");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 400);
+        // // Set up JFrame
+        // setTitle("Adjust Balance");
+        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // setSize(900, 400);
 
 
-        //Add balance label
-        JLabel addBalanceLabel = new JLabel("Deposit");
-        addBalanceLabel.setBounds(10,20,80,25); //x,y,width,height
-        add(addBalanceLabel);
+        // //Add balance label
+        // JLabel addBalanceLabel = new JLabel("Deposit");
+        // addBalanceLabel.setBounds(10,20,80,25); //x,y,width,height
+        // add(addBalanceLabel);
         
-        JTextField addBalanceText = new JTextField(20);
-        addBalanceText.setBounds(100,20,165,25);
-        add(addBalanceText);
-        //CALL ADD BALANCE
-        String depositString = addBalanceText.getText();
-        Double deposit = 1.0*Integer.parseInt(depositString);
-        customer.deposit(deposit);
+        // JTextField addBalanceText = new JTextField(20);
+        // addBalanceText.setBounds(100,20,165,25);
+        // add(addBalanceText);
+        // //CALL ADD BALANCE
+        // String depositString = addBalanceText.getText();
+        // Double deposit = 1.0*Integer.parseInt(depositString);
+        // customer.deposit(deposit);
 
-        JLabel withdrawBalanceLabel = new JLabel("Withdraw Balance");
-        withdrawBalanceLabel.setBounds(10,20,80,25); //x,y,width,height
-        add(withdrawBalanceLabel);
+        // JLabel withdrawBalanceLabel = new JLabel("Withdraw Balance");
+        // withdrawBalanceLabel.setBounds(10,20,80,25); //x,y,width,height
+        // add(withdrawBalanceLabel);
         
-        JTextField withdrawBalanceText = new JTextField(20);
-        withdrawBalanceText.setBounds(100,20,165,25);
-        add(withdrawBalanceText);
-        //CALL WIDTHDRAW BALANCE
-        String withdrawString = withdrawBalanceText.getText();
-        Double withdraw = 1.0*Integer.parseInt(withdrawString);
-        customer.withdraw(withdraw);
+        // JTextField withdrawBalanceText = new JTextField(20);
+        // withdrawBalanceText.setBounds(100,20,165,25);
+        // add(withdrawBalanceText);
+        // //CALL WIDTHDRAW BALANCE
+        // String withdrawString = withdrawBalanceText.getText();
+        // Double withdraw = 1.0*Integer.parseInt(withdrawString);
+        // customer.withdraw(withdraw);
 
 
         // // Repaint the frame to reflect the changes
@@ -110,48 +115,51 @@ public class CustomerMainGUI  extends JFrame {
     }
 
     private void handleStocksButtonClick(ActionEvent e) {
-        // Remove the "Edit Stocks" button from the frame
-        this.clearJFrame(); // clear the frame
 
-        // Set up JFrame
-        setTitle("View Stocks");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 400);
-        // Create a table model
-        tableModel = new DefaultTableModel(getTableFormattedStockData(this.customerStockList), stockColumnNames);
+        JFrame newFrame = new CustomerStockGUI(customer);
+        newFrame.setVisible(true);
+        // // Remove the "Edit Stocks" button from the frame
+        // this.clearJFrame(); // clear the frame
 
-        // Create the table using the model
-        JTable stockTable = new JTable(tableModel);
+        // // Set up JFrame
+        // setTitle("View Stocks");
+        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // setSize(900, 400);
+        // // Create a table model
+        // tableModel = new DefaultTableModel(getTableFormattedStockData(this.customerStockList), stockColumnNames);
 
-        // Add the table to a scroll pane
-        JScrollPane scrollPane = new JScrollPane(stockTable);
+        // // Create the table using the model
+        // JTable stockTable = new JTable(tableModel);
 
-        // Create a panel for text fields and submit button
-        JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.X_AXIS));
+        // // Add the table to a scroll pane
+        // JScrollPane scrollPane = new JScrollPane(stockTable);
 
-        // Create and add text fields
-        JTextField stockSymbolTextField = new JTextField();
-        JTextField newStockPriceTextField = new JTextField();
-        inputPanel.add(new JLabel("Stock Symbol:"));
-        inputPanel.add(stockSymbolTextField);
-        inputPanel.add(Box.createRigidArea(new Dimension(6, 0))); // Add some spacing
-        inputPanel.add(new JLabel("New Stock Price:"));
-        inputPanel.add(newStockPriceTextField);
+        // // Create a panel for text fields and submit button
+        // JPanel inputPanel = new JPanel();
+        // inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.X_AXIS));
 
-        // Create and add the submit button
-        JButton submitButton = new JButton("Submit");
-        submitButton.addActionListener(e2 -> handleSubmitButtonClick(stockSymbolTextField, newStockPriceTextField));
-        inputPanel.add(Box.createRigidArea(new Dimension(6, 0))); // Add some spacing
-        inputPanel.add(submitButton);
+        // // Create and add text fields
+        // JTextField stockSymbolTextField = new JTextField();
+        // JTextField newStockPriceTextField = new JTextField();
+        // inputPanel.add(new JLabel("Stock Symbol:"));
+        // inputPanel.add(stockSymbolTextField);
+        // inputPanel.add(Box.createRigidArea(new Dimension(6, 0))); // Add some spacing
+        // inputPanel.add(new JLabel("New Stock Price:"));
+        // inputPanel.add(newStockPriceTextField);
 
-        // Add the scroll pane and input panel to the frame
-        add(scrollPane, BorderLayout.CENTER);
-        add(inputPanel, BorderLayout.SOUTH);
+        // // Create and add the submit button
+        // JButton submitButton = new JButton("Submit");
+        // submitButton.addActionListener(e2 -> handleSubmitButtonClick(stockSymbolTextField, newStockPriceTextField));
+        // inputPanel.add(Box.createRigidArea(new Dimension(6, 0))); // Add some spacing
+        // inputPanel.add(submitButton);
 
-        // Repaint the frame to reflect the changes
-        revalidate();
-        repaint();
+        // // Add the scroll pane and input panel to the frame
+        // add(scrollPane, BorderLayout.CENTER);
+        // add(inputPanel, BorderLayout.SOUTH);
+
+        // // Repaint the frame to reflect the changes
+        // revalidate();
+        // repaint();
     }
 
     private void handleSubmitButtonClick(JTextField stockSymbolTextField, JTextField newStockPriceTextField) {
