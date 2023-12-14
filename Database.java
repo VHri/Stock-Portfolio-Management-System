@@ -297,8 +297,11 @@ public class Database {
                         double balance = resultSet.getDouble("account_balance");
                         double netGain = resultSet.getDouble("net_gain");
 
-                        if (status.equals("Customer") || status.equals("Super Customer")) {
-                            return new Customer(username, password, balance, netGain);
+                        if (!status.equals("Manager")) {
+                            Customer c = new Customer(username, password, balance, netGain);
+                            ArrayList<Stock> stocks = getCustomerStocks(username);
+                            c.setStocks(stocks);
+                            return c;
                         }
                     }
                 }
@@ -320,7 +323,11 @@ public class Database {
                         String password = resultSet.getString("password");
                         double balance = resultSet.getDouble("account_balance");
                         double netGain = resultSet.getDouble("net_gain");
-                        customers.add(new Customer(username, password, balance, netGain));
+
+                        Customer c = new Customer(username, password, balance, netGain);
+                        ArrayList<Stock> stocks = getCustomerStocks(username);
+                        c.setStocks(stocks);
+                        customers.add(c);
                     }
                 }
             }
