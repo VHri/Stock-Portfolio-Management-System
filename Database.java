@@ -161,6 +161,32 @@ public class Database {
         }
         return null;
     }
+    
+    public static Customer getCustomerInfo(String username){
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String sql = "SELECT * FROM Accounts WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, username);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String name = resultSet.getString("name");
+                        String password = resultSet.getString("password");
+                        boolean isCustomer = resultSet.getBoolean("customer_account");
+                        double balance = resultSet.getDouble("account_balance");
+                        double netGain = resultSet.getDouble("realized_profit");
+
+                        if (isCustomer) {
+                            return new Customer(username, password, balance, netGain);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static void addStock(String symbol, String company, int shares, double price) {
         try (Connection connection = DriverManager.getConnection(URL)) {
