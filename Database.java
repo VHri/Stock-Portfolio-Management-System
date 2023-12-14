@@ -303,7 +303,7 @@ public class Database {
                         String username = resultSet.getString("username");
                         String password = resultSet.getString("password");
                         double balance = resultSet.getDouble("account_balance");
-                        double netGain = resultSet.getDouble("realized_profit");
+                        double netGain = resultSet.getDouble("net_gain");
                         customers.add(new Customer(username, password, balance, netGain));
                     }
                 }
