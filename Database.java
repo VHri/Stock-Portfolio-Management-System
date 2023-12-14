@@ -50,6 +50,68 @@ public class Database {
         }
         return stocks;
     }
+
+    public static String getAccountNetGain(String username) {
+        try (Connection connection = DriverManager.getConnection(URL)) {
+            String sql = "SELECT * FROM Accounts WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, username);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String status = resultSet.getString("net_gain");
+
+                        return status;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getAccountStatus(String username) {
+        try (Connection connection = DriverManager.getConnection(URL)) {
+            String sql = "SELECT * FROM Accounts WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, username);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String status = resultSet.getString("status");
+
+                        return status;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Updates all customer data
+    public static void updateCustomerData(Customer customer) {
+        changeBalance(customer.getUserName(), customer.getBalance());
+        changeNetGain(customer.getUserName(), customer.getNetGain());
+        removeCustomerStock(customer.getUserName());
+        for(Stock stock : customer.getStocks()) {
+            addCustomerStock(customer, stock.getTickerSymbol(), stock.getCount(), stock.getPrice());
+        }
+    }
+
+    public static void changeAccountStatus(String username, String status) {
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String sql = "UPDATE Accounts SET status = ? WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, status);
+                preparedStatement.setString(2, username);
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     
     public static void changeStockPrice(String symbol, double newPrice) {
         try (Connection connection = DatabaseConnection.getConnection()) {
@@ -79,6 +141,20 @@ public class Database {
         }
     }
 
+    public static void changeNetGain(String username, double newNetGain) {
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String sql = "UPDATE Accounts SET net_gain = ? WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setDouble(1, newNetGain);
+                preparedStatement.setString(2, username);
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void addTransaction(String username, String stockCompany, int numberOfStocks, double boughtAt, String timestamp) {
         try (Connection connection = DriverManager.getConnection(URL)) {
             String sql = "INSERT INTO Transactions (stock_company, account_username, timestamp, number_of_shares, bought_at) VALUES (?, ?, ?, ?, ?)";
@@ -96,15 +172,15 @@ public class Database {
         }
     }
 
-    public static void addUser(String username, String name, String password, boolean isCustomerAccount, double accountBalance) {
+    public static void addUser(String username, String password, String status, double accountBalance, double netGain) {
         try (Connection connection = DriverManager.getConnection(URL)) {
-            String sql = "INSERT INTO Accounts (username, name, password, customer_account, account_balance) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Accounts (username, password, status, account_balance, net_gain) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, username);
-                preparedStatement.setString(2, name);
-                preparedStatement.setString(3, password);
-                preparedStatement.setBoolean(4, isCustomerAccount);
-                preparedStatement.setDouble(5, accountBalance);
+                preparedStatement.setString(2, password);
+                preparedStatement.setString(3, status);
+                preparedStatement.setDouble(4, accountBalance);
+                preparedStatement.setDouble(5, netGain);
 
                 preparedStatement.executeUpdate();
             }
@@ -122,9 +198,9 @@ public class Database {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
                         String password = resultSet.getString("password");
-                        boolean isCustomer = resultSet.getBoolean("customer_account");
+                        String status = resultSet.getString("status");
 
-                        if (!isCustomer) {
+                        if (status.equals("Manager")) {
                             return new Manager(username, password);
                         }
                     }
@@ -146,11 +222,11 @@ public class Database {
                     if (resultSet.next()) {
                         String name = resultSet.getString("name");
                         String password = resultSet.getString("password");
-                        boolean isCustomer = resultSet.getBoolean("customer_account");
+                        String status = resultSet.getString("status");
                         double balance = resultSet.getDouble("account_balance");
                         double netGain = resultSet.getDouble("realized_profit");
 
-                        if (isCustomer) {
+                        if (status.equals("Customer") || status.equals("Super Customer")) {
                             return new Customer(username, password, balance, netGain);
                         }
                     }
@@ -172,6 +248,33 @@ public class Database {
                 preparedStatement.setDouble(4, price);
 
                 preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addCustomerStock(Customer customer, String symbol, int number_of_shares, double price) {
+        try (Connection connection = DriverManager.getConnection(URL)) {
+            String sql = "INSERT INTO CustomerStocks (username, symbol, number_of_shares, baseline_price) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, customer.getUserName());
+                preparedStatement.setString(2, symbol);
+                preparedStatement.setInt(3, number_of_shares);
+                preparedStatement.setDouble(4, price);
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void removeCustomerStock(String username) {
+        try (Connection connection = DriverManager.getConnection(URL)) {
+            String sql = "DELETE FROM CustomerStocks WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, username);
             }
         } catch (SQLException e) {
             e.printStackTrace();
