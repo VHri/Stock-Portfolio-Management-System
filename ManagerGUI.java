@@ -140,13 +140,41 @@ public class ManagerGUI extends JFrame {
         Object[][] data = new Object[stockList.size()][5];
         for (int i = 0; i < customers.size(); i++) {
             Customer customer = customers.get(i);
-            data[i][0] = customer.getUserName();
+            data[i][0] = customer.getUsername();
             data[i][1] = customer.getPassword();
             data[i][2] = customer.getBalance();
             data[i][3] = customer.getNetGain();
             data[i][4] = customer.getStocks().size();
         }
         return data;
+    }
+
+    
+    public static void run(ArrayList<Stock> stockList){
+        String[] stockColumnNames = {"Symbol", "Company", "Shares", "Price"};
+
+        ArrayList<Stock> stocks = new ArrayList<Stock>();
+        stocks.add(new Stock("Stock1", "S1", 13.5, 100));
+        stocks.add(new Stock("Stock2", "S2", 15.7, 200));
+        stocks.add(new Stock("Stock3", "S3", 135.9, 300));
+        stocks.add(new Stock("Stock4", "S4", 0.1, 400));
+
+        // stocks = Database.getStocks(); // fetch all stocks from database
+        // customers = //fetch all customers from database
+
+        String[] customerColumnNames = {"Username", "Password", "Balance", "NetGain", "# Stocks"};
+
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+
+        customers.add(new Customer("Cust1", "p1", 312.3));
+        customers.add(new Customer("Cust2", "p2", 32.3));
+        customers.add(new Customer("Cust3", "p3", 12.3));
+        customers.add(new Customer("Cust4", "p4", 31.3));
+
+        // Run the GUI code on the Event Dispatch Thread (EDT)
+        // SwingUtilities.invokeLater(() -> new ManagerGUI(stocks, columnNames));
+        new ManagerGUI(stocks, stockColumnNames, customers, customerColumnNames);
+
     }
 
     public static void main(String[] args) {
@@ -161,7 +189,7 @@ public class ManagerGUI extends JFrame {
         // stocks = Database.getStocks(); // fetch all stocks from database
         // customers = //fetch all customers from database
 
-        String[] customerColumnNames = {"UserName", "Password", "Balance", "NetGain", "# Stocks"};
+        String[] customerColumnNames = {"Username", "Password", "Balance", "NetGain", "# Stocks"};
 
         ArrayList<Customer> customers = new ArrayList<Customer>();
 
