@@ -293,6 +293,27 @@ public class Database {
         return null;
     }
 
+    public static ArrayList<Customer> getCustomers(){
+        ArrayList<Customer> customers = new ArrayList<>();
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String sql = "SELECT * FROM Accounts";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String username = resultSet.getString("username");
+                        String password = resultSet.getString("password");
+                        double balance = resultSet.getDouble("account_balance");
+                        double netGain = resultSet.getDouble("realized_profit");
+                        customers.add(new Customer(username, password, balance, netGain));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
+    }
+
     public static void addStock(String symbol, String company, int shares, double price) {
         try (Connection connection = DriverManager.getConnection(URL)) {
             String sql = "INSERT INTO Stocks (symbol, company, shares, price) VALUES (?, ?, ?, ?)";
