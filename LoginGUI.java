@@ -98,7 +98,8 @@ public class LoginGUI extends JFrame  {
                         if (isUsernamePasswordMatch(username, password, account )){
                             message.setText("Customer Login Successful.");
                             
-                            JFrame newFrame = new CustomerTransacitonGUI(account);
+                            JFrame newFrame = new CustomerMainGUI(username);
+                            //JFrame newFrame = new CustomerTransacitonGUI(account);
                             newFrame.setVisible(true);
                             //frame.dispose();
                         } else {
