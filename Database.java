@@ -147,9 +147,9 @@ public class Database {
 
     // Updates all customer data
     public static void updateCustomerData(Customer customer) {
-        changeBalance(customer.getUserName(), customer.getBalance());
-        changeNetGain(customer.getUserName(), customer.getNetGain());
-        removeCustomerStock(customer.getUserName());
+        changeBalance(customer.getUsername(), customer.getBalance());
+        changeNetGain(customer.getUsername(), customer.getNetGain());
+        removeCustomerStock(customer.getUsername());
         for(Stock stock : customer.getStocks()) {
             addCustomerStock(customer, stock.getTickerSymbol(), stock.getCount(), stock.getPrice());
         }
@@ -279,7 +279,7 @@ public class Database {
                         String password = resultSet.getString("password");
                         String status = resultSet.getString("status");
                         double balance = resultSet.getDouble("account_balance");
-                        double netGain = resultSet.getDouble("realized_profit");
+                        double netGain = resultSet.getDouble("net_gain");
 
                         if (status.equals("Customer") || status.equals("Super Customer")) {
                             return new Customer(username, password, balance, netGain);
@@ -334,7 +334,7 @@ public class Database {
         try (Connection connection = DriverManager.getConnection(URL)) {
             String sql = "INSERT INTO CustomerStocks (username, symbol, number_of_shares, baseline_price) VALUES (?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, customer.getUserName());
+                preparedStatement.setString(1, customer.getUsername());
                 preparedStatement.setString(2, symbol);
                 preparedStatement.setInt(3, number_of_shares);
                 preparedStatement.setDouble(4, price);

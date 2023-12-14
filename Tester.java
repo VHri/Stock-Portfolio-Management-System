@@ -43,4 +43,14 @@ public class Tester {
             e.printStackTrace();
         }
     }
+
+    public static void testLogin(){
+        PortfolioManageSystem system = new PortfolioManageSystem();
+        StockMarket stmkt = new StockMarket();
+        stmkt.setStocks(system.getStocks());
+        system.setMarket(stmkt);
+
+        LoginGUI.run(system);
+        
+    }
 }
