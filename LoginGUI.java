@@ -150,7 +150,7 @@ public class LoginGUI extends JFrame  {
                         message.setText("Username already exist as a customer.");
                         break;
                     case Constant.MANAGER:
-                        message.setText("Username alreadu exist as a manager.");
+                        message.setText("Username already exist as a manager.");
                         ManagerGUI.run(system.getStocks());;
                         // newFrame.setVisible(true);
                         frame.dispose();
