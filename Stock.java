@@ -31,7 +31,7 @@ public class Stock {
         if(o == this){
             return true;
         } else if (o instanceof Stock){
-            return ((Stock)o).getName() == this.getName();
+            return ((Stock)o).getName().equals(this.getName());
         }
         return false;
     }
@@ -62,6 +62,8 @@ public class Stock {
         this.totalValue = totalValue;
     }
 
-    
+    public String toString(){
+        return name + " " + tickerSymbol+ " " + price + " " + count;
+    }
 
 }

@@ -1,5 +1,8 @@
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import javax.xml.crypto.Data;
 
 public class Tester {
     public static void testCustomerBasic(){
@@ -51,6 +54,31 @@ public class Tester {
         system.setMarket(stmkt);
 
         LoginGUI.run(system);
+
+
         
+    }
+
+    public static void testUnrealized(){
+        PortfolioManageSystem system = new PortfolioManageSystem();
+        StockMarket stmkt = new StockMarket();
+        stmkt.setStocks(system.getStocks());
+        system.setMarket(stmkt);
+        //LoginGUI.run(system);
+
+        String username = "johndoe";
+        ArrayList<Stock> customerStocks = Database.getCustomerStocks(username);
+
+        Customer john = Database.getCustomer(username);
+        john.setStocks(customerStocks);
+
+
+        System.out.printf("John's profit %f\n", john.computeUnrealizedProfit(stmkt));
+        
+        Database.changeStockPrice("LG", 113.4);
+
+        System.out.printf("John's profit %f\n", john.computeUnrealizedProfit(stmkt));
+
+
     }
 }

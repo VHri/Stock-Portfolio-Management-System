@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import javax.xml.crypto.Data;
+
 public class StockMarket{
     private ArrayList<Stock> stocks;
 
@@ -16,14 +18,24 @@ public class StockMarket{
     }
 
     public double getPriceOf(Stock stock){
-        for (Stock s: stocks){
+        // for (Stock s: stocks){
+        //     if(s.equals(stock)){
+        //         return s.getPrice();
+        //     }
+        // }
+        // System.err.println("Market: Stock not found");
+        // return 0.0;
+
+        ArrayList<Stock> stocks = Database.getStocks();
+        for (Stock s : stocks){
+            System.out.println("Checking Stock: " + s);
             if(s.equals(stock)){
                 return s.getPrice();
             }
         }
+
         System.err.println("Market: Stock not found");
         return 0.0;
-
     }
 
     /**
