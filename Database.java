@@ -38,10 +38,9 @@ public class Database {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         String symbol = resultSet.getString("symbol");
-                        String company = resultSet.getString("company");
-                        int shares = resultSet.getInt("shares");
-                        double price = resultSet.getDouble("price");
-                        stocks.add(new Stock(company, symbol, price, shares));
+                        int shares = resultSet.getInt("number_of_shares");
+                        double price = resultSet.getDouble("baseline_price");
+                        stocks.add(new Stock(Database.getStockCompany(symbol), symbol, price, shares));
                     }
                 }
             }
@@ -49,6 +48,25 @@ public class Database {
             e.printStackTrace();
         }
         return stocks;
+    }
+
+    public static String getStockCompany(String symbol) {
+        try (Connection connection = DriverManager.getConnection(URL)) {
+            String sql = "SELECT * FROM Stocks WHERE symbol = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, symbol);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String company = resultSet.getString("company");
+
+                        return company;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static String getAccountNetGain(String username) {
