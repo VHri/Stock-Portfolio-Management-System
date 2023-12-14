@@ -70,6 +70,25 @@ public class Database {
         return null;
     }
 
+    public static double getAccountBalance(String username) {
+        try (Connection connection = DriverManager.getConnection(URL)) {
+            String sql = "SELECT * FROM Accounts WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, username);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        double accountBalance = resultSet.getDouble("account_balance");
+
+                        return accountBalance;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
     public static String getAccountStatus(String username) {
         try (Connection connection = DriverManager.getConnection(URL)) {
             String sql = "SELECT * FROM Accounts WHERE username = ?";
@@ -80,6 +99,25 @@ public class Database {
                         String status = resultSet.getString("status");
 
                         return status;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getPassword(String username) {
+        try (Connection connection = DriverManager.getConnection(URL)) {
+            String sql = "SELECT * FROM Accounts WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, username);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String password = resultSet.getString("password");
+
+                        return password;
                     }
                 }
             }
