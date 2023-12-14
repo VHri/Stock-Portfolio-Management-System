@@ -1,4 +1,5 @@
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,6 +49,21 @@ public class Database {
             e.printStackTrace();
         }
         return stocks;
+    }
+
+    public static ArrayList<String> getColumnNames(String table) {
+        ArrayList<String> columnNames = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(URL)) {
+            DatabaseMetaData metaData = connection.getMetaData();
+            ResultSet resultSet = metaData.getColumns(null, null, "CustomerStocks", null);
+            while (resultSet.next()) {
+                String columnName = resultSet.getString("COLUMN_NAME");
+                columnNames.add(columnName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return columnNames;
     }
 
     public static String getStockCompany(String symbol) {
