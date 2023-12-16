@@ -199,6 +199,20 @@ public class Database {
         }
     }
 
+        public static void changeStockShare(String symbol, int newShares) {
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String sql = "UPDATE Stocks SET shares = ? WHERE symbol = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, newShares);
+                preparedStatement.setString(2, symbol);
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void changeBalance(String username, double newBalance) {
         try (Connection connection = DatabaseConnection.getConnection()) {
             String sql = "UPDATE Accounts SET account_balance = ? WHERE username = ?";

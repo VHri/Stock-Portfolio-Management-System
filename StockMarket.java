@@ -81,5 +81,35 @@ public class StockMarket{
         return null;
     }
 
+    public int sellStock(Stock stock, int share){
+
+        for (Stock s : stocks){
+            //System.out.println("Checking Stock: " + s);
+            if(s.equals(stock)){
+                if(s.getCount() >= share){
+                    s.setCount(s.getCount() - share);
+                    Database.changeStockShare(stock.getTickerSymbol(), s.getCount());
+                    return Constant.SUCCESS;
+                } else {
+                    return Constant.TOO_MANY_SHARE;
+                }
+            }
+        }
+        return Constant.STOCK_DNE;
+    }
+
+    public int buyStock(Stock stock, int share){
+
+        for (Stock s : stocks){
+            //System.out.println("Checking Stock: " + s);
+            if(s.equals(stock)){
+                s.setCount(s.getCount() + share);
+                Database.changeStockShare(stock.getTickerSymbol(), s.getCount());
+                return Constant.SUCCESS;
+            }
+        }
+        return Constant.STOCK_DNE;
+    }
+
     
 }

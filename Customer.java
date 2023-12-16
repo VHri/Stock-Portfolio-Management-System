@@ -72,8 +72,20 @@ public class Customer extends Account{
      * @param stock
      * @param count
      */
-    public void buyStock(Stock stock, int count){
+    public int buyStock(Stock stock, int count){
 
+
+        double cost = stock.getPrice() * (double)count;
+
+        if (cost > balance){
+            return Constant.NOT_ENOUGH_BALANCE;
+        }
+
+        int tradeStatus = system.getMarket().sellStock(stock, count);
+
+        if (tradeStatus != Constant.SUCCESS){
+            return tradeStatus;
+        }
         // manage balance
         balance -= stock.getPrice() * (double)count;
 
@@ -87,7 +99,7 @@ public class Customer extends Account{
                 Database.removeCustomerStock(getUsername());
                 Database.updateCustomerData(this);
                 system.checkCustomerGain(this);
-                return;
+                return Constant.SUCCESS;
             }
         }
 
@@ -100,6 +112,8 @@ public class Customer extends Account{
         // check realized
         system.checkCustomerGain(this);
 
+        return Constant.SUCCESS;
+
     }
 
     /**
@@ -108,19 +122,27 @@ public class Customer extends Account{
      * @param count
      * @return boolean success or failed
      */
-    public boolean sellStock(Stock stock, int count, StockMarket market){
+    public int sellStock(Stock stock, int count, StockMarket market){
+
+        int tradeStatus = system.getMarket().buyStock(stock, count);
+
+        if (tradeStatus != Constant.SUCCESS){
+            return tradeStatus;
+        }
+
         // check existing stocks
         for(Stock s: stocks){
             if (s.equals(stock)){
                 if (s.getCount()<count){
-                    System.err.printf("Customer: stock count not enough");
-                    return false;
+                    Tester.print("Customer: stock count not enough");
+                    return Constant.TOO_MANY_SHARE;
                 } else {
                     // manage balance and net gain
+                    Tester.print("Customer: stock count enough: " + s.getCount());
                     double currentPrice = market.getPriceOf(stock);
                     balance += currentPrice * (double)count;
                     netGain += (currentPrice - stock.getPrice())* (double)count;
-                    s.setCount(s.getCount()-stock.getCount());
+                    s.setCount(s.getCount()-count);
                     s.setTotalValue(s.getTotalValue() - (double)count*stock.getPrice());
                     
                     // update in database
@@ -128,13 +150,13 @@ public class Customer extends Account{
 
                     // check realized
                     system.checkCustomerGain(this);
-                    return true;
+                    return Constant.SUCCESS;
                 }
             }
         }
 
-        System.err.printf("Customer: stock not found");
-        return false;
+        Tester.print("Customer: stock not found");
+        return Constant.STOCK_DNE;
     }
 
 
@@ -146,7 +168,7 @@ public class Customer extends Account{
         if(value <= this.balance) {
             setBalance(this.balance - value);
         } else {
-            System.out.println("Customer: Exceeds withdraw limit - negative balance illegal.");
+            Tester.print("Customer: Exceeds withdraw limit");
         }
         
     }

@@ -143,6 +143,10 @@ public class Tester {
         CustomerStockGUI csg = new CustomerStockGUI(system);
     }
 
+    public static void testChangeShare(){
+        Database.changeStockShare("LG", 234);
+    }
+
     public static void print(Object str) {
         System.out.println(str);
     }
