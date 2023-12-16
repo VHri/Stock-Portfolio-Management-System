@@ -1,26 +1,26 @@
+
 /*
  * withdrawCash() --> reduces balance
  * make the sellStock method add to the balance of the customer
  */
 import java.util.ArrayList;
 
-public class Customer extends Account{
+public class Customer extends Account {
 
     private PortfolioManageSystem system;
     private ArrayList<Stock> stocks;
     private double balance;
     private double netGain;
 
-
-    public Customer(String userName, String password, PortfolioManageSystem system){
+    public Customer(String userName, String password, PortfolioManageSystem system) {
         super(userName, password);
         balance = 0.0;
-        netGain= 0.0;
+        netGain = 0.0;
         this.stocks = new ArrayList<Stock>();
         this.system = system;
     }
 
-    public Customer(String userName, String password, double balance, PortfolioManageSystem system){
+    public Customer(String userName, String password, double balance, PortfolioManageSystem system) {
         super(userName, password);
         this.balance = balance;
         this.netGain = 0;
@@ -28,14 +28,14 @@ public class Customer extends Account{
         this.system = system;
     }
 
-    public Customer(String userName, String password, double balance){
+    public Customer(String userName, String password, double balance) {
         super(userName, password);
         this.balance = balance;
         this.netGain = 0;
         this.stocks = new ArrayList<Stock>();
     }
 
-    public Customer(String userName, String password, double balance, double netGain){
+    public Customer(String userName, String password, double balance, double netGain) {
         super(userName, password);
         this.balance = balance;
         this.netGain = netGain;
@@ -44,11 +44,12 @@ public class Customer extends Account{
 
     /**
      * compute the total value of all stocks
+     * 
      * @return total value of stocks
      */
-    public double computeTotalValue(){
+    public double computeTotalValue() {
         double totalValue = 0.0;
-        for (Stock s: stocks){
+        for (Stock s : stocks) {
             totalValue += s.getPrice() * s.getCount();
         }
         return totalValue;
@@ -56,38 +57,49 @@ public class Customer extends Account{
 
     /**
      * compute the total unrealized profit of this account
+     * 
      * @return unrealized profit
      */
-    public double computeUnrealizedProfit(StockMarket stockMarket){
+    public double computeUnrealizedProfit(StockMarket stockMarket) {
         double totalProfit = 0.0;
-        for (Stock s: stocks){
-            totalProfit += 
-            (double)s.getCount()*stockMarket.getPriceOf(s) -s.getTotalValue();
+        for (Stock s : stocks) {
+            totalProfit += (double) s.getCount() * stockMarket.getPriceOf(s) - s.getTotalValue();
         }
         return totalProfit;
     }
 
     /**
      * buy a stock
+     * 
      * @param stock
      * @param count
      */
-    public void buyStock(Stock stock, int count){
+    public int buyStock(Stock stock, int count) {
 
+        double cost = stock.getPrice() * (double) count;
+
+        if (cost > balance) {
+            return Constant.NOT_ENOUGH_BALANCE;
+        }
+
+        int tradeStatus = system.getMarket().sellStock(stock, count);
+
+        if (tradeStatus != Constant.SUCCESS) {
+            return tradeStatus;
+        }
         // manage balance
-        balance -= stock.getPrice() * (double)count;
+        balance -= stock.getPrice() * (double) count;
 
-        
         // check for existing stock
-        for(Stock s: stocks){
-            if (s.equals(stock)){
-                Tester.print(s + " == " + stock );
-                s.setCount(s.getCount()+count);
-                s.setTotalValue(s.getTotalValue() + stock.getTotalValue());
+        for (Stock s : stocks) {
+            if (s.equals(stock)) {
+                Tester.print(s + " == " + stock);
+                s.setCount(s.getCount() + count);
+                s.setTotalValue(s.getTotalValue() + cost);
                 Database.removeCustomerStock(getUsername());
                 Database.updateCustomerData(this);
                 system.checkCustomerGain(this);
-                return;
+                return Constant.SUCCESS;
             }
         }
 
@@ -100,75 +112,89 @@ public class Customer extends Account{
         // check realized
         system.checkCustomerGain(this);
 
+        return Constant.SUCCESS;
+
     }
 
     /**
      * sell an existing stock if exist
+     * 
      * @param stock
      * @param count
      * @return boolean success or failed
      */
-    public boolean sellStock(Stock stock, int count, StockMarket market){
+    public int sellStock(Stock stock, int count, StockMarket market) {
+
+        int tradeStatus = system.getMarket().buyStock(stock, count);
+
+        if (tradeStatus != Constant.SUCCESS) {
+            return tradeStatus;
+        }
+
         // check existing stocks
-        for(Stock s: stocks){
-            if (s.equals(stock)){
-                if (s.getCount()<count){
-                    System.err.printf("Customer: stock count not enough");
-                    return false;
+        for (Stock s : stocks) {
+            if (s.equals(stock)) {
+                if (s.getCount() < count) {
+                    Tester.print("Customer: stock count not enough");
+                    return Constant.TOO_MANY_SHARE;
                 } else {
                     // manage balance and net gain
+                    Tester.print("Customer: stock count enough: " + s.getCount());
                     double currentPrice = market.getPriceOf(stock);
-                    balance += currentPrice * (double)count;
-                    netGain += (currentPrice - stock.getPrice())* (double)count;
-                    s.setCount(s.getCount()-stock.getCount());
-                    s.setTotalValue(s.getTotalValue() - (double)count*stock.getPrice());
-                    
+                    balance += currentPrice * (double) count;
+                    netGain += (currentPrice - stock.getPrice()) * (double) count;
+                    s.setCount(s.getCount() - count);
+                    s.setTotalValue(s.getTotalValue() - (double) count * stock.getPrice());
+
+                    if (s.getCount() == 0) {
+                        stocks.remove(s);
+                    }
+
                     // update in database
                     Database.updateCustomerData(this);
 
                     // check realized
                     system.checkCustomerGain(this);
-                    return true;
+                    return Constant.SUCCESS;
                 }
             }
         }
 
-        System.err.printf("Customer: stock not found");
-        return false;
+        Tester.print("Customer: stock not found");
+        return Constant.STOCK_DNE;
     }
-
 
     public void deposit(double value) {
         setBalance(this.balance + value);
     }
 
-    public void withdraw(double value) { 
-        if(value <= this.balance) {
+    public void withdraw(double value) {
+        if (value <= this.balance) {
             setBalance(this.balance - value);
         } else {
-            System.out.println("Customer: Exceeds withdraw limit - negative balance illegal.");
+            Tester.print("Customer: Exceeds withdraw limit");
         }
-        
+
     }
 
     // getters and setters
-    public void setStocks(ArrayList<Stock> stocks){
+    public void setStocks(ArrayList<Stock> stocks) {
         this.stocks = stocks;
     }
 
-    public ArrayList<Stock> getStocks(){
+    public ArrayList<Stock> getStocks() {
         return this.stocks;
     }
 
-    private void setBalance(double balance){
+    private void setBalance(double balance) {
         this.balance = balance;
     }
 
-    public double getBalance(){
+    public double getBalance() {
         return this.balance;
     }
 
-    public double getNetGain(){
+    public double getNetGain() {
         return this.netGain;
     }
 
@@ -180,5 +206,4 @@ public class Customer extends Account{
         this.system = system;
     }
 
-    
 }
