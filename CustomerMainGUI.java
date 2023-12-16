@@ -22,8 +22,12 @@ public class CustomerMainGUI  extends JFrame {
     private JLabel netGainLabel;
     private JLabel numStocksOwnedLabel;
 
-    public CustomerMainGUI(String username) {
+    private PortfolioManageSystem system;
+
+    public CustomerMainGUI(PortfolioManageSystem system, String username) {
         
+        this.system = system;
+
         // System.out.println(customerStockList.get(0));
         this.customer = Database.getCustomer(username);
         //this.customer = Database.getCustomerInfo(username);
@@ -116,7 +120,7 @@ public class CustomerMainGUI  extends JFrame {
 
     private void handleStocksButtonClick(ActionEvent e) {
 
-        JFrame newFrame = new CustomerStockGUI(customer);
+        JFrame newFrame = new CustomerStockGUI(system);
         newFrame.setVisible(true);
         // // Remove the "Edit Stocks" button from the frame
         // this.clearJFrame(); // clear the frame
@@ -189,8 +193,4 @@ public class CustomerMainGUI  extends JFrame {
         return data;
     }
 
-    public static void main(String[] args) {
-
-        new CustomerMainGUI("johndoe");
-    }
 }

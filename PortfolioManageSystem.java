@@ -48,11 +48,6 @@ public class PortfolioManageSystem {
         this.market = market;
     }
 
-    public Customer getCurrentCustomer(){
-        return currentCustomer;
-    }
-
-
     // below are database access methods
 
     public int verify(String username, String password){
@@ -94,6 +89,7 @@ public class PortfolioManageSystem {
         switch (identity) {
             case Constant.APPROVED_USER:
                 this.currentCustomer = Database.getCustomer(username);
+                currentCustomer.setSystem(this);
                 break;
             case Constant.MANAGER:
                 this.manager = Database.getManager(username);
@@ -152,6 +148,25 @@ public class PortfolioManageSystem {
 
     public boolean isSuperCustomer(Customer c){
         return Database.getAccountStatus(c.getUsername()) == "Super Customer";
+    }
+
+    
+
+    public Manager getManager() {
+        return manager;
+    }
+
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
+
+    public Customer getCurrentCustomer(){
+        return currentCustomer;
+    }
+
+    public void setCurrentCustomer(Customer currentCustomer) {
+        this.currentCustomer = currentCustomer;
     }
 
     public static void writePersist(){
