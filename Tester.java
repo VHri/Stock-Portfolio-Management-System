@@ -1,10 +1,5 @@
-import java.io.ObjectInputFilter.Config;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
-import javax.xml.crypto.Data;
-
 public class Tester {
     public static void testCustomerBasic() {
 

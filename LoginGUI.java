@@ -63,7 +63,7 @@ public class LoginGUI extends JFrame  {
         panel.add(loginButton);
 
         //Associate events to button action
-        signinButton = new JButton("Sign in");
+        signinButton = new JButton("Create Account");
         signinLabel = new SigninListener(this);
         signinButton.addActionListener(signinLabel);
         signinButton.setBounds(100,80,80,25);
@@ -138,6 +138,7 @@ public class LoginGUI extends JFrame  {
                 System.out.println( "SignUI: Signin button clicked." );
                 String username = userText.getText();
                 String password = new String(passwordText.getPassword());
+                // add check for minimum requirements for username and password (length/strength)
                 System.out.println( "SignUI: Input username:" + username + "\tpassword:" + password );
                 int result = system.signin(username, password);
 

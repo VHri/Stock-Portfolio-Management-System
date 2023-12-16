@@ -166,15 +166,17 @@ public class Customer extends Account {
 
     public void deposit(double value) {
         setBalance(this.balance + value);
+        Database.updateCustomerData(this);
     }
 
     public void withdraw(double value) {
         if (value <= this.balance) {
             setBalance(this.balance - value);
-        } else {
+            Database.updateCustomerData(this);
+        } 
+        else {
             Tester.print("Customer: Exceeds withdraw limit");
         }
-
     }
 
     // getters and setters
