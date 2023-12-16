@@ -22,7 +22,17 @@ public class CustomerStockGUI extends JFrame {
         this.system = system;
 
         setTitle("Customer Stock Center");
-        setSize(800, 600);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+
+        // Calculate 70% of the screen size
+        int frameWidth = (int) (width * 0.7);
+        int frameHeight = (int) (height * 0.7);
+
+        setSize(frameWidth, frameHeight);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
