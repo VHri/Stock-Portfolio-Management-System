@@ -374,6 +374,7 @@ public class Database {
             String sql = "DELETE FROM CustomerStocks WHERE username = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, username);
+                int rowsAffected = preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();
