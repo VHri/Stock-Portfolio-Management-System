@@ -53,7 +53,7 @@ public class CustomerMainGUI  extends JFrame {
         //System.out.println("CUSTOMER BALANCE: " + customer.getBalance());
         // Text fields for Customer General Info
         balanceLabel = new JLabel("Balance: " + customer.getBalance());
-        balanceLabel.setBounds(10,50,150,25); //x,y,width,height
+        balanceLabel.setBounds(10,100,150,25); //x,y,width,height
         add(balanceLabel);
         
         netGainLabel = new JLabel("Net Gain: " + customer.getNetGain());
@@ -61,7 +61,7 @@ public class CustomerMainGUI  extends JFrame {
         add(netGainLabel);
 
         numStocksOwnedLabel = new JLabel("Stocks owned: " + customer.getStocks().size());
-        numStocksOwnedLabel.setBounds(10,150,150,25);
+        numStocksOwnedLabel.setBounds(10,100,150,25);
         add(numStocksOwnedLabel);
 
         // Display the frame

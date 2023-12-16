@@ -3,45 +3,109 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class CustomerBalanceGUI extends JFrame{
+
+    private JTextField depositField;
+    private JTextField withdrawField;
+    private JLabel currentBalanceLabel;
+    private Customer customer;
+
     public CustomerBalanceGUI(Customer customer) {
-                // Set up JFrame
-        setTitle("Adjust Balance");
+        this.customer = customer;
+              
+        setTitle("Account Balance");
+        setSize(700, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 400);
-
-
-        //Add balance label
-        JLabel addBalanceLabel = new JLabel("Deposit");
-        addBalanceLabel.setBounds(10,20,80,25); //x,y,width,height
-        add(addBalanceLabel);
+        setLayout(new BorderLayout());
         
-        JTextField addBalanceText = new JTextField(20);
-        addBalanceText.setBounds(100,20,165,25);
-        add(addBalanceText);
+        // Main panel that will contain the money info sections
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
+        //Withdraw/deposit section
+        JPanel actionsSection = new JPanel(new BorderLayout());
+        JPanel inputPanel = new JPanel();
+        JButton returnButton = new JButton("←");
+        depositField = new JTextField(7);
+        
+        JButton depositButton = new JButton("Deposit");
+        withdrawField = new JTextField(7);
+        JButton withdrawButton = new JButton("Withdraw");
+
+        currentBalanceLabel = new JLabel();
+        currentBalanceLabel.setHorizontalAlignment(JLabel.CENTER); 
+
+        inputPanel.add(new JLabel("Deposit:"));
+        inputPanel.add(depositField);
+        inputPanel.add(depositButton);
+        inputPanel.add(new JLabel("Withdraw:"));
+        inputPanel.add(withdrawField);
+        inputPanel.add(withdrawButton);
+
+        displayBalance(customer.getBalance());
+
+        depositButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deposit();
+                //System.out.println("Clicked deposit button!");
+            }
+        });
+
+        withdrawButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               withdraw();
+            //System.out.println("Clicked deposit button!");
+            }
+        });
+
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: Action for return button goes here
+
+                dispose();
+
+            }
+        });
+
+        actionsSection.add(returnButton, BorderLayout.WEST);
+        actionsSection.add(inputPanel, BorderLayout.CENTER);
+        add(actionsSection, BorderLayout.SOUTH);
+
+        mainPanel.add(currentBalanceLabel);
+        add(mainPanel, BorderLayout.CENTER);
         setVisible(true); //REMOVE AFTER TESTING
-        
-        // //CALL ADD BALANCE
-        // String depositString = addBalanceText.getText();
-        // Double deposit = 1.0*Integer.parseInt(depositString);
-        // customer.deposit(deposit);
-
-        // JLabel withdrawBalanceLabel = new JLabel("Withdraw Balance");
-        // withdrawBalanceLabel.setBounds(10,20,80,25); //x,y,width,height
-        // add(withdrawBalanceLabel);
-        
-        // JTextField withdrawBalanceText = new JTextField(20);
-        // withdrawBalanceText.setBounds(100,20,165,25);
-        // add(withdrawBalanceText);
-        // //CALL WIDTHDRAW BALANCE
-        // String withdrawString = withdrawBalanceText.getText();
-        // Double withdraw = 1.0*Integer.parseInt(withdrawString);
-        // customer.withdraw(withdraw);
     }
 
+    private void deposit() {
+        String val = depositField.getText();     
+        Double deposit = 1.0*Integer.parseInt(val);
+        System.out.println("Deposited $" + val);
+        customer.deposit(deposit);
+        displayBalance(customer.getBalance());
+    }
+
+    private void withdraw() {
+        String val = withdrawField.getText();
+        Double withdraw = 1.0*Integer.parseInt(val);
+        System.out.println("Withdrew $" + val);
+        customer.withdraw(withdraw);
+        displayBalance(customer.getBalance());
+    }
+
+    private void displayBalance(Double balance){
+        currentBalanceLabel.setText("Current Balance: $" + balance);
+    }
+
+    private void sessionHistory() {
+
+    }
+    
     public static void main(String[] args) {
 
         Customer c = Database.getCustomer("johndoe");
