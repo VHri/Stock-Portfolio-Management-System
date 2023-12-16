@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import javax.xml.crypto.Data;
 
 public class Tester {
-    public static void testCustomerBasic(){
-        
+    public static void testCustomerBasic() {
+
         int totalCount = 100;
         int purchaseCount = 10;
         double price = 25.5;
         double balance = 9999999.0;
 
         PortfolioManageSystem system = new PortfolioManageSystem();
-        
+
         StockMarket stmkt = new StockMarket();
         Stock s = new Stock("Test", "TT", price, totalCount);
         stmkt.addStock(s);
@@ -24,10 +24,9 @@ public class Tester {
         System.out.println("User balance is " + c.getBalance());
         System.out.println("Total value is " + c.computeTotalValue());
 
-
         c.buyStock(s, purchaseCount);
-        assert c.getBalance() == balance - (double)purchaseCount*price;
-        assert c.computeTotalValue() == (double)purchaseCount*price;
+        assert c.getBalance() == balance - (double) purchaseCount * price;
+        assert c.computeTotalValue() == (double) purchaseCount * price;
         System.out.println("User purchased stock ");
         System.out.println("User balance is " + c.getBalance());
         System.out.println("Total value is " + c.computeTotalValue());
@@ -48,7 +47,7 @@ public class Tester {
         }
     }
 
-    public static void testLogin(){
+    public static void testLogin() {
         PortfolioManageSystem system = new PortfolioManageSystem();
         StockMarket stmkt = new StockMarket();
         stmkt.setStocks(system.getStocks());
@@ -56,31 +55,29 @@ public class Tester {
 
         LoginGUI.run(system);
 
-
-        
     }
 
-    public static void testUnrealized(){
+    public static void testUnrealized() {
         PortfolioManageSystem system = new PortfolioManageSystem();
         StockMarket stmkt = new StockMarket();
         stmkt.setStocks(system.getStocks());
         system.setMarket(stmkt);
-        //LoginGUI.run(system);
+        // LoginGUI.run(system);
 
         String username = "johndoe";
-        //ArrayList<Stock> customerStocks = Database.getCustomerStocks(username);
+        // ArrayList<Stock> customerStocks = Database.getCustomerStocks(username);
 
         Customer john = Database.getCustomer(username);
-        //john.setStocks(customerStocks);
+        // john.setStocks(customerStocks);
 
         // for (Stock s : john.getStocks()){
-        //     System.out.println(s);
+        // System.out.println(s);
         // }
 
         Database.changeStockPrice("LG", 113.4);
 
         System.out.printf("John's profit %f\n", john.computeUnrealizedProfit(stmkt));
-        
+
         Database.changeStockPrice("LG", 153.4);
 
         System.out.printf("John's profit %f\n", john.computeUnrealizedProfit(stmkt));
@@ -89,7 +86,7 @@ public class Tester {
 
     }
 
-    public static void testCustomerBuyStock(){
+    public static void testCustomerBuyStock() {
         PortfolioManageSystem system = new PortfolioManageSystem();
         StockMarket market = new StockMarket();
         market.setStocks(system.getStocks());
@@ -102,7 +99,7 @@ public class Tester {
 
         Customer john = system.getCurrentCustomer();
         print("john's stocks");
-        for (Stock s: john.getStocks()){
+        for (Stock s : john.getStocks()) {
             print(s);
         }
 
@@ -117,19 +114,17 @@ public class Tester {
         print("After purchase");
 
         print("john's stocks");
-        for (Stock s: john.getStocks()){
+        for (Stock s : john.getStocks()) {
             print(s);
         }
 
-
     }
 
-
-    public static void testRmvUserStock(){
+    public static void testRmvUserStock() {
         Database.removeCustomerStock("johndoe");
-    }    
+    }
 
-    public static void testCustomerStockUI(){
+    public static void testCustomerStockUI() {
         PortfolioManageSystem system = new PortfolioManageSystem();
         StockMarket stmkt = new StockMarket();
         stmkt.setStocks(system.getStocks());
@@ -140,17 +135,15 @@ public class Tester {
 
         system.login("johndoe", john.getPassword());
 
-        CustomerStockGUI csg = new CustomerStockGUI(system);
+        CustomerStockGUI csg = new CustomerStockGUI(system, null);
     }
 
-    public static void testChangeShare(){
+    public static void testChangeShare() {
         Database.changeStockShare("LG", 234);
     }
 
     public static void print(Object str) {
         System.out.println(str);
     }
-
-
 
 }
