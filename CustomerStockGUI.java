@@ -17,7 +17,7 @@ public class CustomerStockGUI extends JFrame {
     private JScrollPane marketPane;
     private JScrollPane customerPane;
 
-    public CustomerStockGUI(PortfolioManageSystem system) {
+    public CustomerStockGUI(PortfolioManageSystem system, JFrame prevFrame) {
 
         this.system = system;
 
@@ -56,7 +56,7 @@ public class CustomerStockGUI extends JFrame {
         // Purchase Section
         JPanel purchaseSection = new JPanel(new BorderLayout());
         JPanel inputPanel = new JPanel();
-        JButton returnButton = new JButton("←");
+
         stockSymbolField = new JTextField(10);
         numberOfSharesField = new JTextField(5);
         JButton purchaseButton = new JButton("Purchase");
@@ -83,17 +83,20 @@ public class CustomerStockGUI extends JFrame {
             }
         });
 
+        JPanel returnPanel = new JPanel();
+        JButton returnButton = new JButton("←");
+        returnPanel.add(returnButton);
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: Action for return button goes here
-
                 dispose();
+                prevFrame.setVisible(true);
 
             }
         });
 
-        purchaseSection.add(returnButton, BorderLayout.WEST);
+        purchaseSection.add(returnPanel, BorderLayout.WEST);
         purchaseSection.add(inputPanel, BorderLayout.CENTER);
 
         // Adding main panel and purchase section to the frame
@@ -118,7 +121,6 @@ public class CustomerStockGUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Entered shares is not positive: " + shares);
             return;
         }
-        // TODO process the stock purchase
 
         StockMarket market = system.getMarket();
         Stock s = market.getStockBySymbol(symbol);
@@ -138,7 +140,6 @@ public class CustomerStockGUI extends JFrame {
     private void sellStock() {
         String symbol = stockSymbolField.getText();
         String shares = numberOfSharesField.getText();
-        // TODO process the stock sell
         int shareCnt = 0;
         try {
             shareCnt = Integer.parseInt(shares);
