@@ -45,7 +45,8 @@ public class CustomerNotificationGUI extends JFrame {
 
     public static void main(String[] args) {
 
-        Customer c = Database.getCustomer("johndoe");
-        new CustomerDerivativeAccountGUI(c);
+        Customer c = Database.getCustomer("elonmusk");
+        // new CustomerDerivativeAccountGUI(c);
+        new CustomerNotificationGUI(c);
     }
 }

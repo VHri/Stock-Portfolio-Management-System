@@ -28,7 +28,7 @@ public class CustomerBalanceGUI extends JFrame{
         //Withdraw/deposit section
         JPanel actionsSection = new JPanel(new BorderLayout());
         JPanel inputPanel = new JPanel();
-        JButton returnButton = new JButton("←");
+        JButton returnButton = new JButton("Back");
         depositField = new JTextField(7);
         
         JButton depositButton = new JButton("Deposit");
