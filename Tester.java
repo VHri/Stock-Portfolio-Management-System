@@ -1,3 +1,4 @@
+import java.io.ObjectInputFilter.Config;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -67,18 +68,85 @@ public class Tester {
         //LoginGUI.run(system);
 
         String username = "johndoe";
-        ArrayList<Stock> customerStocks = Database.getCustomerStocks(username);
+        //ArrayList<Stock> customerStocks = Database.getCustomerStocks(username);
 
         Customer john = Database.getCustomer(username);
-        john.setStocks(customerStocks);
+        //john.setStocks(customerStocks);
 
+        // for (Stock s : john.getStocks()){
+        //     System.out.println(s);
+        // }
 
-        System.out.printf("John's profit %f\n", john.computeUnrealizedProfit(stmkt));
-        
         Database.changeStockPrice("LG", 113.4);
 
         System.out.printf("John's profit %f\n", john.computeUnrealizedProfit(stmkt));
+        
+        Database.changeStockPrice("LG", 153.4);
+
+        System.out.printf("John's profit %f\n", john.computeUnrealizedProfit(stmkt));
+
+        Database.changeStockPrice("LG", 113.4);
+
+    }
+
+    public static void testCustomerBuyStock(){
+        PortfolioManageSystem system = new PortfolioManageSystem();
+        StockMarket market = new StockMarket();
+        market.setStocks(system.getStocks());
+        system.setMarket(market);
+
+        String username = "johndoe";
+        Customer c = Database.getCustomer(username);
+
+        system.login("johndoe", c.getPassword());
+
+        Customer john = system.getCurrentCustomer();
+        print("john's stocks");
+        for (Stock s: john.getStocks()){
+            print(s);
+        }
+
+        print("");
+
+        Stock lg = market.getStockBySymbol("LG");
+
+        print("LG stocks: " + lg);
+
+        john.buyStock(lg, 1);
+
+        print("After purchase");
+
+        print("john's stocks");
+        for (Stock s: john.getStocks()){
+            print(s);
+        }
 
 
     }
+
+
+    public static void testRmvUserStock(){
+        Database.removeCustomerStock("johndoe");
+    }    
+
+    public static void testCustomerStockUI(){
+        PortfolioManageSystem system = new PortfolioManageSystem();
+        StockMarket stmkt = new StockMarket();
+        stmkt.setStocks(system.getStocks());
+        system.setMarket(stmkt);
+
+        String username = "johndoe";
+        Customer john = Database.getCustomer(username);
+
+        system.login("johndoe", john.getPassword());
+
+        CustomerStockGUI csg = new CustomerStockGUI(system);
+    }
+
+    public static void print(Object str) {
+        System.out.println(str);
+    }
+
+
+
 }

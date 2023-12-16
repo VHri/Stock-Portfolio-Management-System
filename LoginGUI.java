@@ -23,7 +23,6 @@ public class LoginGUI extends JFrame  {
     private LoginListener loginLabel;
     private SigninListener signinLabel;
     private JLabel message;
-    private JFrame frame;
 
     private PortfolioManageSystem system;
 
@@ -103,7 +102,7 @@ public class LoginGUI extends JFrame  {
                     case Constant.APPROVED_USER:
                         message.setText("Customer Login Successful.");
                         Customer c = system.getCustomer(username);
-                        JFrame newFrame = new CustomerMainGUI(username);
+                        JFrame newFrame = new CustomerMainGUI(system, username);
                         newFrame.setVisible(true);
                         frame.dispose();
                         break;

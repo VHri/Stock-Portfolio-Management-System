@@ -77,19 +77,27 @@ public class Customer extends Account{
         // manage balance
         balance -= stock.getPrice() * (double)count;
 
+        
         // check for existing stock
         for(Stock s: stocks){
             if (s.equals(stock)){
-                s.setCount(s.getCount()+stock.getCount());
+                Tester.print(s + " == " + stock );
+                s.setCount(s.getCount()+count);
                 s.setTotalValue(s.getTotalValue() + stock.getTotalValue());
-                break;
+                Database.removeCustomerStock(getUsername());
+                Database.updateCustomerData(this);
+                system.checkCustomerGain(this);
+                return;
             }
         }
 
         // account does not has this stock yet
         Stock newStock = new Stock(stock, count);
         stocks.add(newStock);
+        Database.removeCustomerStock(getUsername());
+        Database.updateCustomerData(this);
 
+        // check realized
         system.checkCustomerGain(this);
 
     }
@@ -114,6 +122,11 @@ public class Customer extends Account{
                     netGain += (currentPrice - stock.getPrice())* (double)count;
                     s.setCount(s.getCount()-stock.getCount());
                     s.setTotalValue(s.getTotalValue() - (double)count*stock.getPrice());
+                    
+                    // update in database
+                    Database.updateCustomerData(this);
+
+                    // check realized
                     system.checkCustomerGain(this);
                     return true;
                 }
@@ -159,4 +172,13 @@ public class Customer extends Account{
         return this.netGain;
     }
 
+    public PortfolioManageSystem getSystem() {
+        return system;
+    }
+
+    public void setSystem(PortfolioManageSystem system) {
+        this.system = system;
+    }
+
+    
 }

@@ -28,7 +28,7 @@ public class StockMarket{
 
         ArrayList<Stock> stocks = Database.getStocks();
         for (Stock s : stocks){
-            System.out.println("Checking Stock: " + s);
+            //System.out.println("Checking Stock: " + s);
             if(s.equals(stock)){
                 return s.getPrice();
             }
@@ -70,6 +70,15 @@ public class StockMarket{
         }
 
         this.stocks.add(stock);
+    }
+
+    public Stock getStockBySymbol(String symbol){
+        for (Stock s: stocks){
+            if(s.getTickerSymbol().equals(symbol)){
+                return s;
+            }
+        }
+        return null;
     }
 
     
