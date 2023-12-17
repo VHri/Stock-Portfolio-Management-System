@@ -1,13 +1,28 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CustomerNotificationGUI extends JFrame {
 
     private Customer customer;
     private JLabel notificationLabel;
 
-    public CustomerNotificationGUI(Customer customer) {
+    public CustomerNotificationGUI(Customer customer, CustomerMainGUI prev) {
         this.customer = customer;
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+
+        // Calculate 70% of the screen size
+        int frameWidth = (int) (width * 0.7);
+        int frameHeight = (int) (height * 0.7);
+
+        setSize(frameWidth, frameHeight);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
 
         setTitle("Notifications");
         setSize(700, 200);
@@ -17,6 +32,21 @@ public class CustomerNotificationGUI extends JFrame {
         // Main panel that will contain the money info sections
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        JButton returnButton = new JButton("Back");
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: Action for return button goes here
+
+                dispose();
+                prev.setVisible(true);
+                prev.updateLabels();
+
+            }
+        });
+
+        mainPanel.add(returnButton, BorderLayout.WEST);
 
         notificationLabel = new JLabel();
         notificationLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -47,6 +77,7 @@ public class CustomerNotificationGUI extends JFrame {
 
         Customer c = Database.getCustomer("elonmusk");
         // new CustomerDerivativeAccountGUI(c);
-        new CustomerNotificationGUI(c);
+        // new CustomerNotificationGUI(c);
     }
 }
+

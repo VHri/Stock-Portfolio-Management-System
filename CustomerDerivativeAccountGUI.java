@@ -1,13 +1,28 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CustomerDerivativeAccountGUI extends JFrame {
 
     private Customer customer;
     private JLabel notificationLabel;
 
-    public CustomerDerivativeAccountGUI(Customer customer) {
+    public CustomerDerivativeAccountGUI(Customer customer, CustomerMainGUI prev) {
         this.customer = customer;
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+
+        // Calculate 70% of the screen size
+        int frameWidth = (int) (width * 0.7);
+        int frameHeight = (int) (height * 0.7);
+
+        setSize(frameWidth, frameHeight);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
 
         setTitle("Derivative Trading Account Setup");
         setSize(700, 200);
@@ -27,6 +42,20 @@ public class CustomerDerivativeAccountGUI extends JFrame {
 
         JButton button = new JButton("Create");
         add(button, BorderLayout.SOUTH);
+        JButton returnButton = new JButton("Back");
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: Action for return button goes here
+
+                dispose();
+                prev.setVisible(true);
+                prev.updateLabels();
+
+            }
+        });
+
+        mainPanel.add(returnButton, BorderLayout.WEST);
 
         setNotificationMessage("Here you can create a derivative trading account!\n Click the create button below to get started");
         setVisible(true);
@@ -36,3 +65,4 @@ public class CustomerDerivativeAccountGUI extends JFrame {
         notificationLabel.setText(message);
     }
 }
+
