@@ -110,7 +110,8 @@ public class LoginGUI extends JFrame {
                     break;
                 case Constant.MANAGER:
                     message.setText("Manager Login Successful.");
-                    ManagerGUI.run(system.getStocks());
+                    // ManagerGUI.run(system.getStocks());
+                    new ManagerMainGUI();
                     frame.dispose();
                     break;
                 case Constant.UNAPPROVED_USER:

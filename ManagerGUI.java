@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.crypto.Data;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,7 +18,7 @@ public class ManagerGUI extends JFrame {
         this.customerColumnNames = customerColumnNames;
         this.customers = customers;
         // Set up JFrame
-        setTitle("Manager GUI");
+        setTitle("Manager Edit Stocks GUI");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 400);
 
@@ -160,9 +159,6 @@ public class ManagerGUI extends JFrame {
         ArrayList<Stock> stocks = Database.getStocks();
         String[] customerColumnNames = {"Username", "Password", "Balance", "Realized Profit", "# Stocks"};
         ArrayList<Customer> customers = Database.getCustomers();
-
-        // Run the GUI code on the Event Dispatch Thread (EDT)
-        // SwingUtilities.invokeLater(() -> new ManagerGUI(stocks, columnNames));
         new ManagerGUI(stocks, stockColumnNames, customers, customerColumnNames);
 
     }
@@ -182,8 +178,7 @@ public class ManagerGUI extends JFrame {
         customers.add(new Customer("Cust2", "p2", 32.3));
         customers.add(new Customer("Cust3", "p3", 12.3));
         customers.add(new Customer("Cust4", "p4", 31.3));
-        // Run the GUI code on the Event Dispatch Thread (EDT)
-        // SwingUtilities.invokeLater(() -> new ManagerGUI(stocks, columnNames));
+        
         new ManagerGUI(stocks, stockColumnNames, customers, customerColumnNames);
     }
 }
