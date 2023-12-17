@@ -18,15 +18,18 @@ public class CustomerMainGUI extends JFrame {
 
     private Account account;
     private Customer customer;
+    private StockMarket stockMarket;
     private JLabel balanceLabel;
     private JLabel netGainLabel;
     private JLabel numStocksOwnedLabel;
+    private JLabel unrealizedProfitLabel;
 
     private PortfolioManageSystem system;
 
     public CustomerMainGUI(PortfolioManageSystem system, String username) {
 
         this.system = system;
+        this.stockMarket = system.getMarket();
 
         // System.out.println(customerStockList.get(0));
         this.customer = Database.getCustomer(username);
@@ -61,19 +64,25 @@ public class CustomerMainGUI extends JFrame {
         add(balanceLabel);
         // balanceLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        netGainLabel = new JLabel("Net Gain: " + customer.getNetGain());
-        netGainLabel.setBounds(150, 50, 150, 25);
+        unrealizedProfitLabel = new JLabel("Unrealized profit: " + customer.computeUnrealizedProfit(stockMarket));
+        unrealizedProfitLabel.setBounds(150, 50, 150, 25);
+        add(unrealizedProfitLabel);
+
+        netGainLabel = new JLabel("Realized profit: " + customer.getNetGain());
+        netGainLabel.setBounds(150, 75, 150, 25);
         add(netGainLabel);
         // netGainLabel.setHorizontalAlignment(JLabel.CENTER);
 
         numStocksOwnedLabel = new JLabel("Stocks owned: " + customer.getStocks().size());
-        numStocksOwnedLabel.setBounds(150, 75, 150, 25);
+        numStocksOwnedLabel.setBounds(150, 100, 150, 25);
         add(numStocksOwnedLabel);
         // numStocksOwnedLabel.setHorizontalAlignment(JLabel.CENTER);
 
+     
+
         // PHANTOM LABEL:
         JLabel blank = new JLabel("");
-        blank.setBounds(150, 100, 150, 25);
+        blank.setBounds(150, 125, 150, 25);
         add(blank);
 
         // Display the frame
@@ -91,42 +100,6 @@ public class CustomerMainGUI extends JFrame {
         JFrame newFrame = new CustomerBalanceGUI(customer, this);
         newFrame.setVisible(true);
         setVisible(false);
-
-        // this.clearJFrame(); // clear the frame
-
-        // // Set up JFrame
-        // setTitle("Adjust Balance");
-        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // setSize(900, 400);
-
-        // //Add balance label
-        // JLabel addBalanceLabel = new JLabel("Deposit");
-        // addBalanceLabel.setBounds(10,20,80,25); //x,y,width,height
-        // add(addBalanceLabel);
-
-        // JTextField addBalanceText = new JTextField(20);
-        // addBalanceText.setBounds(100,20,165,25);
-        // add(addBalanceText);
-        // //CALL ADD BALANCE
-        // String depositString = addBalanceText.getText();
-        // Double deposit = 1.0*Integer.parseInt(depositString);
-        // customer.deposit(deposit);
-
-        // JLabel withdrawBalanceLabel = new JLabel("Withdraw Balance");
-        // withdrawBalanceLabel.setBounds(10,20,80,25); //x,y,width,height
-        // add(withdrawBalanceLabel);
-
-        // JTextField withdrawBalanceText = new JTextField(20);
-        // withdrawBalanceText.setBounds(100,20,165,25);
-        // add(withdrawBalanceText);
-        // //CALL WIDTHDRAW BALANCE
-        // String withdrawString = withdrawBalanceText.getText();
-        // Double withdraw = 1.0*Integer.parseInt(withdrawString);
-        // customer.withdraw(withdraw);
-
-        // // Repaint the frame to reflect the changes
-        // revalidate();
-        // repaint();
     }
 
     private void handleStocksButtonClick(ActionEvent e) {
@@ -164,8 +137,11 @@ public class CustomerMainGUI extends JFrame {
 
     public void updateLabels() {
         balanceLabel.setText("Balance: " + customer.getBalance());
-        netGainLabel.setText("Net Gain: " + customer.getNetGain());
+        unrealizedProfitLabel.setText("Unrealized Profit: " + customer.getStocks().size());
+        netGainLabel.setText("Realized Profit: " + customer.getNetGain());
         numStocksOwnedLabel.setText("Stocks owned: " + customer.getStocks().size());
+        
+
     }
 
 }
