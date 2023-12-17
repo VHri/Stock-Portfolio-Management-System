@@ -45,22 +45,38 @@ public class CustomerMainGUI extends JFrame {
         stocksButton = new JButton("Adjust Balance");
         stocksButton.addActionListener(this::handleBalanceButtonClick);
 
-        add(stocksButton, BorderLayout.NORTH);
-        add(balanceButton, BorderLayout.SOUTH);
+        // add(stocksButton, BorderLayout.NORTH);
+        // add(balanceButton, BorderLayout.SOUTH);
+        balanceButton.setBounds(150, 200, 150, 50);
+        stocksButton.setBounds(150, 250, 150, 50);
+        add(balanceButton);
+        add(stocksButton);
 
+        //setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         // System.out.println("CUSTOMER BALANCE: " + customer.getBalance());
         // Text fields for Customer General Info
         balanceLabel = new JLabel("Balance: " + customer.getBalance());
-        balanceLabel.setBounds(10, 100, 150, 25); // x,y,width,height
+        balanceLabel.setBounds(150, 25, 150, 25); // x,y,width,height
+        //add(balanceLabel);
         add(balanceLabel);
+        //balanceLabel.setHorizontalAlignment(JLabel.CENTER);
 
         netGainLabel = new JLabel("Net Gain: " + customer.getNetGain());
-        netGainLabel.setBounds(10, 100, 150, 25);
+        netGainLabel.setBounds(150, 50, 150, 25);
         add(netGainLabel);
+        //netGainLabel.setHorizontalAlignment(JLabel.CENTER);
+
 
         numStocksOwnedLabel = new JLabel("Stocks owned: " + customer.getStocks().size());
-        numStocksOwnedLabel.setBounds(10, 100, 150, 25);
+        numStocksOwnedLabel.setBounds(150, 75, 150, 25);
         add(numStocksOwnedLabel);
+        //numStocksOwnedLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        //PHANTOM LABEL:
+        JLabel blank = new JLabel("");
+        blank.setBounds(150, 100, 150, 25);
+        add(blank);
+
 
         // Display the frame
         setVisible(true);
