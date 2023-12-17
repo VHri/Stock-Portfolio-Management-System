@@ -9,6 +9,8 @@ public class CustomerMainGUI extends JFrame {
 
     private JButton balanceButton;
     private JButton stocksButton;
+    private JButton notificationButton;
+    private JButton derivativeTradingButton;
     private ArrayList<Stock> customerStockList;
     private ArrayList<Customer> customers;
     // private Double currentBalance;
@@ -28,6 +30,19 @@ public class CustomerMainGUI extends JFrame {
 
         this.system = system;
 
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+
+        // Calculate 70% of the screen size
+        int frameWidth = (int) (width * 0.7);
+        int frameHeight = (int) (height * 0.7);
+
+        setSize(frameWidth, frameHeight);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
         // System.out.println(customerStockList.get(0));
         this.customer = Database.getCustomer(username);
         // this.customer = Database.getCustomerInfo(username);
@@ -45,12 +60,24 @@ public class CustomerMainGUI extends JFrame {
         stocksButton = new JButton("Adjust Balance");
         stocksButton.addActionListener(this::handleBalanceButtonClick);
 
+        notificationButton = new JButton("View Notifications");
+        notificationButton.addActionListener(this::handleNotificationButtonClick);
+
+        derivativeTradingButton = new JButton("Derivative Trading");
+        derivativeTradingButton.addActionListener(this::handleDerivativeTradingButtonClick);
+
         // add(stocksButton, BorderLayout.NORTH);
         // add(balanceButton, BorderLayout.SOUTH);
         balanceButton.setBounds(150, 200, 150, 50);
         stocksButton.setBounds(150, 250, 150, 50);
+        notificationButton.setBounds(150, 300, 150, 50);
+        derivativeTradingButton.setBounds(150, 350, 150, 50);
         add(balanceButton);
         add(stocksButton);
+        add(notificationButton);
+        if(this.customer.getNetGain() > 10000) {
+            add(derivativeTradingButton);
+        }
 
         // setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         // System.out.println("CUSTOMER BALANCE: " + customer.getBalance());
@@ -84,6 +111,18 @@ public class CustomerMainGUI extends JFrame {
     public void clearJFrame() {
         remove(stocksButton);
         remove(balanceButton);
+    }
+
+    private void handleNotificationButtonClick(ActionEvent e) {
+        JFrame newFrame = new CustomerNotificationGUI(customer, this);
+        newFrame.setVisible(true);
+        setVisible(false);
+    }
+
+    private void handleDerivativeTradingButtonClick(ActionEvent e) {
+        JFrame newFrame = new CustomerDerivativeAccountGUI(customer, this);
+        newFrame.setVisible(true);
+        setVisible(false);
     }
 
     private void handleBalanceButtonClick(ActionEvent e) {
