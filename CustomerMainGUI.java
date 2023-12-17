@@ -52,31 +52,29 @@ public class CustomerMainGUI extends JFrame {
         add(balanceButton);
         add(stocksButton);
 
-        //setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        // setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         // System.out.println("CUSTOMER BALANCE: " + customer.getBalance());
         // Text fields for Customer General Info
         balanceLabel = new JLabel("Balance: " + customer.getBalance());
         balanceLabel.setBounds(150, 25, 150, 25); // x,y,width,height
-        //add(balanceLabel);
+        // add(balanceLabel);
         add(balanceLabel);
-        //balanceLabel.setHorizontalAlignment(JLabel.CENTER);
+        // balanceLabel.setHorizontalAlignment(JLabel.CENTER);
 
         netGainLabel = new JLabel("Net Gain: " + customer.getNetGain());
         netGainLabel.setBounds(150, 50, 150, 25);
         add(netGainLabel);
-        //netGainLabel.setHorizontalAlignment(JLabel.CENTER);
-
+        // netGainLabel.setHorizontalAlignment(JLabel.CENTER);
 
         numStocksOwnedLabel = new JLabel("Stocks owned: " + customer.getStocks().size());
         numStocksOwnedLabel.setBounds(150, 75, 150, 25);
         add(numStocksOwnedLabel);
-        //numStocksOwnedLabel.setHorizontalAlignment(JLabel.CENTER);
+        // numStocksOwnedLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        //PHANTOM LABEL:
+        // PHANTOM LABEL:
         JLabel blank = new JLabel("");
         blank.setBounds(150, 100, 150, 25);
         add(blank);
-
 
         // Display the frame
         setVisible(true);
@@ -90,9 +88,9 @@ public class CustomerMainGUI extends JFrame {
 
     private void handleBalanceButtonClick(ActionEvent e) {
 
-        JFrame newFrame = new CustomerBalanceGUI(customer);
+        JFrame newFrame = new CustomerBalanceGUI(customer, this);
         newFrame.setVisible(true);
-        // frame.dispose();
+        setVisible(false);
 
         // this.clearJFrame(); // clear the frame
 
@@ -162,6 +160,12 @@ public class CustomerMainGUI extends JFrame {
             data[i][3] = stock.getPrice();
         }
         return data;
+    }
+
+    public void updateLabels() {
+        balanceLabel.setText("Balance: " + customer.getBalance());
+        netGainLabel.setText("Net Gain: " + customer.getNetGain());
+        numStocksOwnedLabel.setText("Stocks owned: " + customer.getStocks().size());
     }
 
 }

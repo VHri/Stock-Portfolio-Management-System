@@ -4,13 +4,15 @@
  * REFERENCES: CS611 Event Handler Program, Youtube Java GUI Tutorial - Make a Login GUI by AlexLee
  * 
  */
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
-import java.awt.event.*;
 
 public class LoginGUI extends JFrame {
 
@@ -31,41 +33,53 @@ public class LoginGUI extends JFrame {
 
         this.system = system;
 
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+
+        // Calculate 70% of the screen size
+        int frameWidth = (int) (width * 0.3);
+        int frameHeight = (int) (height * 0.3);
+
+        setSize(frameWidth, frameHeight);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         // Create panel to place buttons on
         panel = new JPanel(null);
 
         // User label
         userLabel = new JLabel("Username");
-        userLabel.setBounds(10, 20, 80, 25); // x,y,width,height
+        userLabel.setBounds(70, 40, 80, 25); // x,y,width,height
         panel.add(userLabel);
 
         // User text field
         userText = new JTextField(20);
-        userText.setBounds(100, 20, 165, 25);
+        userText.setBounds(170, 40, 200, 25);
         panel.add(userText);
 
         // password label
         passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(10, 50, 80, 25);
+        passwordLabel.setBounds(70, 70, 80, 25);
         panel.add(passwordLabel);
 
         // Password text field
         passwordText = new JPasswordField();
-        passwordText.setBounds(100, 50, 165, 25);
+        passwordText.setBounds(170, 70, 200, 25);
         panel.add(passwordText);
 
         // Associate events to button action
         loginButton = new JButton("Login");
         loginLabel = new LoginListener(this);
         loginButton.addActionListener(loginLabel);
-        loginButton.setBounds(10, 80, 80, 25);
+        loginButton.setBounds(70, 120, 80, 25);
         panel.add(loginButton);
 
         // Associate events to button action
         signinButton = new JButton("Create Account");
         signinLabel = new SigninListener(this);
         signinButton.addActionListener(signinLabel);
-        signinButton.setBounds(100, 80, 150, 25);
+        signinButton.setBounds(170, 120, 150, 25);
         panel.add(signinButton);
 
         // Add panel to the frame
@@ -75,6 +89,8 @@ public class LoginGUI extends JFrame {
         message = new JLabel("");
         message.setBounds(10, 110, 300, 25);
         panel.add(message);
+
+        setVisible(true);
 
     }
 
@@ -139,8 +155,6 @@ public class LoginGUI extends JFrame {
             System.out.println("SignUI: Signin button clicked.");
             String username = userText.getText();
             String password = new String(passwordText.getPassword());
-            // add check for minimum requirements for username and password
-            // (length/strength)
 
             System.out.println("SignUI: Input username:" + username + "\tpassword:" + password);
 
@@ -175,11 +189,7 @@ public class LoginGUI extends JFrame {
 
     public static void run(PortfolioManageSystem system) {
         JFrame frame = new LoginGUI(system);
-        frame.setTitle("Customer Login");
-        frame.setSize(350, 200);
-        frame.setLocation(200, 100);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+
     }
 
     private boolean lengthValid(String username, String password) {

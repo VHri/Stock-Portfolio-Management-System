@@ -6,37 +6,37 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class CustomerBalanceGUI extends JFrame{
+public class CustomerBalanceGUI extends JFrame {
 
     private JTextField depositField;
     private JTextField withdrawField;
     private JLabel currentBalanceLabel;
     private Customer customer;
 
-    public CustomerBalanceGUI(Customer customer) {
+    public CustomerBalanceGUI(Customer customer, CustomerMainGUI prev) {
         this.customer = customer;
-              
+
         setTitle("Account Balance");
         setSize(700, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        
+
         // Main panel that will contain the money info sections
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        //Withdraw/deposit section
+        // Withdraw/deposit section
         JPanel actionsSection = new JPanel(new BorderLayout());
         JPanel inputPanel = new JPanel();
         JButton returnButton = new JButton("Back");
         depositField = new JTextField(7);
-        
+
         JButton depositButton = new JButton("Deposit");
         withdrawField = new JTextField(7);
         JButton withdrawButton = new JButton("Withdraw");
 
         currentBalanceLabel = new JLabel();
-        currentBalanceLabel.setHorizontalAlignment(JLabel.CENTER); 
+        currentBalanceLabel.setHorizontalAlignment(JLabel.CENTER);
 
         inputPanel.add(new JLabel("Deposit:"));
         inputPanel.add(depositField);
@@ -51,15 +51,15 @@ public class CustomerBalanceGUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 deposit();
-                //System.out.println("Clicked deposit button!");
+                // System.out.println("Clicked deposit button!");
             }
         });
 
         withdrawButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               withdraw();
-            //System.out.println("Clicked deposit button!");
+                withdraw();
+                // System.out.println("Clicked deposit button!");
             }
         });
 
@@ -69,6 +69,8 @@ public class CustomerBalanceGUI extends JFrame{
                 // TODO: Action for return button goes here
 
                 dispose();
+                prev.setVisible(true);
+                prev.updateLabels();
 
             }
         });
@@ -79,12 +81,12 @@ public class CustomerBalanceGUI extends JFrame{
 
         mainPanel.add(currentBalanceLabel);
         add(mainPanel, BorderLayout.CENTER);
-        setVisible(true); //REMOVE AFTER TESTING
+        setVisible(true); // REMOVE AFTER TESTING
     }
 
     private void deposit() {
-        String val = depositField.getText();     
-        Double deposit = 1.0*Integer.parseInt(val);
+        String val = depositField.getText();
+        Double deposit = 1.0 * Integer.parseInt(val);
         System.out.println("Deposited $" + val);
         customer.deposit(deposit);
         displayBalance(customer.getBalance());
@@ -92,23 +94,23 @@ public class CustomerBalanceGUI extends JFrame{
 
     private void withdraw() {
         String val = withdrawField.getText();
-        Double withdraw = 1.0*Integer.parseInt(val);
+        Double withdraw = 1.0 * Integer.parseInt(val);
         System.out.println("Withdrew $" + val);
         customer.withdraw(withdraw);
         displayBalance(customer.getBalance());
     }
 
-    private void displayBalance(Double balance){
+    private void displayBalance(Double balance) {
         currentBalanceLabel.setText("Current Balance: $" + balance);
     }
 
     private void sessionHistory() {
 
     }
-    
-    public static void main(String[] args) {
 
-        Customer c = Database.getCustomer("johndoe");
-        new CustomerBalanceGUI(c);
-    }
+    // public static void main(String[] args) {
+
+    // Customer c = Database.getCustomer("johndoe");
+    // new CustomerBalanceGUI(c);
+    // }
 }

@@ -3,7 +3,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class CustomerStockGUI extends JFrame {
 
@@ -17,7 +16,7 @@ public class CustomerStockGUI extends JFrame {
     private JScrollPane marketPane;
     private JScrollPane customerPane;
 
-    public CustomerStockGUI(PortfolioManageSystem system, JFrame prevFrame) {
+    public CustomerStockGUI(PortfolioManageSystem system, CustomerMainGUI prevFrame) {
 
         this.system = system;
 
@@ -102,6 +101,7 @@ public class CustomerStockGUI extends JFrame {
                 // TODO: Action for return button goes here
                 dispose();
                 prevFrame.setVisible(true);
+                prevFrame.updateLabels();
 
             }
         });
