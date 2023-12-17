@@ -63,7 +63,7 @@ public class Stock {
     }
 
     public String toString(){
-        return name + " " + tickerSymbol+ " " + price + " " + count;
+        return String.format("Stock Symbol: %s%nStock Company: %s%nStock Price: %.2f%nStock Shares: %d%n", tickerSymbol, name, price, count);
     }
 
 }

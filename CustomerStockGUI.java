@@ -94,7 +94,7 @@ public class CustomerStockGUI extends JFrame {
         });
 
         JPanel returnPanel = new JPanel();
-        JButton returnButton = new JButton("←");
+        JButton returnButton = new JButton("Back");
         returnPanel.add(returnButton);
         returnButton.addActionListener(new ActionListener() {
             @Override

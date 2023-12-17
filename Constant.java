@@ -29,4 +29,17 @@ public class Constant {
     public static final int MAX_USERNAME_LEN = 20;
     public static final int MAX_PW_LEN = 20;
 
+    // customer status static strings
+    public static final String CUSTOMER_STATUS = "Customer";
+    public static final String MANAGER_STATUS = "Manager";
+    public static final String UNAPPROVED_STATUS = "Unapproved Customer";
+    public static final String SUPERUSER_STATUS = "Super Customer";
+
+    // button icons image path
+    public static final String CUSTOMER_VIEW_APPROVE_BUTTON_IMG_PATH = "./img/customer-management.png";
+    public static final String STOCKS_EDIT_BUTTON_IMG_PATH = "./img/stocks-edit.png";
+    public static final String NOTIFICATION_BUTTON_IMG_PATH = "./img/notification.png";
+    public static final String LOGOUT_BUTTON_IMG_PATH = "./img/logout-icon.png";
+
+    public static double SUPER_CUSTOMER_PROFIT_THRESHOLD = 10000.00;
 }
