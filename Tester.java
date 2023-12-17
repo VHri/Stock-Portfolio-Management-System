@@ -1,5 +1,8 @@
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
+
 public class Tester {
     public static void testCustomerBasic() {
 
@@ -139,6 +142,33 @@ public class Tester {
 
     public static void print(Object str) {
         System.out.println(str);
+    }
+
+    public static void testUpdateNetGain() {
+        PortfolioManageSystem system = new PortfolioManageSystem();
+        StockMarket market = new StockMarket();
+        market.setStocks(system.getStocks());
+        system.setMarket(market);
+
+        String username = "johndoe";
+        Customer john = Database.getCustomer(username);
+
+        print("current net gain " + john.getNetGain());
+
+        Stock lg = market.getStockBySymbol("LG");
+
+        int customerResult = system.getCurrentCustomer().buyStock(lg, 1);
+
+        if (customerResult == Constant.NOT_ENOUGH_BALANCE) {
+
+            print("Not enough balance on account");
+            return;
+        }
+
+        Database.changeStockPrice("LG", 100);
+
+
+
     }
 
 }

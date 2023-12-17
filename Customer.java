@@ -125,11 +125,6 @@ public class Customer extends Account {
      */
     public int sellStock(Stock stock, int count, StockMarket market) {
 
-        int tradeStatus = system.getMarket().buyStock(stock, count);
-
-        if (tradeStatus != Constant.SUCCESS) {
-            return tradeStatus;
-        }
 
         // check existing stocks
         for (Stock s : stocks) {
@@ -138,11 +133,22 @@ public class Customer extends Account {
                     Tester.print("Customer: stock count not enough");
                     return Constant.TOO_MANY_SHARE;
                 } else {
+
+                    int tradeStatus = system.getMarket().buyStock(stock, count);
+
+                    if (tradeStatus != Constant.SUCCESS) {
+                        Tester.print("Customer: stock market trade failed");
+                        return tradeStatus;
+                    }
                     // manage balance and net gain
                     Tester.print("Customer: stock count enough: " + s.getCount());
+
+                    // Tester.print("Customer: bought in value " + s.getCount());
                     double currentPrice = market.getPriceOf(stock);
                     balance += currentPrice * (double) count;
-                    netGain += (currentPrice - stock.getPrice()) * (double) count;
+                    netGain += currentPrice * (double) count - s.getTotalValue();
+
+                    Tester.print("Customer: set netgain to: " + netGain);
                     s.setCount(s.getCount() - count);
                     s.setTotalValue(s.getTotalValue() - (double) count * stock.getPrice());
 
@@ -173,8 +179,7 @@ public class Customer extends Account {
         if (value <= this.balance) {
             setBalance(this.balance - value);
             Database.updateCustomerData(this);
-        } 
-        else {
+        } else {
             Tester.print("Customer: Exceeds withdraw limit");
         }
     }
@@ -197,6 +202,7 @@ public class Customer extends Account {
     }
 
     public double getNetGain() {
+
         return this.netGain;
     }
 

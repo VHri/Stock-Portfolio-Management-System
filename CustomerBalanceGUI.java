@@ -12,10 +12,11 @@ public class CustomerBalanceGUI extends JFrame {
     private JTextField withdrawField;
     private JLabel currentBalanceLabel;
     private Customer customer;
+    private PortfolioManageSystem system;
 
-    public CustomerBalanceGUI(Customer customer, CustomerMainGUI prev) {
-        this.customer = customer;
-
+    public CustomerBalanceGUI(PortfolioManageSystem system, CustomerMainGUI prev) {
+        this.customer = system.getCurrentCustomer();
+        this.system = system;
         setTitle("Account Balance");
         setSize(700, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -30,11 +30,11 @@ public class CustomerTransacitonGUI extends JFrame {
 
         // frame.setTitle( "Entry for Stock and Balance Info" );
 
-        //Create Buttons
+        // Create Buttons
         balanceButton = new JButton("View Balance");
         stocksButton = new JButton("View Stocks");
 
-        //Create panel to place buttons on
+        // Create panel to place buttons on
         panel = new JPanel(null);
         panel.add(balanceButton);
         panel.add(stocksButton);
@@ -42,72 +42,67 @@ public class CustomerTransacitonGUI extends JFrame {
         // Add panel to the frame
         add(panel);
 
-        //Associate events to button action
+        // Associate events to button action
         balanceListener = new BalanceListener();
         stockListener = new StockListener();
         balanceButton.addActionListener(balanceListener);
         stocksButton.addActionListener(stockListener);
-        balanceButton.setBounds(10,80,150,25);
-        stocksButton.setBounds(180,80,150,25); 
-       
-        //Success/Failiure message
+        balanceButton.setBounds(10, 80, 150, 25);
+        stocksButton.setBounds(180, 80, 150, 25);
+
+        // Success/Failiure message
         message = new JLabel("");
-        message.setBounds(10,110,300,25);
+        message.setBounds(10, 110, 300, 25);
         panel.add(message);
-      
 
     }
-   
 
-//HGandle Event
+    // HGandle Event
     class BalanceListener implements ActionListener {
         private JFrame frame;
-        
+
         // public BalanceListener(JFrame frame) {
-        //     this.frame = frame;
+        // this.frame = frame;
         // }
 
         public BalanceListener() {
-           
+
         }
 
-        public void actionPerformed( ActionEvent e ) {
-      
-            
+        public void actionPerformed(ActionEvent e) {
+
         }
     }
 
     class StockListener implements ActionListener {
         private JFrame frame;
-        
+
         // public StockListener(JFrame frame) {
-        //     this.frame = frame;
+        // this.frame = frame;
         // }
         public StockListener() {
-        
+
         }
 
-
-        public void actionPerformed( ActionEvent e ) {
-            //System.out.println( "Stock info will pop up" );
+        public void actionPerformed(ActionEvent e) {
+            // System.out.println( "Stock info will pop up" );
             JFrame newFrame = new CustomerTransacitonGUI(account);
             newFrame.setVisible(true);
-            //frame.dispose();
+            // frame.dispose();
         }
     }
 
-//    public static void main(String[] args) {
-        
-//         //Create a new frame
-//         JFrame frame = new CustomerTransactionGUI(account);
+    // public static void main(String[] args) {
 
-//         frame.setTitle( "Entry for Stock and Balance Info" );
-//         frame.setSize(350,200);
-//         frame.setLocation( 200, 100 );
-//         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-//         frame.setVisible(true);
+    // //Create a new frame
+    // JFrame frame = new CustomerTransactionGUI(account);
 
-        
-//     }
+    // frame.setTitle( "Entry for Stock and Balance Info" );
+    // frame.setSize(350,200);
+    // frame.setLocation( 200, 100 );
+    // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    // frame.setVisible(true);
+
+    // }
 }

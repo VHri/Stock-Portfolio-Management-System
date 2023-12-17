@@ -78,7 +78,7 @@ public class CustomerMainGUI extends JFrame {
         add(balanceButton);
         add(stocksButton);
         add(notificationButton);
-        if(this.customer.getNetGain() > 10000) {
+        if (this.customer.getNetGain() > 10000) {
             add(derivativeTradingButton);
         }
 
@@ -100,12 +100,10 @@ public class CustomerMainGUI extends JFrame {
         add(netGainLabel);
         // netGainLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        numStocksOwnedLabel = new JLabel("Stocks owned: " + customer.getStocks().size());
+        numStocksOwnedLabel = new JLabel("Stocks Owned: " + customer.getStocks().size());
         numStocksOwnedLabel.setBounds(150, 100, 150, 25);
         add(numStocksOwnedLabel);
         // numStocksOwnedLabel.setHorizontalAlignment(JLabel.CENTER);
-
-     
 
         // PHANTOM LABEL:
         JLabel blank = new JLabel("");
@@ -136,7 +134,7 @@ public class CustomerMainGUI extends JFrame {
 
     private void handleBalanceButtonClick(ActionEvent e) {
 
-        JFrame newFrame = new CustomerBalanceGUI(customer, this);
+        JFrame newFrame = new CustomerBalanceGUI(system, this);
         newFrame.setVisible(true);
         setVisible(false);
     }
@@ -175,11 +173,11 @@ public class CustomerMainGUI extends JFrame {
     }
 
     public void updateLabels() {
-        balanceLabel.setText("Balance: " + customer.getBalance());
-        unrealizedProfitLabel.setText("Unrealized Profit: " + customer.getStocks().size());
-        netGainLabel.setText("Realized Profit: " + customer.getNetGain());
-        numStocksOwnedLabel.setText("Stocks owned: " + customer.getStocks().size());
-        
+        balanceLabel.setText("Balance: " + system.getCurrentCustomer().getBalance());
+        netGainLabel.setText("Realized Profit: " + system.getCurrentCustomer().getNetGain());
+        numStocksOwnedLabel.setText("Stocks Owned: " + system.getCurrentCustomer().getStocks().size());
+        unrealizedProfitLabel.setText(
+                "Unrealized Profit: " + system.getCurrentCustomer().computeUnrealizedProfit(system.getMarket()));
 
     }
 

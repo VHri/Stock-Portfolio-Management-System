@@ -134,13 +134,20 @@ public class CustomerStockGUI extends JFrame {
 
         StockMarket market = system.getMarket();
         Stock s = market.getStockBySymbol(symbol);
+        double cost = system.getMarket().getPriceOf(s) * shareCnt;
 
         if (s == null) {
             JOptionPane.showMessageDialog(this, "Entered stock ticker symbol does not exist in market: " + symbol);
             return;
         }
 
-        system.getCurrentCustomer().buyStock(s, shareCnt);
+        int customerResult = system.getCurrentCustomer().buyStock(s, shareCnt);
+
+        if (customerResult == Constant.NOT_ENOUGH_BALANCE) {
+
+            JOptionPane.showMessageDialog(this, "Not enough balance on your account: " + cost);
+            return;
+        }
 
         updateTables();
         // pop msgbox
@@ -171,7 +178,12 @@ public class CustomerStockGUI extends JFrame {
             return;
         }
 
-        system.getCurrentCustomer().sellStock(s, shareCnt, market);
+        int customerResult = system.getCurrentCustomer().sellStock(s, shareCnt, market);
+
+        if (customerResult == Constant.TOO_MANY_SHARE) {
+            JOptionPane.showMessageDialog(this, "Entered number of shares too many");
+            return;
+        }
 
         updateTables();
         // pop msgbox
@@ -221,5 +233,9 @@ public class CustomerStockGUI extends JFrame {
         marketStockTable = createMarketStockTable();
         marketPane.setViewportView(marketStockTable);
 
+    }
+
+    private void tradeMsg(String s) {
+        JOptionPane.showMessageDialog(this, s);
     }
 }

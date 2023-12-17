@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -25,7 +26,7 @@ public class LoginGUI extends JFrame {
     private JPasswordField passwordText;
     private LoginListener loginLabel;
     private SigninListener signinLabel;
-    private JLabel message;
+    // private JLabel message;
 
     private PortfolioManageSystem system;
 
@@ -86,9 +87,9 @@ public class LoginGUI extends JFrame {
         add(panel);
 
         // Success/Failiure message
-        message = new JLabel("");
-        message.setBounds(10, 110, 300, 25);
-        panel.add(message);
+        // message = new JLabel("");
+        // message.setBounds(10, 110, 300, 25);
+        // panel.add(message);
 
         setVisible(true);
 
@@ -118,26 +119,26 @@ public class LoginGUI extends JFrame {
 
             switch (identity) {
                 case Constant.APPROVED_USER:
-                    message.setText("Customer Login Successful.");
                     Customer c = system.getCustomer(username);
                     JFrame newFrame = new CustomerMainGUI(system, username);
                     newFrame.setVisible(true);
                     frame.dispose();
                     break;
                 case Constant.MANAGER:
-                    message.setText("Manager Login Successful.");
-                    // ManagerGUI.run(system.getStocks());
                     new ManagerMainGUI();
                     frame.dispose();
                     break;
                 case Constant.UNAPPROVED_USER:
-                    message.setText("Pending user, wait for manager approval.");
+                    JOptionPane.showMessageDialog(frame, "Pending user, wait for manager approval.");
+                    // message.setText("Pending user, wait for manager approval.");
                     break;
                 case Constant.WRONG_PASSWORD:
-                    message.setText("Wrong pass word, try again");
+                    JOptionPane.showMessageDialog(frame, "Wrong pass word, try again");
+                    // message.setText("Wrong pass word, try again");
                     break;
                 default:
-                    System.err.println("Login Failed");
+                    JOptionPane.showMessageDialog(frame, "Login Failed");
+                    // System.err.println("Login Failed");
             }
 
         }
@@ -167,21 +168,21 @@ public class LoginGUI extends JFrame {
             switch (result) {
                 case Constant.WRONG_PASSWORD:
                 case Constant.APPROVED_USER:
-                    message.setText("Username already exist as a customer.");
+                    JOptionPane.showMessageDialog(frame, "Username already exist as a customer.");
                     break;
                 case Constant.MANAGER:
-                    message.setText("Username already exist as a manager.");
+                    JOptionPane.showMessageDialog(frame, "Username already exist as a manager.");
                     break;
                 case Constant.UNAPPROVED_USER:
-                    message.setText("Pending user, please wait for manager approval.");
+                    JOptionPane.showMessageDialog(frame, "Pending user, please wait for manager approval.");
                     break;
                 case Constant.SUCCESS:
-                    message.setText("Sign in success, please wait for manager approval.");
+                    JOptionPane.showMessageDialog(frame, "Sign in success, please wait for manager approval.");
                     break;
                 case Constant.FAILURE:
-                    message.setText("Sign in failed.");
+                    JOptionPane.showMessageDialog(frame, "Sign in failed.");
                 default:
-                    System.err.println("");
+                    JOptionPane.showMessageDialog(frame, "Something wrong with sign-in");
             }
 
         }
@@ -194,35 +195,23 @@ public class LoginGUI extends JFrame {
 
     private boolean lengthValid(String username, String password) {
         if (username.length() > Constant.MAX_USERNAME_LEN) {
-            message.setText("Username too long : <" + Constant.MAX_USERNAME_LEN);
+
+            JOptionPane.showMessageDialog(this, "Username too long : <" + Constant.MAX_USERNAME_LEN);
             return false;
         } else if (username.length() < Constant.MIN_USERNAME_LEN) {
-            message.setText("Username too short: >" + Constant.MIN_USERNAME_LEN);
+            JOptionPane.showMessageDialog(this, "Username too short: >" + Constant.MIN_USERNAME_LEN);
             return false;
         }
 
         if (password.length() > Constant.MAX_PW_LEN) {
-            message.setText("Password too long : <" + Constant.MAX_PW_LEN);
+            JOptionPane.showMessageDialog(this, "Password too long : <" + Constant.MAX_PW_LEN);
             return false;
         } else if (password.length() < Constant.MIN_PW_LEN) {
-            message.setText("Password too short: >" + Constant.MIN_PW_LEN);
+            JOptionPane.showMessageDialog(this, "Password too short: >" + Constant.MIN_PW_LEN);
             return false;
         }
         return true;
     }
 
-    // public static void main(String[] args) {
 
-    // //Create a new frame
-    // JFrame frame = new LoginGUI();
-    // //frame = new LoginGUI();
-
-    // frame.setTitle( "Customer Login" );
-    // frame.setSize(350,200);
-    // frame.setLocation( 200, 100 );
-    // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    // frame.setVisible(true);
-
-    // }
 }
