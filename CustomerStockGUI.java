@@ -243,8 +243,4 @@ public class CustomerStockGUI extends JFrame {
         marketPane.setViewportView(marketStockTable);
 
     }
-
-    private void tradeMsg(String s) {
-        JOptionPane.showMessageDialog(this, s);
-    }
 }
