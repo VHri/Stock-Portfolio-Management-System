@@ -14,9 +14,20 @@ public class CustomerDerivativeAccountGUI extends PortfolioFrame {
 
         this.customer = customer;
 
-        // Main panel that will contain the money info sections
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        JButton returnButton = new JButton("Back");
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                prev.setVisible(true);
+                prev.updateLabels();
+
+            }
+        });
+        mainPanel.add(returnButton, BorderLayout.WEST);
 
         notificationLabel = new JLabel();
         notificationLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -26,24 +37,9 @@ public class CustomerDerivativeAccountGUI extends PortfolioFrame {
         add(mainPanel, BorderLayout.CENTER);
 
         JButton button = new JButton("Create");
-        add(button, BorderLayout.SOUTH);
-        JButton returnButton = new JButton("Back");
-        returnButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO: Action for return button goes here
+        mainPanel.add(button, BorderLayout.SOUTH);
 
-                dispose();
-                prev.setVisible(true);
-                prev.updateLabels();
-
-            }
-        });
-
-        mainPanel.add(returnButton, BorderLayout.WEST);
-
-        setNotificationMessage(
-                "Here you can create a derivative trading account!\n Click the create button below to get started");
+        setNotificationMessage("<html><center>Create a derivative trading account here!<br>Click the 'Create' button below to get started</center></html>");
         setVisible(true);
     }
 
