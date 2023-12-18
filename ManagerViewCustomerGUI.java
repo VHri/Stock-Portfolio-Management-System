@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class ManagerViewCustomerGUI extends JFrame {
+public class ManagerViewCustomerGUI extends PortfolioFrame {
     private JList<String> customerList;
     private DefaultListModel<String> listModel;
     private JTextArea customerDetailsTextArea;
@@ -15,9 +15,9 @@ public class ManagerViewCustomerGUI extends JFrame {
     private JPanel leftPanel;
 
     public ManagerViewCustomerGUI() {
-        setTitle("Manager View Customer GUI");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        super("Manager View Customer GUI");
+        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // setSize(800, 600);
 
         // Create a panel for the customer list
         leftPanel = new JPanel();
@@ -27,7 +27,8 @@ public class ManagerViewCustomerGUI extends JFrame {
         JLabel headerInstructionsLabel = new JLabel("Customer List - Select a customer to see further details:");
         leftPanel.add(headerInstructionsLabel, BorderLayout.NORTH);
 
-        // Create a list model for the JList and add non-Manager users in the list for manager's view
+        // Create a list model for the JList and add non-Manager users in the list for
+        // manager's view
         populateCustomerList();
 
         // Add the JList to a scroll pane
@@ -52,7 +53,7 @@ public class ManagerViewCustomerGUI extends JFrame {
 
         // Create a button panel for the "Approve Customer" button
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        
+
         // Create a button for approving customers
         approveCustomerButton = new JButton("Approve Customer");
         approveCustomerButton.addActionListener(new ActionListener() {
@@ -70,7 +71,6 @@ public class ManagerViewCustomerGUI extends JFrame {
 
         // Add the button panel to the bottom of the left panel
         rightPanel.add(buttonPanel, BorderLayout.SOUTH);
-
 
         // Add back button and handle the action
         JPanel returnPanel = new JPanel();
@@ -93,14 +93,15 @@ public class ManagerViewCustomerGUI extends JFrame {
         setVisible(true);
     }
 
-    private Customer returnSelectedCustomer(int selectedIndex){
+    private Customer returnSelectedCustomer(int selectedIndex) {
         return Database.getCustomer((String) (listModel.getElementAt(selectedIndex)).split("-", 2)[0].trim());
     }
 
     private void displaySelectedCustomer() {
         int selectedIndex = customerList.getSelectedIndex();
         if (selectedIndex != -1) {
-            // Customer selected_customer = Database.getCustomer((String) (listModel.getElementAt(selectedIndex)).split("-", 2)[0].trim());
+            // Customer selected_customer = Database.getCustomer((String)
+            // (listModel.getElementAt(selectedIndex)).split("-", 2)[0].trim());
             Customer selected_customer = returnSelectedCustomer(selectedIndex);
             customerDetailsTextArea.setText(
                     String.format(
@@ -109,35 +110,34 @@ public class ManagerViewCustomerGUI extends JFrame {
                             Database.getAccountStatus(selected_customer.getUsername()),
                             selected_customer.getBalance(),
                             selected_customer.getNetGain(),
-                            selected_customer.computeUnrealizedProfit(new StockMarket())
-                    )
-                );
+                            selected_customer.computeUnrealizedProfit(new StockMarket())));
             // iterate through all the stocks and print it
-            for(Stock s: Database.getCustomerStocks(selected_customer.getUsername())){
+            for (Stock s : Database.getCustomerStocks(selected_customer.getUsername())) {
                 customerDetailsTextArea.append("--------------------------------------\n");
                 customerDetailsTextArea.append(s.toString());
             }
             customerDetailsTextArea.append("--------------------------------------\n");
             // Show the "Approve Customer" button when a customer is selected
-            if(Database.getAccountStatus(selected_customer.getUsername()).equalsIgnoreCase(Constant.UNAPPROVED_STATUS)){
+            if (Database.getAccountStatus(selected_customer.getUsername())
+                    .equalsIgnoreCase(Constant.UNAPPROVED_STATUS)) {
                 approveCustomerButton.setVisible(true);
-            }
-            else { // Hide the button if selected customer is approved
+            } else { // Hide the button if selected customer is approved
                 approveCustomerButton.setVisible(false);
             }
-        }
-        else { // Hide the button if no customer is selected
+        } else { // Hide the button if no customer is selected
             approveCustomerButton.setVisible(false);
         }
     }
 
-    private void populateCustomerList(){
+    private void populateCustomerList() {
         ArrayList<Customer> customers = Database.getCustomers();
-        // Create a default list model for the JList and add non-Manager users in the list
+        // Create a default list model for the JList and add non-Manager users in the
+        // list
         listModel = new DefaultListModel<>();
         for (Customer c : customers) {
             if (!Database.getAccountStatus(c.getUsername()).equalsIgnoreCase(Constant.MANAGER_STATUS)) {
-                listModel.addElement(String.format("%s - %s", c.getUsername(), Database.getAccountStatus(c.getUsername())));
+                listModel.addElement(
+                        String.format("%s - %s", c.getUsername(), Database.getAccountStatus(c.getUsername())));
             }
         }
         // Create the JList with the default list model
@@ -154,8 +154,9 @@ public class ManagerViewCustomerGUI extends JFrame {
     }
 
     private void handleApproveCustomerButtonClick() {
-        // logic for approving customers and update the customerDetailsTextArea accordingly
-        try{
+        // logic for approving customers and update the customerDetailsTextArea
+        // accordingly
+        try {
             Customer selected_customer = returnSelectedCustomer(customerList.getSelectedIndex());
             Database.changeAccountStatus(selected_customer.getUsername(), Constant.CUSTOMER_STATUS);
             customerDetailsTextArea.append("\n\n\n\n\n\n\nApproval Status: Approved!");
@@ -163,8 +164,7 @@ public class ManagerViewCustomerGUI extends JFrame {
             // Repopulate the customer list to refresh the left panel
             populateCustomerList();
             approveCustomerButton.setVisible(false); // Hide the button after approval
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             customerDetailsTextArea.append("\n\n\n\n\n\n\nSomething went wrong while approving customer");
         }
     }
@@ -173,6 +173,3 @@ public class ManagerViewCustomerGUI extends JFrame {
         new ManagerViewCustomerGUI();
     }
 }
-
-
-

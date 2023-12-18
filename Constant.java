@@ -42,4 +42,8 @@ public class Constant {
     public static final String LOGOUT_BUTTON_IMG_PATH = "./img/logout-icon.png";
 
     public static double SUPER_CUSTOMER_PROFIT_THRESHOLD = 10000.00;
+
+    public static double WINDOW_RATIO = 0.6;
+    public static double LOGIN_WINDOW_RATIO = 0.3;
+    public static int GLOBAL_FONT_SIZE = 15;
 }

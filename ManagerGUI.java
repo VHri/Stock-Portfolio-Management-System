@@ -5,22 +5,25 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
-public class ManagerGUI extends JFrame {
+public class ManagerGUI extends PortfolioFrame {
     private JButton editStocksButton, viewCustomersButton;
     private ArrayList<Stock> stockList;
     private ArrayList<Customer> customers;
     private String[] stockColumnNames, customerColumnNames;
     private DefaultTableModel tableModel; // Declare the table model as an instance variable
 
-    public ManagerGUI(ArrayList<Stock> stockList, String[] stockColumnNames, ArrayList<Customer> customers, String[] customerColumnNames) {
+    public ManagerGUI(ArrayList<Stock> stockList, String[] stockColumnNames, ArrayList<Customer> customers,
+            String[] customerColumnNames) {
+
+        super("Manager Edit Stocks GUI");
         this.stockList = stockList;
         this.stockColumnNames = stockColumnNames;
         this.customerColumnNames = customerColumnNames;
         this.customers = customers;
         // Set up JFrame
-        setTitle("Manager Edit Stocks GUI");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 400);
+        // setTitle("Manager Edit Stocks GUI");
+        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // setSize(400, 400);
 
         // Create the "Edit Stocks" button
         editStocksButton = new JButton("Edit Stocks");
@@ -37,7 +40,7 @@ public class ManagerGUI extends JFrame {
         setVisible(true);
     }
 
-    public void clearJFrame(){
+    public void clearJFrame() {
         remove(editStocksButton);
         remove(viewCustomersButton);
     }
@@ -47,7 +50,17 @@ public class ManagerGUI extends JFrame {
         // Set up JFrame
         setTitle("Manager View Customers");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 400);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+
+        int frameWidth = (int) (width * Constant.WINDOW_RATIO);
+        int frameHeight = (int) (height * Constant.WINDOW_RATIO);
+        setSize(frameWidth, frameHeight);
+        setLocationRelativeTo(null);
+
+        // setSize(900, 400);
         // create table for viewing customer data
         tableModel = new DefaultTableModel(getTableFormattedCustomerData(this.customers), customerColumnNames);
         // Create the table using the model
@@ -72,7 +85,14 @@ public class ManagerGUI extends JFrame {
         // Set up JFrame
         setTitle("Manager Stock Editor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 400);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+
+        int frameWidth = (int) (width * Constant.WINDOW_RATIO);
+        int frameHeight = (int) (height * Constant.WINDOW_RATIO);
+        setSize(frameWidth, frameHeight);
+        setLocationRelativeTo(null);
         // Create a table model
         tableModel = new DefaultTableModel(getTableFormattedStockData(this.stockList), stockColumnNames);
 
@@ -122,13 +142,13 @@ public class ManagerGUI extends JFrame {
         tableModel.setDataVector(getTableFormattedStockData(stockList), stockColumnNames);
 
         // for (Stock i : this.stockList) {
-        //     System.out.printf("%s: %f%n", i.getTickerSymbol(), i.getPrice());
-            
+        // System.out.printf("%s: %f%n", i.getTickerSymbol(), i.getPrice());
+
         // }
 
     }
 
-    public Object[][] getTableFormattedStockData(ArrayList<Stock> stockList){
+    public Object[][] getTableFormattedStockData(ArrayList<Stock> stockList) {
         Object[][] data = new Object[stockList.size()][4];
         for (int i = 0; i < stockList.size(); i++) {
             Stock stock = stockList.get(i);
@@ -140,7 +160,7 @@ public class ManagerGUI extends JFrame {
         return data;
     }
 
-    public Object[][] getTableFormattedCustomerData(ArrayList<Customer> customers){
+    public Object[][] getTableFormattedCustomerData(ArrayList<Customer> customers) {
         Object[][] data = new Object[stockList.size()][5];
         for (int i = 0; i < customers.size(); i++) {
             Customer customer = customers.get(i);
@@ -153,32 +173,32 @@ public class ManagerGUI extends JFrame {
         return data;
     }
 
-    
-    public static void run(ArrayList<Stock> stockList){
-        String[] stockColumnNames = {"Symbol", "Company", "Shares", "Price"};
+    public static void run(ArrayList<Stock> stockList) {
+        String[] stockColumnNames = { "Symbol", "Company", "Shares", "Price" };
         ArrayList<Stock> stocks = Database.getStocks();
-        String[] customerColumnNames = {"Username", "Password", "Balance", "Realized Profit", "# Stocks"};
+        String[] customerColumnNames = { "Username", "Password", "Balance", "Realized Profit", "# Stocks" };
         ArrayList<Customer> customers = Database.getCustomers();
         new ManagerGUI(stocks, stockColumnNames, customers, customerColumnNames);
 
     }
 
-    public static void main(String[] args) {
-        String[] stockColumnNames = {"Symbol", "Company", "Shares", "Price"};
-        ArrayList<Stock> stocks = new ArrayList<Stock>();
-        stocks.add(new Stock("Stock1", "S1", 13.5, 100));
-        stocks.add(new Stock("Stock2", "S2", 15.7, 200));
-        stocks.add(new Stock("Stock3", "S3", 135.9, 300));
-        stocks.add(new Stock("Stock4", "S4", 0.1, 400));
-        // stocks = Database.getStocks(); // fetch all stocks from database
-        // customers = //fetch all customers from database
-        String[] customerColumnNames = {"Username", "Password", "Balance", "NetGain", "# Stocks"};
-        ArrayList<Customer> customers = new ArrayList<Customer>();
-        customers.add(new Customer("Cust1", "p1", 312.3));
-        customers.add(new Customer("Cust2", "p2", 32.3));
-        customers.add(new Customer("Cust3", "p3", 12.3));
-        customers.add(new Customer("Cust4", "p4", 31.3));
-        
-        new ManagerGUI(stocks, stockColumnNames, customers, customerColumnNames);
-    }
+    // public static void main(String[] args) {
+    // String[] stockColumnNames = { "Symbol", "Company", "Shares", "Price" };
+    // ArrayList<Stock> stocks = new ArrayList<Stock>();
+    // stocks.add(new Stock("Stock1", "S1", 13.5, 100));
+    // stocks.add(new Stock("Stock2", "S2", 15.7, 200));
+    // stocks.add(new Stock("Stock3", "S3", 135.9, 300));
+    // stocks.add(new Stock("Stock4", "S4", 0.1, 400));
+    // // stocks = Database.getStocks(); // fetch all stocks from database
+    // // customers = //fetch all customers from database
+    // String[] customerColumnNames = { "Username", "Password", "Balance",
+    // "NetGain", "# Stocks" };
+    // ArrayList<Customer> customers = new ArrayList<Customer>();
+    // customers.add(new Customer("Cust1", "p1", 312.3));
+    // customers.add(new Customer("Cust2", "p2", 32.3));
+    // customers.add(new Customer("Cust3", "p3", 12.3));
+    // customers.add(new Customer("Cust4", "p4", 31.3));
+
+    // new ManagerGUI(stocks, stockColumnNames, customers, customerColumnNames);
+    // }
 }
