@@ -3,9 +3,8 @@ CS611 Final project
 
 ### Student Details
 
-Name: Mary Choe, Xiaoyang Guo, Sonja Poe, Hrishav Varma
-Email: ADD EMAILS,svpoe@bu.edu
-Student ID: 
+Name/Student ID: Mary Choe/U97609234, Xiaoyang Guo, Sonja Poe, Hrishav Varma
+Email: ADD EMAILS,svpoe@bu.edu, marychoe@bu.edu
 
 To run:
 
