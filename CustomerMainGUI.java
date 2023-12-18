@@ -13,13 +13,10 @@ public class CustomerMainGUI extends PortfolioFrame {
     private JButton derivativeTradingButton;
     private JButton logoutButton;
     private ArrayList<Stock> customerStockList;
-    private ArrayList<Customer> customers;
     // private Double currentBalance;
-    private ArrayList<Double> netValueHistory;
-    private String[] stockColumnNames, customerColumnNames;
+    private String[] stockColumnNames;
     private DefaultTableModel tableModel; // Declare the table model as an instance variable
 
-    private Account account;
     private Customer customer;
     private StockMarket stockMarket;
     private JLabel balanceLabel;
@@ -42,9 +39,6 @@ public class CustomerMainGUI extends PortfolioFrame {
         this.customerStockList = Database.getCustomerStocks(username);
 
         // Set up JFrame
-
-        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // setSize(400, 400);
 
         // Create Buttons
         int buttonWidth = 200;
