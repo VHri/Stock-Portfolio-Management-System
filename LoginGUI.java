@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 
-public class LoginGUI extends JFrame {
+public class LoginGUI extends PortfolioFrame {
 
     private JButton loginButton;
     private JButton signinButton;
@@ -31,20 +31,20 @@ public class LoginGUI extends JFrame {
     private PortfolioManageSystem system;
 
     public LoginGUI(PortfolioManageSystem system) {
-
+        super("Login", Constant.LOGIN_WINDOW_RATIO);
         this.system = system;
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = screenSize.getWidth();
-        double height = screenSize.getHeight();
+        // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        // double width = screenSize.getWidth();
+        // double height = screenSize.getHeight();
 
-        // Calculate 70% of the screen size
-        int frameWidth = (int) (width * 0.3);
-        int frameHeight = (int) (height * 0.3);
+        // // Calculate 70% of the screen size
+        // int frameWidth = (int) (width * 0.3);
+        // int frameHeight = (int) (height * 0.3);
 
-        setSize(frameWidth, frameHeight);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // setSize(frameWidth, frameHeight);
+        // setLocationRelativeTo(null);
+        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create panel to place buttons on
         panel = new JPanel(null);
@@ -212,6 +212,5 @@ public class LoginGUI extends JFrame {
         }
         return true;
     }
-
 
 }

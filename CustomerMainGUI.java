@@ -5,20 +5,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
-public class CustomerMainGUI extends JFrame {
+public class CustomerMainGUI extends PortfolioFrame {
 
     private JButton balanceButton;
     private JButton stocksButton;
     private JButton notificationButton;
     private JButton derivativeTradingButton;
+    private JButton logoutButton;
     private ArrayList<Stock> customerStockList;
-    private ArrayList<Customer> customers;
     // private Double currentBalance;
-    private ArrayList<Double> netValueHistory;
-    private String[] stockColumnNames, customerColumnNames;
+    private String[] stockColumnNames;
     private DefaultTableModel tableModel; // Declare the table model as an instance variable
 
-    private Account account;
     private Customer customer;
     private StockMarket stockMarket;
     private JLabel balanceLabel;
@@ -30,21 +28,10 @@ public class CustomerMainGUI extends JFrame {
 
     public CustomerMainGUI(PortfolioManageSystem system, String username) {
 
+        super(username + " Info Page");
+
         this.system = system;
         this.stockMarket = system.getMarket();
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = screenSize.getWidth();
-        double height = screenSize.getHeight();
-
-        // Calculate 70% of the screen size
-        int frameWidth = (int) (width * 0.7);
-        int frameHeight = (int) (height * 0.7);
-
-        setSize(frameWidth, frameHeight);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
 
         // System.out.println(customerStockList.get(0));
         this.customer = Database.getCustomer(username);
@@ -52,64 +39,60 @@ public class CustomerMainGUI extends JFrame {
         this.customerStockList = Database.getCustomerStocks(username);
 
         // Set up JFrame
-        setTitle(username + " Info Page");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 400);
 
         // Create Buttons
-        balanceButton = new JButton("View Stocks");
+        int buttonWidth = 200;
+        int buttonSpacing = 20;
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        balanceButton = addButton("View Stocks", buttonPanel, buttonWidth, buttonSpacing);
         balanceButton.addActionListener(this::handleStocksButtonClick);
 
-        stocksButton = new JButton("Adjust Balance");
+        stocksButton = addButton("Adjust Balance", buttonPanel, buttonWidth, buttonSpacing);
         stocksButton.addActionListener(this::handleBalanceButtonClick);
 
-        notificationButton = new JButton("View Notifications");
+        notificationButton = addButton("View Notifications", buttonPanel, buttonWidth, buttonSpacing);
         notificationButton.addActionListener(this::handleNotificationButtonClick);
 
-        derivativeTradingButton = new JButton("Derivative Trading");
-        derivativeTradingButton.addActionListener(this::handleDerivativeTradingButtonClick);
-
-        // add(stocksButton, BorderLayout.NORTH);
-        // add(balanceButton, BorderLayout.SOUTH);
-        balanceButton.setBounds(150, 200, 150, 50);
-        stocksButton.setBounds(150, 250, 150, 50);
-        notificationButton.setBounds(150, 300, 150, 50);
-        derivativeTradingButton.setBounds(150, 350, 150, 50);
-        add(balanceButton);
-        add(stocksButton);
-        add(notificationButton);
         if (this.customer.getNetGain() > 10000) {
-            add(derivativeTradingButton);
+            derivativeTradingButton = addButton("Derivative Trading", buttonPanel, buttonWidth, buttonSpacing);
+            derivativeTradingButton.addActionListener(this::handleDerivativeTradingButtonClick);
         }
+
+        logoutButton = addButton("Logout", buttonPanel, buttonWidth, buttonSpacing);
+        logoutButton.addActionListener(e -> handleLogoutButtonClick());
 
         // setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         // System.out.println("CUSTOMER BALANCE: " + customer.getBalance());
         // Text fields for Customer General Info
-        balanceLabel = new JLabel("Balance: " + customer.getBalance());
-        balanceLabel.setBounds(150, 25, 150, 25); // x,y,width,height
-        // add(balanceLabel);
-        add(balanceLabel);
-        // balanceLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        unrealizedProfitLabel = new JLabel("Unrealized profit: " + customer.computeUnrealizedProfit(stockMarket));
-        unrealizedProfitLabel.setBounds(150, 50, 150, 25);
-        add(unrealizedProfitLabel);
+        int textWidth = 200;
+        int textSpacing = 20;
+        JPanel textPanel = new JPanel();
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
 
-        netGainLabel = new JLabel("Realized profit: " + customer.getNetGain());
-        netGainLabel.setBounds(150, 75, 150, 25);
-        add(netGainLabel);
-        // netGainLabel.setHorizontalAlignment(JLabel.CENTER);
+        balanceLabel = addLabel("Balance: " + customer.getBalance(), textPanel, textWidth, textSpacing);
 
-        numStocksOwnedLabel = new JLabel("Stocks Owned: " + customer.getStocks().size());
-        numStocksOwnedLabel.setBounds(150, 100, 150, 25);
-        add(numStocksOwnedLabel);
-        // numStocksOwnedLabel.setHorizontalAlignment(JLabel.CENTER);
+        unrealizedProfitLabel = addLabel(
+                "Unrealized profit: " + customer.computeUnrealizedProfit(stockMarket),
+                textPanel, textWidth,
+                textSpacing);
 
-        // PHANTOM LABEL:
-        JLabel blank = new JLabel("");
-        blank.setBounds(150, 125, 150, 25);
-        add(blank);
+        netGainLabel = addLabel("Realized profit: " + customer.getNetGain(),
+                textPanel, textWidth,
+                textSpacing);
 
+        numStocksOwnedLabel = addLabel("Stocks Owned: " +
+                customer.getStocks().size(), textPanel,
+                textWidth, textSpacing);
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 50)));
+        mainPanel.add(textPanel);
+        mainPanel.add(buttonPanel);
+
+        add(mainPanel);
         // Display the frame
         setVisible(true);
     }
@@ -170,6 +153,12 @@ public class CustomerMainGUI extends JFrame {
             data[i][3] = stock.getPrice();
         }
         return data;
+    }
+
+    private void handleLogoutButtonClick() {
+        System.out.println("Manager Logout");
+        LoginGUI.run(new PortfolioManageSystem()); // Open login GUI
+        dispose(); // close current frame
     }
 
     public void updateLabels() {

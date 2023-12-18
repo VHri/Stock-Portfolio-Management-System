@@ -6,17 +6,14 @@ import java.awt.event.ActionListener;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class ManagerEditStocksGUI extends JFrame {
+public class ManagerEditStocksGUI extends PortfolioFrame {
     private ArrayList<Stock> stockList;
-    private String[] stockColumnNames= {"Symbol", "Company", "Shares", "Price"};
+    private String[] stockColumnNames = { "Symbol", "Company", "Shares", "Price" };
     private DefaultTableModel tableModel; // Declare the table model as an instance variable
 
     public ManagerEditStocksGUI() {
+        super("Manager Stock Editor GUI");
         this.stockList = Database.getStocks();
-        // Set up JFrame
-        setTitle("Manager Stock Editor GUI");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 400);
         // Create a table model
         tableModel = new DefaultTableModel(getTableFormattedStockData(this.stockList), stockColumnNames);
 
@@ -37,7 +34,7 @@ public class ManagerEditStocksGUI extends JFrame {
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // ManagerGUI.run(Database.getStocks()); 
+                // ManagerGUI.run(Database.getStocks());
                 new ManagerMainGUI(); // open ManagerMainGUI
                 dispose(); // dispose of current frame
             }
@@ -78,7 +75,7 @@ public class ManagerEditStocksGUI extends JFrame {
         tableModel.setDataVector(getTableFormattedStockData(stockList), stockColumnNames);
     }
 
-    public Object[][] getTableFormattedStockData(ArrayList<Stock> stockList){
+    public Object[][] getTableFormattedStockData(ArrayList<Stock> stockList) {
         Object[][] data = new Object[stockList.size()][4];
         for (int i = 0; i < stockList.size(); i++) {
             Stock stock = stockList.get(i);

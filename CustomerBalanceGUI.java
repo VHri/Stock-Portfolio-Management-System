@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class CustomerBalanceGUI extends JFrame {
+public class CustomerBalanceGUI extends PortfolioFrame {
 
     private JTextField depositField;
     private JTextField withdrawField;
@@ -15,12 +15,10 @@ public class CustomerBalanceGUI extends JFrame {
     private PortfolioManageSystem system;
 
     public CustomerBalanceGUI(PortfolioManageSystem system, CustomerMainGUI prev) {
+
+        super("Account Balance");
         this.customer = system.getCurrentCustomer();
         this.system = system;
-        setTitle("Account Balance");
-        setSize(700, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
 
         // Main panel that will contain the money info sections
         JPanel mainPanel = new JPanel();

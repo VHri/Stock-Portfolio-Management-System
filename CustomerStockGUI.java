@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CustomerStockGUI extends JFrame {
+public class CustomerStockGUI extends PortfolioFrame {
 
     private JTextField stockSymbolField;
     private JTextField numberOfSharesField;
@@ -18,22 +18,8 @@ public class CustomerStockGUI extends JFrame {
 
     public CustomerStockGUI(PortfolioManageSystem system, CustomerMainGUI prevFrame) {
 
+        super("Customer Stock Center");
         this.system = system;
-
-        setTitle("Customer Stock Center");
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = screenSize.getWidth();
-        double height = screenSize.getHeight();
-
-        // Calculate 70% of the screen size
-        int frameWidth = (int) (width * 0.7);
-        int frameHeight = (int) (height * 0.7);
-
-        setSize(frameWidth, frameHeight);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
 
         // Main panel that will contain the two stock sections
         JPanel mainPanel = new JPanel();
