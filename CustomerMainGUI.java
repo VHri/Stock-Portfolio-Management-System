@@ -3,6 +3,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class CustomerMainGUI extends PortfolioFrame {
@@ -40,10 +41,14 @@ public class CustomerMainGUI extends PortfolioFrame {
 
         // Set up JFrame
 
+        int topSpacing = 90;
+        int spacing = 30;
+
         // Create Buttons
         int buttonWidth = 200;
-        int buttonSpacing = 20;
+        int buttonSpacing = spacing;
         JPanel buttonPanel = new JPanel();
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, topSpacing)));
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         balanceButton = addButton("View Stocks", buttonPanel, buttonWidth, buttonSpacing);
         balanceButton.addActionListener(this::handleStocksButtonClick);
@@ -54,10 +59,9 @@ public class CustomerMainGUI extends PortfolioFrame {
         notificationButton = addButton("View Notifications", buttonPanel, buttonWidth, buttonSpacing);
         notificationButton.addActionListener(this::handleNotificationButtonClick);
 
-        if (this.customer.getNetGain() > 10000) {
-            derivativeTradingButton = addButton("Derivative Trading", buttonPanel, buttonWidth, buttonSpacing);
-            derivativeTradingButton.addActionListener(this::handleDerivativeTradingButtonClick);
-        }
+        derivativeTradingButton = addButton("Derivative Trading", buttonPanel, buttonWidth, buttonSpacing);
+        derivativeTradingButton.addActionListener(this::handleDerivativeTradingButtonClick);
+        derivativeTradingButton.setEnabled(this.customer.getNetGain() > 10000);
 
         logoutButton = addButton("Logout", buttonPanel, buttonWidth, buttonSpacing);
         logoutButton.addActionListener(e -> handleLogoutButtonClick());
@@ -67,29 +71,36 @@ public class CustomerMainGUI extends PortfolioFrame {
         // Text fields for Customer General Info
 
         int textWidth = 200;
-        int textSpacing = 20;
+        int textSpacing = spacing;
+        DecimalFormat df = new DecimalFormat("0.000");
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+        textPanel.add(Box.createRigidArea(new Dimension(0, topSpacing)));
 
-        balanceLabel = addLabel("Balance: " + customer.getBalance(), textPanel, textWidth, textSpacing);
+        balanceLabel = addLabel("Username: " + customer.getUsername(), textPanel, textWidth, textSpacing);
+        balanceLabel = addLabel("Balance: " + df.format(customer.getBalance()), textPanel, textWidth, textSpacing);
 
         unrealizedProfitLabel = addLabel(
-                "Unrealized profit: " + customer.computeUnrealizedProfit(stockMarket),
+                "Unrealized profit: " + df.format(customer.computeUnrealizedProfit(stockMarket)),
                 textPanel, textWidth,
                 textSpacing);
 
-        netGainLabel = addLabel("Realized profit: " + customer.getNetGain(),
+        netGainLabel = addLabel(
+                "Realized profit: " + df.format(customer.getNetGain()),
                 textPanel, textWidth,
                 textSpacing);
 
-        numStocksOwnedLabel = addLabel("Stocks Owned: " +
-                customer.getStocks().size(), textPanel,
+        numStocksOwnedLabel = addLabel(
+                "Stocks Owned: " + customer.getStocks().size(),
+                textPanel,
                 textWidth, textSpacing);
 
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 50)));
+        // mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setLayout(new FlowLayout());
+        // mainPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         mainPanel.add(textPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(50, 0)));
         mainPanel.add(buttonPanel);
 
         add(mainPanel);
