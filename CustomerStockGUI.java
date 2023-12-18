@@ -151,7 +151,10 @@ public class CustomerStockGUI extends JFrame {
 
         updateTables();
         // pop msgbox
-        JOptionPane.showMessageDialog(this, "Purchased " + shares + " shares of " + symbol);
+        JOptionPane.showMessageDialog(this,
+                "Purchased " + shares + " shares of " + symbol + " at price " + system.getMarket().getPriceOf(s)
+                        + "\nSpent " + cost + " balance\nCurrent balance is "
+                        + system.getCurrentCustomer().getBalance());
     }
 
     private void sellStock() {
@@ -172,6 +175,7 @@ public class CustomerStockGUI extends JFrame {
 
         StockMarket market = system.getMarket();
         Stock s = market.getStockBySymbol(symbol);
+        double income = system.getMarket().getPriceOf(s) * shareCnt;
 
         if (s == null) {
             JOptionPane.showMessageDialog(this, "Entered stock ticker symbol does not exist in market: " + symbol);
@@ -187,21 +191,26 @@ public class CustomerStockGUI extends JFrame {
 
         updateTables();
         // pop msgbox
-        JOptionPane.showMessageDialog(this, "Sold " + shares + " shares of " + symbol);
+        // JOptionPane.showMessageDialog(this, "Sold " + shares + " shares of " +
+        // symbol);
+        JOptionPane.showMessageDialog(this,
+                "Sold " + shares + " shares of " + symbol + " at price " + system.getMarket().getPriceOf(s)
+                        + "\nBalance increased by " + income + "\nCurrent balance is "
+                        + system.getCurrentCustomer().getBalance());
     }
 
     private JTable createUserStockTable() {
         String[] columnNames;
         Customer c = system.getCurrentCustomer();
-        columnNames = new String[] { "Name", "Symbol", "Cost Basis", "Current Price", "Number of Shares" };
+        columnNames = new String[] { "Name", "Symbol", "Cost Basis", "Number of Shares" };
         Object[][] data = new Object[c.getStocks().size()][columnNames.length];
         for (int i = 0; i < c.getStocks().size(); i++) {
             Object[] sd = new Object[columnNames.length];
             sd[0] = c.getStocks().get(i).getName();
             sd[1] = c.getStocks().get(i).getTickerSymbol();
             sd[2] = c.getStocks().get(i).getTotalValue() / (double) c.getStocks().get(i).getCount();
-            sd[3] = c.getStocks().get(i).getPrice();
-            sd[4] = c.getStocks().get(i).getCount();
+            // sd[3] = c.getStocks().get(i).getPrice();
+            sd[3] = c.getStocks().get(i).getCount();
             data[i] = sd;
         }
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
