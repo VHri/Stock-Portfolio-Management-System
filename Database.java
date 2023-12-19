@@ -304,7 +304,7 @@ public class Database {
                         String username = resultSet.getString("username");
                         String symbol = resultSet.getString("symbol");
                         String timestamp = resultSet.getString("timestamp");
-                        String shares = resultSet.getString("shares");
+                        String shares = resultSet.getString("number_of_shares");
                         String price = resultSet.getString("price");
                         String status = resultSet.getString("status");
                         String[] array = {username, symbol, timestamp, shares, price, status};
