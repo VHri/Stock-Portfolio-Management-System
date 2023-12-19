@@ -1,3 +1,5 @@
+import java.text.DecimalFormat;
+
 public class Constant {
 
     /**
@@ -45,7 +47,12 @@ public class Constant {
 
     public static double SUPER_CUSTOMER_PROFIT_THRESHOLD = 10000.00;
 
-    public static double WINDOW_RATIO = 0.6;
+    public static double WINDOW_RATIO = 0.65;
     public static double LOGIN_WINDOW_RATIO = 0.3;
     public static int GLOBAL_FONT_SIZE = 15;
+
+    public static String round(double num) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(num);
+    }
 }

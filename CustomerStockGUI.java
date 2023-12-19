@@ -196,7 +196,7 @@ public class CustomerStockGUI extends PortfolioFrame {
             Object[] sd = new Object[columnNames.length];
             sd[0] = c.getStocks().get(i).getName();
             sd[1] = c.getStocks().get(i).getTickerSymbol();
-            sd[2] = c.getStocks().get(i).getTotalValue() / (double) c.getStocks().get(i).getCount();
+            sd[2] = Constant.round(c.getStocks().get(i).getTotalValue() / (double) c.getStocks().get(i).getCount());
             // sd[3] = c.getStocks().get(i).getPrice();
             sd[3] = c.getStocks().get(i).getCount();
             data[i] = sd;
@@ -213,7 +213,7 @@ public class CustomerStockGUI extends PortfolioFrame {
             Object[] sd = new Object[columnNames.length];
             sd[0] = system.getStocks().get(i).getName();
             sd[1] = system.getStocks().get(i).getTickerSymbol();
-            sd[2] = system.getStocks().get(i).getPrice();
+            sd[2] = Constant.round(system.getStocks().get(i).getPrice());
             sd[3] = system.getStocks().get(i).getCount();
             data[i] = sd;
         }
