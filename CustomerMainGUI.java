@@ -69,7 +69,8 @@ public class CustomerMainGUI extends PortfolioFrame {
 
         int textWidth = 200;
         int textSpacing = spacing;
-        DecimalFormat df = new DecimalFormat(Constant.DECIMAL_PATTERN);
+        //DecimalFormat df = new DecimalFormat(Constant.DECIMAL_PATTERN);
+        DecimalFormat df = new DecimalFormat("#.00");
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
         textPanel.add(Box.createRigidArea(new Dimension(0, topSpacing)));
