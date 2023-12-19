@@ -66,4 +66,8 @@ public class Stock {
         return String.format("Stock Symbol: %s%nStock Company: %s%nStock Price: %.2f%nStock Shares: %d%n", tickerSymbol, name, price, count);
     }
 
+    public double getBaselinePrice() {
+        return this.totalValue / this.count;
+    }
+
 }

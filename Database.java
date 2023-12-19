@@ -188,6 +188,7 @@ public class Database {
         removeCustomerStock(customer.getUsername());
         for(Stock stock : customer.getStocks()) {
             addCustomerStock(customer, stock.getTickerSymbol(), stock.getCount(), stock.getPrice());
+            changeBaselineStockPrice(customer.getUsername(), stock.getTickerSymbol(), stock.getBaselinePrice());
         }
     }
 
@@ -204,6 +205,22 @@ public class Database {
             e.printStackTrace();
         }
     }
+
+    public static void changeBaselineStockPrice(String username, String symbol, double newPrice) {
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String sql = "UPDATE CustomerStocks SET baseline_price = ? WHERE symbol = ? AND username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setDouble(1, newPrice);
+                preparedStatement.setString(2, symbol);
+                preparedStatement.setString(3, username);
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     
     public static void changeStockPrice(String symbol, double newPrice) {
         try (Connection connection = DatabaseConnection.getConnection()) {
