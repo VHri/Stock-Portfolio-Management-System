@@ -10,7 +10,7 @@ Name/Student ID/BU Email:
 
 #### Xiaoyang Guo, U57266095, xzg5101@bu.edu
 
-#### Sonja Poe, , svpoe@bu.edu
+#### Sonja Poe, U15566089, svpoe@bu.edu
 
 #### Hrishav Varma, U57996211, hri@bu.edu
 
@@ -79,6 +79,6 @@ In the settings.json file add:
 
 Singleton Pattern: The singleton pattern is used in our project in many classes. All the UI classes are singleton classes to avoid displaying stale data. The Portfolio class is also a singleton class. This ensures that there will not be corrupted data in memory.
 
-Factory Pattern: Used to create stocks with the createStock() method.
+Factory Pattern: Used to create stocks with the createStock() method. StockFactory Class handles generating the new stocks and returns for the PortfolioManageSystem Class to set its Stocks in the StockMarket object.
 
-Observer Pattern: We use a pull based observer pattern that allows the system to be aware that a Customer has made total profit beyond the threshold. Customer class has reference to the Portfolio system, and on customer trading, it will call the corresponding method through the reference. The system will then check if the customer’s cumulative realized profit is greater than the threshold.
+Observer Pattern: We use a pull based observer pattern that allows the system to be aware that a Customer has made total profit beyond the threshold. Customer class has reference to the Portfolio system, and on customer trading, it will call the corresponding method through the reference. The system will then check if the customer’s cumulative realized profit is greater than the threshold. 
