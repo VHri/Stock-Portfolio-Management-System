@@ -320,7 +320,7 @@ public class Database {
 
     public static void addTransaction(String username, String symbol, int numberOfStocks, double boughtAt, String timestamp, String status) {
         try (Connection connection = DriverManager.getConnection(URL)) {
-            String sql = "INSERT INTO Transactions (username, symbol, timestamp, number_of_shares, price, status) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Transactions (username, symbol, timestamp, number_of_shares, price, status) VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, username);
                 preparedStatement.setString(2, symbol);
