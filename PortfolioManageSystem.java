@@ -197,4 +197,13 @@ public class PortfolioManageSystem {
         String formattedDateTime = now.format(formatter);
         Database.addTransaction(username, symbol, count, price, formattedDateTime, action);
     }
+
+    public static void start(){
+        PortfolioManageSystem system = PortfolioManageSystem.getSystem();
+        StockMarket stmkt = new StockMarket();
+        stmkt.setStocks(system.getStocks());
+        system.setMarket(stmkt);
+
+        LoginGUI.run(system);
+    }
 }

@@ -87,7 +87,8 @@ public class CustomerBalanceGUI extends PortfolioFrame {
 
     private void deposit() {
         String val = depositField.getText();
-        Double deposit = 1.0 * Integer.parseInt(val);
+        // Double deposit = 1.0 * Integer.parseInt(val);
+        Double deposit = Double.parseDouble(val);
         System.out.println("Deposited $" + val);
         customer.deposit(deposit);
         displayBalance(customer.getBalance());
@@ -95,7 +96,8 @@ public class CustomerBalanceGUI extends PortfolioFrame {
 
     private void withdraw() {
         String val = withdrawField.getText();
-        Double withdraw = 1.0 * Integer.parseInt(val);
+        Double withdraw = Double.parseDouble(val);
+        // Double withdraw = 1.0 * Integer.parseInt(val);
         System.out.println("Withdrew $" + val);
         customer.withdraw(withdraw);
         displayBalance(customer.getBalance());
