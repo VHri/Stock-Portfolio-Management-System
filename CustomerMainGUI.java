@@ -70,21 +70,20 @@ public class CustomerMainGUI extends PortfolioFrame {
         int textWidth = 200;
         int textSpacing = spacing;
         // DecimalFormat df = new DecimalFormat(Constant.DECIMAL_PATTERN);
-        DecimalFormat df = new DecimalFormat("#.00");
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
         textPanel.add(Box.createRigidArea(new Dimension(0, topSpacing)));
 
         balanceLabel = addLabel("Username: " + customer.getUsername(), textPanel, textWidth, textSpacing);
-        balanceLabel = addLabel("Balance: " + df.format(customer.getBalance()), textPanel, textWidth, textSpacing);
+        balanceLabel = addLabel("Balance: " + Constant.round(customer.getBalance()), textPanel, textWidth, textSpacing);
 
         unrealizedProfitLabel = addLabel(
-                "Unrealized profit: " + df.format(customer.computeUnrealizedProfit(stockMarket)),
+                "Unrealized profit: " + Constant.round(customer.computeUnrealizedProfit(stockMarket)),
                 textPanel, textWidth,
                 textSpacing);
 
         netGainLabel = addLabel(
-                "Realized profit: " + df.format(customer.getNetGain()),
+                "Realized profit: " + Constant.round(customer.getNetGain()),
                 textPanel, textWidth,
                 textSpacing);
 
