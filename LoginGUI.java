@@ -30,23 +30,12 @@ public class LoginGUI extends PortfolioFrame {
 
     private PortfolioManageSystem system;
 
-    public LoginGUI(PortfolioManageSystem system) {
+    private static LoginGUI loginGUI;
+
+    private LoginGUI(PortfolioManageSystem system) {
         super("Login", Constant.LOGIN_WINDOW_RATIO);
         this.system = system;
 
-        // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        // double width = screenSize.getWidth();
-        // double height = screenSize.getHeight();
-
-        // // Calculate 70% of the screen size
-        // int frameWidth = (int) (width * 0.3);
-        // int frameHeight = (int) (height * 0.3);
-
-        // setSize(frameWidth, frameHeight);
-        // setLocationRelativeTo(null);
-        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Create panel to place buttons on
         panel = new JPanel(null);
 
         // User label
@@ -119,8 +108,7 @@ public class LoginGUI extends PortfolioFrame {
 
             switch (identity) {
                 case Constant.APPROVED_USER:
-                    Customer c = system.getCustomer(username);
-                    JFrame newFrame = new CustomerMainGUI(system, username);
+                    JFrame newFrame = CustomerMainGUI.getFrame(system, username);
                     newFrame.setVisible(true);
                     frame.dispose();
                     break;
@@ -211,6 +199,13 @@ public class LoginGUI extends PortfolioFrame {
             return false;
         }
         return true;
+    }
+
+    public static JFrame getFrame(PortfolioManageSystem system) {
+        if (loginGUI == null) {
+            loginGUI = new LoginGUI(system);
+        }
+        return loginGUI;
     }
 
 }

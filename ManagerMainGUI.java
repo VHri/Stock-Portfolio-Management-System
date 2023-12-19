@@ -138,7 +138,7 @@ public class ManagerMainGUI extends PortfolioFrame {
 
     private void handleLogoutButtonClick() {
         System.out.println("Manager Logout");
-        LoginGUI.run(new PortfolioManageSystem()); // Open login GUI
+        LoginGUI.run(PortfolioManageSystem.getSystem()); // Open login GUI
         dispose(); // close current frame
     }
 

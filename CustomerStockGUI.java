@@ -16,7 +16,9 @@ public class CustomerStockGUI extends PortfolioFrame {
     private JScrollPane marketPane;
     private JScrollPane customerPane;
 
-    public CustomerStockGUI(PortfolioManageSystem system, CustomerMainGUI prevFrame) {
+    private static CustomerStockGUI customerStockGUI;
+
+    private CustomerStockGUI(PortfolioManageSystem system, CustomerMainGUI prevFrame) {
 
         super("Customer Stock Center");
         this.system = system;
@@ -228,5 +230,12 @@ public class CustomerStockGUI extends PortfolioFrame {
         marketStockTable = createMarketStockTable();
         marketPane.setViewportView(marketStockTable);
 
+    }
+
+    public static JFrame getFrame(PortfolioManageSystem system, CustomerMainGUI prev) {
+        if (customerStockGUI == null) {
+            customerStockGUI = new CustomerStockGUI(system, prev);
+        }
+        return customerStockGUI;
     }
 }
