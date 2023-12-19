@@ -4,6 +4,8 @@
  * make the sellStock method add to the balance of the customer
  */
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Customer extends Account {
 
@@ -76,7 +78,8 @@ public class Customer extends Account {
      */
     public int buyStock(Stock stock, int count) {
 
-        double cost = stock.getPrice() * (double) count;
+        double price = system.getMarket().getPriceOf(stock);
+        double cost = price * (double) count;
 
         if (cost > balance) {
             return Constant.NOT_ENOUGH_BALANCE;
@@ -111,7 +114,7 @@ public class Customer extends Account {
 
         // check realized
         system.checkCustomerGain(this);
-
+        PortfolioManageSystem.addTransaction(getUsername(), stock.getTickerSymbol(), count, price, "buy");
         return Constant.SUCCESS;
 
     }
@@ -124,7 +127,6 @@ public class Customer extends Account {
      * @return boolean success or failed
      */
     public int sellStock(Stock stock, int count, StockMarket market) {
-
 
         // check existing stocks
         for (Stock s : stocks) {
@@ -147,7 +149,8 @@ public class Customer extends Account {
                     double currentPrice = market.getPriceOf(stock);
                     balance += currentPrice * (double) count;
                     netGain += currentPrice * (double) count - s.getTotalValue();
-
+                    Tester.print("Customer: current price is" + s.getTotalValue());
+                    Tester.print("Customer: total value is" + s.getTotalValue());
                     Tester.print("Customer: set netgain to: " + netGain);
                     s.setCount(s.getCount() - count);
                     s.setTotalValue(s.getTotalValue() - (double) count * stock.getPrice());
@@ -161,6 +164,10 @@ public class Customer extends Account {
 
                     // check realized
                     system.checkCustomerGain(this);
+
+                    PortfolioManageSystem.addTransaction(getUsername(), stock.getTickerSymbol(), count, currentPrice,
+                            "sell");
+
                     return Constant.SUCCESS;
                 }
             }

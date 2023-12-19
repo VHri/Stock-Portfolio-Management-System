@@ -69,7 +69,7 @@ public class CustomerMainGUI extends PortfolioFrame {
 
         int textWidth = 200;
         int textSpacing = spacing;
-        //DecimalFormat df = new DecimalFormat(Constant.DECIMAL_PATTERN);
+        // DecimalFormat df = new DecimalFormat(Constant.DECIMAL_PATTERN);
         DecimalFormat df = new DecimalFormat("#.00");
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
@@ -132,7 +132,8 @@ public class CustomerMainGUI extends PortfolioFrame {
     }
 
     private void handleStocksButtonClick(ActionEvent e) {
-        JFrame newFrame = CustomerStockGUI.getFrame(system, this);
+        CustomerStockGUI newFrame = CustomerStockGUI.getFrame(system, this);
+        newFrame.updateTables();
         newFrame.setVisible(true);
         this.setVisible(false);
     }

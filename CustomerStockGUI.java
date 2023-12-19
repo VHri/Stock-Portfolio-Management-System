@@ -232,7 +232,7 @@ public class CustomerStockGUI extends PortfolioFrame {
 
     }
 
-    public static JFrame getFrame(PortfolioManageSystem system, CustomerMainGUI prev) {
+    public static CustomerStockGUI getFrame(PortfolioManageSystem system, CustomerMainGUI prev) {
         if (customerStockGUI == null) {
             customerStockGUI = new CustomerStockGUI(system, prev);
         }

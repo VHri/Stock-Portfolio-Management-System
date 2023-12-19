@@ -1,3 +1,5 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class PortfolioManageSystem {
@@ -189,4 +191,10 @@ public class PortfolioManageSystem {
         return portfolioManageSystem;
     }
 
+    public static void addTransaction(String username, String symbol, int count, double price, String action) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = now.format(formatter);
+        Database.addTransaction(username, symbol, count, price, formattedDateTime, action);
+    }
 }
