@@ -221,6 +221,8 @@ public class Database {
         }
     }
 
+
+
     
     public static void changeStockPrice(String symbol, double newPrice) {
         try (Connection connection = DatabaseConnection.getConnection()) {
@@ -292,15 +294,40 @@ public class Database {
         }
     }
 
-    public static void addTransaction(String username, String stockCompany, int numberOfStocks, double boughtAt, String timestamp) {
+    public static ArrayList<String[]> getTransactions() {
+        ArrayList<String[]> transactions = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(URL)) {
-            String sql = "INSERT INTO Transactions (stock_company, account_username, timestamp, number_of_shares, bought_at) VALUES (?, ?, ?, ?, ?)";
+            String sql = "SELECT * FROM Transactions";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, stockCompany);
-                preparedStatement.setString(2, username);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String username = resultSet.getString("username");
+                        String symbol = resultSet.getString("symbol");
+                        String timestamp = resultSet.getString("timestamp");
+                        String shares = resultSet.getString("shares");
+                        String price = resultSet.getString("price");
+                        String status = resultSet.getString("status");
+                        String[] array = {username, symbol, timestamp, shares, price, status};
+                        transactions.add(array);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return transactions;
+    }
+
+    public static void addTransaction(String username, String symbol, int numberOfStocks, double boughtAt, String timestamp, String status) {
+        try (Connection connection = DriverManager.getConnection(URL)) {
+            String sql = "INSERT INTO Transactions (username, symbol, timestamp, number_of_shares, price, status) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, symbol);
                 preparedStatement.setString(3, timestamp);
                 preparedStatement.setInt(4, numberOfStocks);
                 preparedStatement.setDouble(5, boughtAt);
+                preparedStatement.setString(6, status);
 
                 preparedStatement.executeUpdate();
             }
