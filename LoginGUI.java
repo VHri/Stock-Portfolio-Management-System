@@ -108,7 +108,8 @@ public class LoginGUI extends PortfolioFrame {
 
             switch (identity) {
                 case Constant.APPROVED_USER:
-                    JFrame newFrame = CustomerMainGUI.getFrame(system, username);
+                    CustomerMainGUI newFrame = CustomerMainGUI.getFrame(system, username);
+                    newFrame.updateLabels();
                     newFrame.setVisible(true);
                     frame.dispose();
                     break;

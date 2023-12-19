@@ -163,7 +163,7 @@ public class CustomerMainGUI extends PortfolioFrame {
 
     }
 
-    public static JFrame getFrame(PortfolioManageSystem system, String username) {
+    public static CustomerMainGUI getFrame(PortfolioManageSystem system, String username) {
         if (customerMainGUI == null) {
             customerMainGUI = new CustomerMainGUI(system, username);
         }
