@@ -148,9 +148,10 @@ public class Customer extends Account {
                     // Tester.print("Customer: bought in value " + s.getCount());
                     double currentPrice = market.getPriceOf(stock);
                     balance += currentPrice * (double) count;
-                    netGain += currentPrice * (double) count - s.getTotalValue();
-                    Tester.print("Customer: current price is" + s.getTotalValue());
-                    Tester.print("Customer: total value is" + s.getTotalValue());
+                    netGain += currentPrice * (double) count
+                            - (s.getTotalValue() / (double) s.getCount()) * (double) count;
+                    Tester.print("Customer: current price is " + currentPrice);
+                    Tester.print("Customer: total value is " + s.getTotalValue());
                     Tester.print("Customer: set netgain to: " + netGain);
                     s.setCount(s.getCount() - count);
                     s.setTotalValue(s.getTotalValue() - (double) count * stock.getPrice());
