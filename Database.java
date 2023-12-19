@@ -85,6 +85,26 @@ public class Database {
         return null;
     }
 
+    public static double getBaselineStockPrice(String username, String symbol) {
+        try (Connection connection = DriverManager.getConnection(URL)) {
+            String sql = "SELECT * FROM CustomerStocks WHERE username = ? AND symbol = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, symbol);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        double baseline_price = resultSet.getDouble("baseline_price");
+
+                        return baseline_price;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
     public static String getAccountNetGain(String username) {
         try (Connection connection = DriverManager.getConnection(URL)) {
             String sql = "SELECT * FROM Accounts WHERE username = ?";
@@ -190,6 +210,20 @@ public class Database {
             String sql = "UPDATE Stocks SET price = ? WHERE symbol = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setDouble(1, newPrice);
+                preparedStatement.setString(2, symbol);
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void changeStockSymbol(String symbol, double newSymbol) {
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String sql = "UPDATE Stocks SET price = ? WHERE symbol = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setDouble(1, newSymbol);
                 preparedStatement.setString(2, symbol);
 
                 preparedStatement.executeUpdate();
@@ -388,6 +422,18 @@ public class Database {
             String sql = "DELETE FROM CustomerStocks WHERE username = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, username);
+                int rowsAffected = preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void removeStock(String symbol) {
+        try (Connection connection = DriverManager.getConnection(URL)) {
+            String sql = "DELETE FROM Stocks WHERE symbol = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, symbol);
                 int rowsAffected = preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
