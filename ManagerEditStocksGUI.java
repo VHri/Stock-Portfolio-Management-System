@@ -13,7 +13,7 @@ public class ManagerEditStocksGUI extends PortfolioFrame {
     private JPanel inputPanel;
     private JPanel changePricePanel;
     private JPanel addStockPanel;
-    private JPanel deleteStockPanel;
+    private JPanel changeSharesPanel;
 
     public ManagerEditStocksGUI() {
         super("Manager Stock Editor GUI");
@@ -28,27 +28,27 @@ public class ManagerEditStocksGUI extends PortfolioFrame {
 
         changePricePanel = createChangePricePanel();
         addStockPanel = createAddStockPanel();
-        deleteStockPanel = createDeleteStockPanel();
+        changeSharesPanel = createChangeSharesPanel();
 
         inputPanel.add(changePricePanel, BorderLayout.CENTER);
 
         JRadioButton changePriceRadioButton = new JRadioButton("Change Stock Price");
         JRadioButton addStockRadioButton = new JRadioButton("Add Stock");
-        JRadioButton deleteStockRadioButton = new JRadioButton("Delete Stock");
+        JRadioButton changeSharesRadioButton = new JRadioButton("Change Shares");
 
         ButtonGroup radioButtonGroup = new ButtonGroup();
         radioButtonGroup.add(changePriceRadioButton);
         radioButtonGroup.add(addStockRadioButton);
-        radioButtonGroup.add(deleteStockRadioButton);
+        radioButtonGroup.add(changeSharesRadioButton);
 
         JPanel radioPanel = new JPanel();
         radioPanel.add(changePriceRadioButton);
         radioPanel.add(addStockRadioButton);
-        radioPanel.add(deleteStockRadioButton);
+        radioPanel.add(changeSharesRadioButton);
 
         changePriceRadioButton.addActionListener(e -> showPanel(changePricePanel, 1));
         addStockRadioButton.addActionListener(e -> showPanel(addStockPanel, 2));
-        deleteStockRadioButton.addActionListener(e -> showPanel(deleteStockPanel, 3));
+        changeSharesRadioButton.addActionListener(e -> showPanel(changeSharesPanel, 3));
 
         changePriceRadioButton.setSelected(true);
 
@@ -108,16 +108,18 @@ public class ManagerEditStocksGUI extends PortfolioFrame {
         return panel;
     }
 
-    private JPanel createDeleteStockPanel() {
+    private JPanel createChangeSharesPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JTextField stockSymbolTextField = new JTextField();
+        JTextField sharesTextField = new JTextField();
 
         panel.add(createInputPanel("Stock Symbol:", stockSymbolTextField));
+        panel.add(createInputPanel("Shares:", sharesTextField));
 
         JButton submitButton = new JButton("Submit");
-        submitButton.addActionListener(e -> handleDeleteStockButtonClick(stockSymbolTextField));
+        submitButton.addActionListener(e -> handleChangeSharesButtonClick(stockSymbolTextField, sharesTextField));
         panel.add(createButtonPanel(submitButton));
 
         return panel;
@@ -145,28 +147,28 @@ public class ManagerEditStocksGUI extends PortfolioFrame {
         
         JRadioButton changePriceRadioButton = new JRadioButton("Change Stock Price");
         JRadioButton addStockRadioButton = new JRadioButton("Add Stock");
-        JRadioButton deleteStockRadioButton = new JRadioButton("Delete Stock");
+        JRadioButton changeSharesRadioButton = new JRadioButton("Delete Stock");
 
         ButtonGroup radioButtonGroup = new ButtonGroup();
         radioButtonGroup.add(changePriceRadioButton);
         radioButtonGroup.add(addStockRadioButton);
-        radioButtonGroup.add(deleteStockRadioButton);
+        radioButtonGroup.add(changeSharesRadioButton);
 
         JPanel radioPanel = new JPanel();
         radioPanel.add(changePriceRadioButton);
         radioPanel.add(addStockRadioButton);
-        radioPanel.add(deleteStockRadioButton);
+        radioPanel.add(changeSharesRadioButton);
 
         changePriceRadioButton.addActionListener(e -> showPanel(changePricePanel, 1));
         addStockRadioButton.addActionListener(e -> showPanel(addStockPanel, 2));
-        deleteStockRadioButton.addActionListener(e -> showPanel(deleteStockPanel, 3));
+        changeSharesRadioButton.addActionListener(e -> showPanel(changeSharesPanel, 3));
         
         if(radioButton == 1) {
             changePriceRadioButton.setSelected(true);
         } else if(radioButton == 2) {
             addStockRadioButton.setSelected(true);
         } else {
-            deleteStockRadioButton.setSelected(true);
+            changeSharesRadioButton.setSelected(true);
         }
 
         inputPanel.add(radioPanel, BorderLayout.NORTH);
@@ -188,7 +190,6 @@ public class ManagerEditStocksGUI extends PortfolioFrame {
     }
 
     private void handleSubmitButtonClick(JTextField stockSymbolTextField, JTextField newStockPriceTextField) {
-        // Update stock price logic
         for (Stock i : this.stockList) {
             if (i.getTickerSymbol().equalsIgnoreCase(stockSymbolTextField.getText())) {
                 i.setPrice(Double.parseDouble(newStockPriceTextField.getText()));
@@ -205,13 +206,11 @@ public class ManagerEditStocksGUI extends PortfolioFrame {
         tableModel.setDataVector(getTableFormattedStockData(stockList), stockColumnNames);
    }
 
-    private void handleDeleteStockButtonClick(JTextField stockSymbolTextField) {
-        Database.removeStock(stockSymbolTextField.getText());
-        Iterator<Stock> iterator = stockList.iterator();
-        while (iterator.hasNext()) {
-            Stock stock = iterator.next();
-            if (stockSymbolTextField.getText().equals(stock.getTickerSymbol())) {
-                iterator.remove();
+    private void handleChangeSharesButtonClick(JTextField stockSymbolTextField, JTextField sharesTextField) {
+        for (Stock i : this.stockList) {
+            if (i.getTickerSymbol().equalsIgnoreCase(stockSymbolTextField.getText())) {
+                i.setCount(Integer.parseInt(sharesTextField.getText()));
+                Database.changeStockShare(stockSymbolTextField.getText(), Integer.parseInt(sharesTextField.getText()));
             }
         }
         tableModel.setDataVector(getTableFormattedStockData(stockList), stockColumnNames);
