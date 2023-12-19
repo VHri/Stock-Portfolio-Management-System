@@ -11,7 +11,7 @@ public class Tester {
         double price = 25.5;
         double balance = 9999999.0;
 
-        PortfolioManageSystem system = new PortfolioManageSystem();
+        PortfolioManageSystem system = PortfolioManageSystem.getSystem();
 
         StockMarket stmkt = new StockMarket();
         Stock s = new Stock("Test", "TT", price, totalCount);
@@ -46,7 +46,7 @@ public class Tester {
     }
 
     public static void testLogin() {
-        PortfolioManageSystem system = new PortfolioManageSystem();
+        PortfolioManageSystem system = PortfolioManageSystem.getSystem();
         StockMarket stmkt = new StockMarket();
         stmkt.setStocks(system.getStocks());
         system.setMarket(stmkt);
@@ -56,7 +56,7 @@ public class Tester {
     }
 
     public static void testUnrealized() {
-        PortfolioManageSystem system = new PortfolioManageSystem();
+        PortfolioManageSystem system = PortfolioManageSystem.getSystem();
         StockMarket stmkt = new StockMarket();
         stmkt.setStocks(system.getStocks());
         system.setMarket(stmkt);
@@ -85,7 +85,7 @@ public class Tester {
     }
 
     public static void testCustomerBuyStock() {
-        PortfolioManageSystem system = new PortfolioManageSystem();
+        PortfolioManageSystem system = PortfolioManageSystem.getSystem();
         StockMarket market = new StockMarket();
         market.setStocks(system.getStocks());
         system.setMarket(market);
@@ -123,7 +123,7 @@ public class Tester {
     }
 
     public static void testCustomerStockUI() {
-        PortfolioManageSystem system = new PortfolioManageSystem();
+        PortfolioManageSystem system = PortfolioManageSystem.getSystem();
         StockMarket stmkt = new StockMarket();
         stmkt.setStocks(system.getStocks());
         system.setMarket(stmkt);
@@ -133,7 +133,7 @@ public class Tester {
 
         system.login("johndoe", john.getPassword());
 
-        CustomerStockGUI csg = new CustomerStockGUI(system, null);
+        CustomerStockGUI.getFrame(system, null);
     }
 
     public static void testChangeShare() {
@@ -145,7 +145,7 @@ public class Tester {
     }
 
     public static void testUpdateNetGain() {
-        PortfolioManageSystem system = new PortfolioManageSystem();
+        PortfolioManageSystem system = PortfolioManageSystem.getSystem();
         StockMarket market = new StockMarket();
         market.setStocks(system.getStocks());
         system.setMarket(market);
@@ -166,8 +166,6 @@ public class Tester {
         }
 
         Database.changeStockPrice("LG", 100);
-
-
 
     }
 

@@ -7,8 +7,6 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.*;
 
@@ -23,7 +21,9 @@ public class CustomerTransacitonGUI extends JFrame {
 
     private Account account;
 
-    public CustomerTransacitonGUI(Account account) {
+    private static CustomerTransacitonGUI customerTransacitonGUI;
+
+    private CustomerTransacitonGUI(Account account) {
         this.account = account;
         //
         // JFrame frame = new CustomerTransactionGUI(account);
@@ -92,17 +92,10 @@ public class CustomerTransacitonGUI extends JFrame {
         }
     }
 
-    // public static void main(String[] args) {
-
-    // //Create a new frame
-    // JFrame frame = new CustomerTransactionGUI(account);
-
-    // frame.setTitle( "Entry for Stock and Balance Info" );
-    // frame.setSize(350,200);
-    // frame.setLocation( 200, 100 );
-    // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    // frame.setVisible(true);
-
-    // }
+    public static JFrame getFrame(Account account) {
+        if (customerTransacitonGUI == null) {
+            customerTransacitonGUI = new CustomerTransacitonGUI(account);
+        }
+        return customerTransacitonGUI;
+    }
 }

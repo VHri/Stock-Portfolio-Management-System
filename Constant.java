@@ -40,6 +40,7 @@ public class Constant {
     public static final String STOCKS_EDIT_BUTTON_IMG_PATH = "./img/stocks-edit.png";
     public static final String NOTIFICATION_BUTTON_IMG_PATH = "./img/notification.png";
     public static final String LOGOUT_BUTTON_IMG_PATH = "./img/logout-icon.png";
+    public static final String DECIMAL_PATTERN = "0.00";
 
     public static double SUPER_CUSTOMER_PROFIT_THRESHOLD = 10000.00;
 

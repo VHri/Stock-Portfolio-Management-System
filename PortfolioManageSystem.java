@@ -9,9 +9,9 @@ public class PortfolioManageSystem {
 
     private static final double SUPER_CUSTOMER_THRESHOLD = 10000.0;
 
-    public PortfolioManageSystem() {
-        // ArrayList<Customer> customers = new ArrayList<Customer>();
-        // ArrayList<Customer> unapprovedCustomers = new ArrayList<Customer>();
+    private static PortfolioManageSystem portfolioManageSystem;
+
+    private PortfolioManageSystem() {
 
         // fetch from database
         manager = new Manager(null, null);
@@ -57,6 +57,12 @@ public class PortfolioManageSystem {
         if (c != null) {
             System.out.println("System: database returned customer " + c);
             if (c.getPassword().equals(password)) {
+
+                if (Database.getAccountStatus(username).equals(Constant.UNAPPROVED_STATUS)) {
+                    System.out.println("System: unapproved");
+                    return Constant.UNAPPROVED_USER;
+                }
+
                 System.out.println("System: pw matched");
                 return Constant.APPROVED_USER;
             } else {
@@ -173,6 +179,14 @@ public class PortfolioManageSystem {
 
     public static void writeTransactions() {
         // TODO: save history
+    }
+
+    public static PortfolioManageSystem getSystem() {
+        if (portfolioManageSystem == null) {
+            portfolioManageSystem = new PortfolioManageSystem();
+        }
+
+        return portfolioManageSystem;
     }
 
 }

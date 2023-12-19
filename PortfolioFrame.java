@@ -8,7 +8,7 @@ import javax.swing.UIManager;
 
 import java.awt.*;
 
-public class PortfolioFrame extends JFrame {
+public abstract class PortfolioFrame extends JFrame {
     public PortfolioFrame(String title) {
         this(title, Constant.WINDOW_RATIO);
 
@@ -57,4 +57,5 @@ public class PortfolioFrame extends JFrame {
         panel.add(Box.createRigidArea(new Dimension(0, spacing)));
         return textField;
     }
+
 }

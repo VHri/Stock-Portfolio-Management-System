@@ -14,7 +14,9 @@ public class CustomerBalanceGUI extends PortfolioFrame {
     private Customer customer;
     private PortfolioManageSystem system;
 
-    public CustomerBalanceGUI(PortfolioManageSystem system, CustomerMainGUI prev) {
+    private static CustomerBalanceGUI customerBalanceGUI;
+
+    private CustomerBalanceGUI(PortfolioManageSystem system, CustomerMainGUI prev) {
 
         super("Account Balance");
         this.customer = system.getCurrentCustomer();
@@ -107,9 +109,10 @@ public class CustomerBalanceGUI extends PortfolioFrame {
 
     }
 
-    // public static void main(String[] args) {
-
-    // Customer c = Database.getCustomer("johndoe");
-    // new CustomerBalanceGUI(c);
-    // }
+    public static JFrame getFrame(PortfolioManageSystem system, CustomerMainGUI prev) {
+        if (customerBalanceGUI == null) {
+            customerBalanceGUI = new CustomerBalanceGUI(system, prev);
+        }
+        return customerBalanceGUI;
+    }
 }

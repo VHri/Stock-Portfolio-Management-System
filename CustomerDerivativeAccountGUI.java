@@ -5,14 +5,12 @@ import java.awt.event.ActionListener;
 
 public class CustomerDerivativeAccountGUI extends PortfolioFrame {
 
-    private Customer customer;
     private JLabel notificationLabel;
+    private static CustomerDerivativeAccountGUI customerDerivativeAccountGUI;
 
-    public CustomerDerivativeAccountGUI(Customer customer, CustomerMainGUI prev) {
+    private CustomerDerivativeAccountGUI(Customer customer, CustomerMainGUI prev) {
 
         super("Derivative Trading");
-
-        this.customer = customer;
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -39,11 +37,20 @@ public class CustomerDerivativeAccountGUI extends PortfolioFrame {
         JButton button = new JButton("Create");
         mainPanel.add(button, BorderLayout.SOUTH);
 
-        setNotificationMessage("<html><center>Create a derivative trading account here!<br>Click the 'Create' button below to get started</center></html>");
+        setNotificationMessage(
+                "<html><center>Create a derivative trading account here!<br>Click the 'Create' button below to get started</center></html>");
         setVisible(true);
     }
 
     private void setNotificationMessage(String message) {
         notificationLabel.setText(message);
     }
+
+    public static JFrame getFrame(Customer customer, CustomerMainGUI prev) {
+        if (customerDerivativeAccountGUI == null) {
+            customerDerivativeAccountGUI = new CustomerDerivativeAccountGUI(customer, prev);
+        }
+        return customerDerivativeAccountGUI;
+    }
+
 }

@@ -13,10 +13,6 @@ public class CustomerMainGUI extends PortfolioFrame {
     private JButton notificationButton;
     private JButton derivativeTradingButton;
     private JButton logoutButton;
-    private ArrayList<Stock> customerStockList;
-    // private Double currentBalance;
-    private String[] stockColumnNames;
-    private DefaultTableModel tableModel; // Declare the table model as an instance variable
 
     private Customer customer;
     private StockMarket stockMarket;
@@ -27,7 +23,9 @@ public class CustomerMainGUI extends PortfolioFrame {
 
     private PortfolioManageSystem system;
 
-    public CustomerMainGUI(PortfolioManageSystem system, String username) {
+    private static CustomerMainGUI customerMainGUI;
+
+    private CustomerMainGUI(PortfolioManageSystem system, String username) {
 
         super(username + " Info Page");
 
@@ -37,7 +35,6 @@ public class CustomerMainGUI extends PortfolioFrame {
         // System.out.println(customerStockList.get(0));
         this.customer = Database.getCustomer(username);
         // this.customer = Database.getCustomerInfo(username);
-        this.customerStockList = Database.getCustomerStocks(username);
 
         // Set up JFrame
 
@@ -72,7 +69,7 @@ public class CustomerMainGUI extends PortfolioFrame {
 
         int textWidth = 200;
         int textSpacing = spacing;
-        DecimalFormat df = new DecimalFormat("0.000");
+        DecimalFormat df = new DecimalFormat(Constant.DECIMAL_PATTERN);
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
         textPanel.add(Box.createRigidArea(new Dimension(0, topSpacing)));
@@ -115,43 +112,28 @@ public class CustomerMainGUI extends PortfolioFrame {
     }
 
     private void handleNotificationButtonClick(ActionEvent e) {
-        JFrame newFrame = new CustomerNotificationGUI(customer, this);
+        JFrame newFrame = CustomerNotificationGUI.getFrame(customer, this);
         newFrame.setVisible(true);
         setVisible(false);
     }
 
     private void handleDerivativeTradingButtonClick(ActionEvent e) {
-        JFrame newFrame = new CustomerDerivativeAccountGUI(customer, this);
+        JFrame newFrame = CustomerDerivativeAccountGUI.getFrame(customer, this);
         newFrame.setVisible(true);
         setVisible(false);
     }
 
     private void handleBalanceButtonClick(ActionEvent e) {
 
-        JFrame newFrame = new CustomerBalanceGUI(system, this);
+        JFrame newFrame = CustomerBalanceGUI.getFrame(system, this);
         newFrame.setVisible(true);
         setVisible(false);
     }
 
     private void handleStocksButtonClick(ActionEvent e) {
-        JFrame newFrame = new CustomerStockGUI(system, this);
+        JFrame newFrame = CustomerStockGUI.getFrame(system, this);
         newFrame.setVisible(true);
         this.setVisible(false);
-    }
-
-    private void handleSubmitButtonClick(JTextField stockSymbolTextField, JTextField newStockPriceTextField) {
-        // updating the stock price
-        for (Stock i : this.customerStockList) {
-            if (i.getTickerSymbol().equalsIgnoreCase(stockSymbolTextField.getText())) {
-                i.setPrice(Double.parseDouble(newStockPriceTextField.getText()));
-            }
-        }
-        // Update the table model with the modified data
-        tableModel.setDataVector(getTableFormattedStockData(customerStockList), stockColumnNames);
-
-        for (Stock i : this.customerStockList) {
-            System.out.printf("%s: %f%n", i.getTickerSymbol(), i.getPrice());
-        }
     }
 
     public Object[][] getTableFormattedStockData(ArrayList<Stock> stockList) {
@@ -168,7 +150,7 @@ public class CustomerMainGUI extends PortfolioFrame {
 
     private void handleLogoutButtonClick() {
         System.out.println("Manager Logout");
-        LoginGUI.run(new PortfolioManageSystem()); // Open login GUI
+        LoginGUI.run(PortfolioManageSystem.getSystem()); // Open login GUI
         dispose(); // close current frame
     }
 
@@ -179,6 +161,13 @@ public class CustomerMainGUI extends PortfolioFrame {
         unrealizedProfitLabel.setText(
                 "Unrealized Profit: " + system.getCurrentCustomer().computeUnrealizedProfit(system.getMarket()));
 
+    }
+
+    public static JFrame getFrame(PortfolioManageSystem system, String username) {
+        if (customerMainGUI == null) {
+            customerMainGUI = new CustomerMainGUI(system, username);
+        }
+        return customerMainGUI;
     }
 
 }
