@@ -1,3 +1,10 @@
+/*
+ * Account.java
+ * Description: Contains information about general user data 
+ * including username, password and appropriate methods to 
+ * adjust and retreive these values
+ */
+
 public abstract class Account {
     private String username;
     private String password;

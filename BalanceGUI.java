@@ -1,5 +1,8 @@
 /*
  * BalanceGUI.java
+ * This class allows the the customer to deposit and withdraw 
+ * money from their account.
+
  */
 import javax.swing.JFrame;
 import javax.swing.JPanel;
