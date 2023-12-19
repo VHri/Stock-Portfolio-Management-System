@@ -5,23 +5,23 @@ public class ManagerMainGUI extends PortfolioFrame {
 
     public ManagerMainGUI() {
         super("Manager Main GUI");
-        // setTitle("Manager Main GUI");
-        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // setSize(800, 600);
 
         // Create buttons with images
         JButton approveCustomersButton = createButton("View and Approve Customers",
                 Constant.CUSTOMER_VIEW_APPROVE_BUTTON_IMG_PATH);
         JButton editStocksButton = createButton("View and Edit Stocks", Constant.STOCKS_EDIT_BUTTON_IMG_PATH);
+        JButton transactionHistoryButton = createButton("View Transaction History of Customers", Constant.TRANSACTION_HISTORY_BUTTON_IMG_PATH);
         JButton sendNotificationButton = createButton("Send Notification to Customers",
                 Constant.NOTIFICATION_BUTTON_IMG_PATH);
         JButton logoutButton = createLogoutButton("Logout", Constant.LOGOUT_BUTTON_IMG_PATH);
+        
 
         // Set fixed size for the first three buttons
         Dimension fixedButtonSize = new Dimension(450, approveCustomersButton.getPreferredSize().height);
         approveCustomersButton.setPreferredSize(fixedButtonSize);
         editStocksButton.setPreferredSize(fixedButtonSize);
         sendNotificationButton.setPreferredSize(fixedButtonSize);
+        transactionHistoryButton.setPreferredSize(fixedButtonSize);
 
         // Set smaller width for the Logout button
         Dimension logoutButtonSize = new Dimension(200, logoutButton.getPreferredSize().height);
@@ -30,6 +30,7 @@ public class ManagerMainGUI extends PortfolioFrame {
         // Add action listeners
         approveCustomersButton.addActionListener(e -> handleApproveCustomersButtonClick());
         editStocksButton.addActionListener(e -> handleEditStocksButtonClick());
+        transactionHistoryButton.addActionListener(e -> handleTransactionHistoryButtonClick());
         sendNotificationButton.addActionListener(e -> handleSendNotificationButtonClick());
         logoutButton.addActionListener(e -> handleLogoutButtonClick());
 
@@ -38,6 +39,7 @@ public class ManagerMainGUI extends PortfolioFrame {
         verticalButtonPanel.add(Box.createVerticalStrut(16));
         verticalButtonPanel.add(approveCustomersButton);
         verticalButtonPanel.add(editStocksButton);
+        verticalButtonPanel.add(transactionHistoryButton);
         verticalButtonPanel.add(sendNotificationButton);
         verticalButtonPanel.add(logoutButton);
 
@@ -139,6 +141,12 @@ public class ManagerMainGUI extends PortfolioFrame {
     private void handleLogoutButtonClick() {
         System.out.println("Manager Logout");
         LoginGUI.run(PortfolioManageSystem.getSystem()); // Open login GUI
+        dispose(); // close current frame
+    }
+
+    private void handleTransactionHistoryButtonClick(){
+        System.out.println("Manager Transaction History View");
+        new ManagerTransactionGUI(); // Open Transaction History GUI
         dispose(); // close current frame
     }
 
